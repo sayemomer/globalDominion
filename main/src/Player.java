@@ -1,11 +1,11 @@
 public class Player {
 
-    private int playerId;
-    private String name;
-    private int playerStat;
-    private int reinforcement;
-    private Order orders;
-    private Country countries;
+    private int d_playerId;
+    private String d_name;
+    private int d_playerStat;
+    private int d_reinforcement;
+    private Order d_orders;
+    private Country d_countries;
 
     public void IssueOrder(){
         //“issue_order()” (no parameters, no return value) whose function is to add an order to the list of orders held by the
@@ -22,51 +22,51 @@ public class Player {
 
 
     public int getPlayerId() {
-        return playerId;
+        return d_playerId;
     }
 
     public void setPlayerId(int playerId) {
-        this.playerId = playerId;
+        this.d_playerId = playerId;
     }
 
     public String getName() {
-        return name;
+        return d_name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.d_name = name;
     }
 
     public int getPlayerStat() {
-        return playerStat;
+        return d_playerStat;
     }
 
     public void setPlayerStat(int playerStat) {
-        this.playerStat = playerStat;
+        this.d_playerStat = playerStat;
     }
 
     public int getReinforcement() {
-        return reinforcement;
+        return d_reinforcement;
     }
 
     public void setReinforcement(int reinforcement) {
-        this.reinforcement = reinforcement;
+        this.d_reinforcement = reinforcement;
     }
 
     public Order getOrders() {
-        return orders;
+        return d_orders;
     }
 
     public void setOrders(Order orders) {
-        this.orders = orders;
+        this.d_orders = orders;
     }
 
     public Country getCountries() {
-        return countries;
+        return d_countries;
     }
 
     public void setCountries(Country countries) {
-        this.countries = countries;
+        this.d_countries = countries;
     }
 
 
