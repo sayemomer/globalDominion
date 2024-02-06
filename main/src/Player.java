@@ -1,4 +1,5 @@
 public class Player {
+
     private int playerId;
     private String name;
     private int playerStat;
@@ -17,6 +18,55 @@ public class Player {
         //returns the first order in the player’s list of orders, then removes it from the list.
         Order o = new Order();
         return o;
+    }
+
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPlayerStat() {
+        return playerStat;
+    }
+
+    public void setPlayerStat(int playerStat) {
+        this.playerStat = playerStat;
+    }
+
+    public int getReinforcement() {
+        return reinforcement;
+    }
+
+    public void setReinforcement(int reinforcement) {
+        this.reinforcement = reinforcement;
+    }
+
+    public Order getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Order orders) {
+        this.orders = orders;
+    }
+
+    public Country getCountries() {
+        return countries;
+    }
+
+    public void setCountries(Country countries) {
+        this.countries = countries;
     }
 
 
