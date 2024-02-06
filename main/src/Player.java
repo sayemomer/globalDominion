@@ -1,25 +1,51 @@
+import com.sun.org.apache.xpath.internal.operations.Or;
+
+import java.util.ArrayList;
+import java.util.Queue;
+
 public class Player {
 
     private int d_playerId;
     private String d_name;
     private int d_playerStat;
     private int d_reinforcement;
-    private Order d_orders;
-    private Country d_countries;
+    private Queue<Order> d_orders;
+    private ArrayList<Country> d_countries;
 
+    /**
+     * this method should not have any parameters and return value
+     * add an order to the list of orders when the game engine calls it during the issue orders phase.
+     */
     public void IssueOrder(){
-        //“issue_order()” (no parameters, no return value) whose function is to add an order to the list of orders held by the
-        //player when the game engine calls it during the issue orders phase.
+        //The GameEngine class calls the issue_order() method of the Player. This method will wait for the following
+        //command, then create a deploy order object on the player’s list of orders, then reduce the number of armies in the
+        //player’s reinforcement pool. The game engine does this for all players in round-robin fashion until all the players
+        //have placed all their reinforcement armies on the map.
+        //Issuing order command:
+        //deploy countryID num (until all reinforcements have been placed)
+        Order l_order = new Order(this.d_playerId, ORDERTYPE.Deploy);
+        d_orders.add(l_order);
 
     }
 
+    /**
+     * this method should not have any parameters
+     * it is called by the GameEngine during the execute orders phase
+     * @return the first order in the queue
+     */
     public Order NextOrder(){
-        //“next_order()” (no parameters) method that is called by the GameEngine during the execute orders phase and
-        //returns the first order in the player’s list of orders, then removes it from the list.
-        Order o = new Order();
-        return o;
+        Order order = d_orders.poll();
+        return order;
     }
 
+    public Player(){
+
+    }
+
+    public Player(int p_playerId, String p_name){
+        this.d_playerId = p_playerId;
+        this.d_name = p_name;
+    }
 
     public int getPlayerId() {
         return d_playerId;
@@ -53,21 +79,21 @@ public class Player {
         this.d_reinforcement = p_reinforcement;
     }
 
-    public Order getOrders() {
+
+    public Queue<Order> getOrders() {
         return d_orders;
     }
 
     public void setOrders(Order p_orders) {
-        this.d_orders = p_orders;
+        this.d_orders.add(p_orders);
     }
 
-    public Country getCountries() {
+    public ArrayList<Country> getCountries() {
         return d_countries;
     }
 
     public void setCountries(Country p_countries) {
-        this.d_countries = p_countries;
+        this.d_countries.add(p_countries);
     }
-
 
 }

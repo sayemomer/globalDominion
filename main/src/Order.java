@@ -1,11 +1,20 @@
+enum ORDERTYPE{Deploy};
 public class Order {
     private int d_orderId;
     private int d_playerId;
 
-    private enum d_orderType{Deploy};
+    private ORDERTYPE d_orderType;
     private int d_timeStamp;
 
-    public void ExecuteOrder(Player p_player, d_orderType p_orderType){
+    public Order(int p_playerId, ORDERTYPE p_orderType){
+        this.d_playerId = p_playerId;
+        this.d_orderType = p_orderType;
+    }
+    public Order(){
+
+    }
+
+    public void ExecuteOrder(Player p_player, ORDERTYPE p_orderType){
 
     }
 
