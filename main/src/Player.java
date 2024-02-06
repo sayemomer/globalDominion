@@ -25,48 +25,48 @@ public class Player {
         return d_playerId;
     }
 
-    public void setPlayerId(int playerId) {
-        this.d_playerId = playerId;
+    public void setPlayerId(int p_playerId) {
+        this.d_playerId = p_playerId;
     }
 
     public String getName() {
         return d_name;
     }
 
-    public void setName(String name) {
-        this.d_name = name;
+    public void setName(String p_name) {
+        this.d_name = p_name;
     }
 
     public int getPlayerStat() {
         return d_playerStat;
     }
 
-    public void setPlayerStat(int playerStat) {
-        this.d_playerStat = playerStat;
+    public void setPlayerStat(int p_playerStat) {
+        this.d_playerStat = p_playerStat;
     }
 
     public int getReinforcement() {
         return d_reinforcement;
     }
 
-    public void setReinforcement(int reinforcement) {
-        this.d_reinforcement = reinforcement;
+    public void setReinforcement(int p_reinforcement) {
+        this.d_reinforcement = p_reinforcement;
     }
 
     public Order getOrders() {
         return d_orders;
     }
 
-    public void setOrders(Order orders) {
-        this.d_orders = orders;
+    public void setOrders(Order p_orders) {
+        this.d_orders = p_orders;
     }
 
     public Country getCountries() {
         return d_countries;
     }
 
-    public void setCountries(Country countries) {
-        this.d_countries = countries;
+    public void setCountries(Country p_countries) {
+        this.d_countries = p_countries;
     }
 
 
