@@ -1,3 +1,5 @@
+package models;
+
 enum ORDERTYPE{Deploy};
 public class Order {
     private int d_orderId;
