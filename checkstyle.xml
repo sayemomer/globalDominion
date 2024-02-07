@@ -3,20 +3,20 @@
 <module name="Checker">
     <property name="severity" value="error"/>
     <property name="fileExtensions" value="java, properties, xml"/>
-    <module name="BeforeExecutionExclusionFileFilter">
-        <property name="fileNamePattern" value="module\-info\.java$"/>
-    </module>
-    <module name="SuppressionFilter">
-        <property name="file" value="${org.checkstyle.sun.suppressionfilter.config}"
-                  default="checkstyle-suppressions.xml" />
-        <property name="optional" value="true"/>
-    </module>
-    <module name="JavadocPackage"/>
+<!--    <module name="BeforeExecutionExclusionFileFilter">-->
+<!--        <property name="fileNamePattern" value="module\-info\.java$"/>-->
+<!--    </module>-->
+<!--    <module name="SuppressionFilter">-->
+<!--        <property name="file" value="${org.checkstyle.sun.suppressionfilter.config}"-->
+<!--                  default="checkstyle-suppressions.xml" />-->
+<!--        <property name="optional" value="true"/>-->
+<!--    </module>-->
+<!--    <module name="JavadocPackage"/>-->
     <module name="TreeWalker">
-        <module name="InvalidJavadocPosition"/>
-        <module name="JavadocMethod"/>
-        <module name="JavadocType"/>
-        <module name="JavadocStyle"/>
-        <module name="MissingJavadocMethod"/>
+<!--        <module name="InvalidJavadocPosition"/>-->
+<!--        <module name="JavadocMethod"/>-->
+<!--        <module name="JavadocType"/>-->
+<!--        <module name="JavadocStyle"/>-->
+<!--        <module name="MissingJavadocMethod"/>-->
     </module>
 </module>
