@@ -1,36 +1,36 @@
 public class Country {
-    private int countryId;
-    private String countryName;
-    private String[] adjacentCountries;
+    private int d_countryId;
+    private String d_countryName;
+    private String[] d_adjacentCountries;
 
-    public Country(int countryId, String countryName, String[] adjacentCountries) {
-        this.countryId = countryId;
-        this.countryName = countryName;
-        this.adjacentCountries = adjacentCountries;
+    public Country(int p_countryId, String p_countryName, String[] p_adjacentCountries) {
+        this.countryId = p_countryId;
+        this.countryName = p_countryName;
+        this.adjacentCountries = p_adjacentCountries;
     }
 
     public int getCountryId() {
-        return countryId;
+        return d_countryId;
     }
 
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
+    public void setCountryId(int p_countryId) {
+        this.d_countryId = p_countryId;
     }
 
     public String getCountryName() {
-        return countryName;
+        return d_countryName;
     }
 
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setCountryName(String p_countryName) {
+        this.d_countryName = p_countryName;
     }
 
     public String[] getAdjacentCountries() {
-        return adjacentCountries;
+        return d_adjacentCountries;
     }
 
-    public void setAdjacentCountries(String[] adjacentCountries) {
-        this.adjacentCountries = adjacentCountries;
+    public void setAdjacentCountries(String[] p_adjacentCountries) {
+        this.d_adjacentCountries = p_adjacentCountries;
     }
 
     public void setPlayer() {}
