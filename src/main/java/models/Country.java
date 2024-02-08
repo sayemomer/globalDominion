@@ -1,3 +1,4 @@
+package models;
 public class Country {
     private int d_countryId;
     private String d_countryName;
