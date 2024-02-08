@@ -9,5 +9,8 @@
         <module name="globalDominion" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="globalDominion" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
