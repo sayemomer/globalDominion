@@ -37,8 +37,5 @@ public class Country {
     public void setPlayer() {}
     public void clearPlayer() {}
     public void editNeighbor() {}
-    public static void main(String[] args) {
 
-
-    }
 }
