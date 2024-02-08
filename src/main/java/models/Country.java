@@ -5,9 +5,9 @@ public class Country {
     private String[] d_adjacentCountries;
 
     public Country(int p_countryId, String p_countryName, String[] p_adjacentCountries) {
-        this.countryId = p_countryId;
-        this.countryName = p_countryName;
-        this.adjacentCountries = p_adjacentCountries;
+        this.d_countryId = p_countryId;
+        this.d_countryName = p_countryName;
+        this.d_adjacentCountries = p_adjacentCountries;
     }
 
     public int getCountryId() {
