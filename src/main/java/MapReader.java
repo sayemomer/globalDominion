@@ -106,7 +106,7 @@ class MapParser {
 public class MapReader {
     public static void main(String[] args) {
 
-        String filePath = "/Users/sayems_mac/globalDominion/resources/canada.map";
+        String filePath = "./src/main/resources/canada.map";
         MapParser parser = new MapParser();
 
         try {

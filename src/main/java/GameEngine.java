@@ -48,7 +48,7 @@ public class GameEngine {
             } else if (inputString.equals("help")) {
                 System.out.println("Available commands: ");
                 System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
-                System.out.println("  " + Command.LOAD_MAP_SYNTAX);
+//                System.out.println("  " + Command.LOAD_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
             } else if (inputString[0].equals(Command.GAME_PLAYER)) {
                 playerController.handleGamePlayerCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
