@@ -1,35 +1,30 @@
 package controllers;
 
+import java.util.*;
+
 import models.Country;
+import models.GameState;
 import models.Player;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-
 public class CountryController {
-    private final ArrayList<Country> countries;
-    private final ArrayList<Player> players;
+    GameState gameState;
 
-    public CountryController() {
-        this.countries = new ArrayList<>();
-        this.players = new ArrayList<>();
+    public CountryController(GameState p_gameState) {
+        this.gameState = p_gameState;
     }
 
-
-
-
     /*
-     * This method is used to handle to assgine Countries to players.
+     * This method is used to handle to assign Countries to players.
      * @param p_args command arguments
      */
 
-    public void handleAssigneCountries() {
+    public void handleAssignCountries() {
+        ArrayList<Player> players = gameState.getPlayerList();
+        Map<Integer, Country> countries = gameState.getGameMap().getCountries();
+
         try {
             if (countries.size() < players.size())
                 throw new Exception("Invalid number of Countries.");
-
 
             Set<Integer> assignedCountries = new HashSet<>();
 
@@ -42,7 +37,7 @@ public class CountryController {
                         x = random.nextInt(countries.size());
                     }
                     players.get(i).setCountries(countries.get(x));
-
+                    assignedCountries.add(x);
                 }
             }
 

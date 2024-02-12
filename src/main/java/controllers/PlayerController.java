@@ -1,14 +1,15 @@
 package controllers;
 
+import models.GameState;
 import models.Player;
 
 import java.util.ArrayList;
 
 public class PlayerController {
-    private ArrayList<Player> players;
+    private final GameState gameState;
 
-    public PlayerController() {
-        this.players = new ArrayList<>();
+    public PlayerController(GameState p_gameState) {
+        gameState = p_gameState;
     }
 
     /*
@@ -16,6 +17,7 @@ public class PlayerController {
      * @param p_args command arguments
      */
     public void handleGamePlayerCommand(String[] p_args) {
+        ArrayList<Player> players = gameState.getPlayerList();
         try {
             if (p_args.length != 2)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.GAME_PLAYER_SYNTAX);

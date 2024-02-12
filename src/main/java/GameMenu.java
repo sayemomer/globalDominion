@@ -1,3 +1,5 @@
+import models.GameState;
+
 import java.util.Scanner;
 
 public class GameMenu {
@@ -10,7 +12,7 @@ public class GameMenu {
             String inputString = scanner.nextLine();
             if (inputString.equals("start")) {
                 System.out.println("The game is starting...");
-                GameEngine gameEngine = new GameEngine();
+                GameEngine gameEngine = new GameEngine(new GameState(), scanner);
                 gameEngine.startGameLoop();
                 break;
             } else if (inputString.equals("exit")) {
