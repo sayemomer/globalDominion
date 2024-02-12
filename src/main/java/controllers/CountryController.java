@@ -25,6 +25,7 @@ public class CountryController {
         */
 
         public void handleAssigneCountries() {
+            Random random = new Random();
             try {
             if (countries.size() < players.size())
                 throw new Exception("Invalid number of Countries.");
@@ -33,20 +34,18 @@ public class CountryController {
             Set<Integer> assignedCountries = new HashSet<>();
             
             while(assignedCountries.size() < countries.size()) {
-
-                Random random = new Random();
-                for(int i = 0; i < players.size(); i++) {
+                for (int i = 0; i < players.size(); i++) {
                     int x = random.nextInt(countries.size());
                     while (assignedCountries.contains(x)) {
                         x = random.nextInt(countries.size());
                     }
                     players.get(i).setCountries(countries.get(x));
-                    
+                    assignedCountries.add(x);
                     }
             }
 
 
-            }catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
         } 
         }
