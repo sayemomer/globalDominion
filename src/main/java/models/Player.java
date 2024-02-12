@@ -1,6 +1,5 @@
 package models;
-import models.ORDERTYPE;
-import models.Order;
+
 import java.util.ArrayList;
 import java.util.Queue;
 
@@ -13,11 +12,20 @@ public class Player {
     private Queue<Order> d_orders;
     private ArrayList<Country> d_countries;
 
+    public Player() {
+
+    }
+
+    public Player(int p_playerId, String p_name) {
+        this.d_playerId = p_playerId;
+        this.d_name = p_name;
+    }
+
     /**
      * this method should not have any parameters and return value
      * add an order to the list of orders when the game engine calls it during the issue orders phase.
      */
-    public void IssueOrder(){
+    public void IssueOrder() {
         //The GameEngine class calls the issue_order() method of the models.Player. This method will wait for the following
         //command, then create a deploy order object on the player’s list of orders, then reduce the number of armies in the
         //player’s reinforcement pool. The game engine does this for all players in round-robin fashion until all the players
@@ -32,20 +40,12 @@ public class Player {
     /**
      * this method should not have any parameters
      * it is called by the GameEngine during the execute orders phase
+     *
      * @return the first order in the queue
      */
-    public Order NextOrder(){
+    public Order NextOrder() {
         Order order = d_orders.poll();
         return order;
-    }
-
-    public Player(){
-
-    }
-
-    public Player(int p_playerId, String p_name){
-        this.d_playerId = p_playerId;
-        this.d_name = p_name;
     }
 
     public int getPlayerId() {

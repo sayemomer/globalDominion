@@ -1,5 +1,9 @@
 package models;
 
+/**
+ * Continent class to store the continent details
+ */
+
 public class Continent {
 
     private int d_continentId;
@@ -8,12 +12,25 @@ public class Continent {
     private int d_continentValue;
     private String d_color;
 
+    /**
+     * Constructor for Continent
+     *
+     * @param p_continentId    Id of the continent
+     * @param p_continentName  Name of the continent
+     * @param p_continentValue Value of the continent
+     * @param p_color          Color of the continent
+     */
+
     public Continent(int p_continentId, String p_continentName, int p_continentValue, String p_color) {
         this.d_continentId = p_continentId;
         this.d_continentName = p_continentName;
         this.d_continentValue = p_continentValue;
         this.d_color = p_color;
     }
+
+    /**
+     * Getters and Setters for the Continent class
+     */
 
     public int getContinentId() {
         return d_continentId;

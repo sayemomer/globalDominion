@@ -1,120 +1,174 @@
-class GameMapReader {
-    Map<Integer, Continent> continents = new HashMap<>();
-    Map<Integer, Country> countries = new HashMap<>();
+package services;
 
-    public void parse(String filePath) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        String line;
-        boolean parsingContinents = false;
-        boolean parsingCountries = false;
-        boolean parsingConnections = false;
-        int continentCount = 0;
-        int countryCount = 0;
+import models.Continent;
+import models.Country;
 
-        while ((line = reader.readLine()) != null) {
-            line = line.trim();
-            if (line.isEmpty() || line.startsWith(";")) continue;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-            if (line.startsWith("[continents]")) {
-                parsingContinents = true;
-                parsingCountries = false;
+/**
+ * The GameMapReader class is responsible for reading and parsing a game map file.
+ * It reads the continents, countries, and their connections from the map file.
+ */
+
+public class GameMapReader {
+    private final Map<Integer, Continent> d_continents = new HashMap<>();
+    private final Map<Integer, Country> d_countries = new HashMap<>();
+
+    public Map<Integer, Continent> getContinents() {
+        return d_continents;
+    }
+
+    public Map<Integer, Country> getCountries() {
+        return d_countries;
+    }
+
+
+    /**
+     * Parses the game map file and populates the continents, countries, and their connections.
+     *
+     * @param p_filePath The file path of the game map file.
+     * @throws IOException If an I/O error occurs.
+     */
+    public void parse(String p_filePath) throws IOException {
+        BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath));
+        String l_line;
+        boolean l_parsingContinents = false;
+        boolean l_parsingCountries = false;
+        boolean l_parsingConnections = false;
+        int l_continentCount = 0;
+        int l_countryCount = 0;
+
+        while ((l_line = l_reader.readLine())!=null) {
+            l_line = l_line.trim();
+            if (l_line.isEmpty() || l_line.startsWith(";")) continue;
+
+            if (l_line.startsWith("[continents]")) {
+                l_parsingContinents = true;
+                l_parsingCountries = false;
                 continue;
-            } else if (line.startsWith("[countries]")) {
-                parsingCountries = true;
-                parsingContinents = false;
+            } else if (l_line.startsWith("[countries]")) {
+                l_parsingCountries = true;
+                l_parsingContinents = false;
                 continue;
-            } else if (line.startsWith("[borders]")) {
-                parsingContinents = false;
-                parsingCountries = false;
-                parsingConnections = true;
+            } else if (l_line.startsWith("[borders]")) {
+                l_parsingContinents = false;
+                l_parsingCountries = false;
+                l_parsingConnections = true;
                 continue;
             }
 
 
-            if (parsingContinents) {
-                continentCount++;
-                parseContinent(line, continentCount);
-            } else if (parsingCountries) {
-                countryCount++;
-                parseCountry(line, countryCount);
+            if (l_parsingContinents) {
+                l_continentCount++;
+                parseContinent(l_line, l_continentCount);
+            } else if (l_parsingCountries) {
+                l_countryCount++;
+                parseCountry(l_line, l_countryCount);
             }
-            if (parsingConnections) {
-                parseConnection(line);
+            if (l_parsingConnections) {
+                parseConnection(l_line);
             }
         }
 
-        reader.close();
+        l_reader.close();
     }
 
-    private void parseContinent(String line, int continentCount) {
-        String[] parts = line.split("\\s+");
-        if (parts.length < 3) return; // Not enough parts for a valid continent line
+    /**
+     * Parses a continent line and populates the continents map.
+     *
+     * @param p_line           The line containing the continent details.
+     * @param p_continentCount The count of continents parsed so far.
+     */
+
+    private void parseContinent(String p_line, int p_continentCount) {
+        String[] l_parts = p_line.split("\\s+");
+        if (l_parts.length < 3) return; // Not enough parts for a valid continent line
 
         try {
-            int id = continentCount;
-            String name = parts[0].replace('_', ' ');
-            int bonus = Integer.parseInt(parts[1]);
-            String color = parts[2];
-            continents.put(id, new Continent(id,name, bonus, color));
+            int id = p_continentCount;
+            String name = l_parts[0].replace('_', ' ');
+            int bonus = Integer.parseInt(l_parts[1]);
+            String color = l_parts[2];
+            d_continents.put(id, new Continent(id, name, bonus, color));
         } catch (NumberFormatException e) {
-            System.err.println("Skipping line, unable to parse continent: " + line);
+            System.err.println("Skipping line, unable to parse continent: " + p_line);
         }
     }
 
-    private void parseCountry(String line,int countryCount) {
-        String[] parts = line.split("\\s+");
+    /**
+     * Parses a country line and populates the countries map.
+     *
+     * @param p_line         The line containing the country details.
+     * @param p_countryCount The count of countries parsed so far.
+     */
 
-        if (parts.length < 5) return; // Not enough parts for a valid country line
+    private void parseCountry(String p_line, int p_countryCount) {
+        String[] l_parts = p_line.split("\\s+");
+
+        if (l_parts.length < 5) return; // Not enough parts for a valid country line
 
         try {
-            int id = Integer.parseInt(parts[0]);
-            String name = parts[1];
-            int continentId = Integer.parseInt(parts[2]);
-            int x = Integer.parseInt(parts[3]);
-            int y = Integer.parseInt(parts[4]);
-            countries.put(id, new Country(id,name, continentId));
+            int l_id = Integer.parseInt(l_parts[0]);
+            String l_name = l_parts[1];
+            int l_continentId = Integer.parseInt(l_parts[2]);
+            d_countries.put(l_id, new Country(l_id, l_name, l_continentId));
         } catch (NumberFormatException e) {
-            System.err.println("Skipping line, unable to parse country: " + line);
+            System.err.println("Skipping line, unable to parse country: " + p_line);
         }
     }
 
-    private void parseConnection(String line) {
-        String[] parts = line.split("\\s+");
-        if (parts.length < 2) return; // Need at least two parts for a valid connection
+    /**
+     * Parses a connection line and populates the adjacent countries for each country.
+     *
+     * @param p_line The line containing the country connections.
+     */
+
+    private void parseConnection(String p_line) {
+        String[] l_parts = p_line.split("\\s+");
+        if (l_parts.length < 2) return; // Need at least two parts for a valid connection
 
         try {
-            int countryId = Integer.parseInt(parts[0]);
-            Country country = countries.get(countryId);
-            if (country == null) {
-                System.err.println("Skipping line, country ID not found: " + line);
+            int countryId = Integer.parseInt(l_parts[0]);
+            Country l_country = d_countries.get(countryId);
+            if (l_country==null) {
+                System.err.println("Skipping line, country ID not found: " + p_line);
                 return;
             }
-            for (int i = 1; i < parts.length; i++) {
-                int connectedCountryId = Integer.parseInt(parts[i]);
-                country.setAdjacentCountries(connectedCountryId);
+            for (int i = 1; i < l_parts.length; i++) {
+                int l_connectedCountryId = Integer.parseInt(l_parts[i]);
+                l_country.setAdjacentCountries(l_connectedCountryId);
             }
         } catch (NumberFormatException e) {
-            System.err.println("Skipping line, unable to parse connection: " + line);
+            System.err.println("Skipping line, unable to parse connection: " + p_line);
         }
     }
+
+    /**
+     * Validates the map by checking if it is a connected graph and if each continent is a connected subgraph.
+     *
+     * @return True if the map is valid, false otherwise.
+     */
 
     public boolean validateMap() {
         // Check if map is a connected graph
-        if (!GraphUtils.isGraphConnected(countries)) {
+        GameGraphUtils l_graphUtils = new GameGraphUtils();
+        if (!GameGraphUtils.isGraphConnected(d_countries)) {
             System.err.println("The map is a disconnected graph.");
             return false;
         }
 
         // Check if each continent is a connected subgraph
-        for (Continent continent : continents.values()) {
-            if (!GraphUtils.isContinentConnected(countries,continent.getContinentId())) {
+        for (Continent continent : d_continents.values()) {
+            if (!GameGraphUtils.isContinentConnected(d_countries, continent.getContinentId())) {
                 System.out.println(continent.getContinentId());
                 System.err.println("The continent '" + continent.getContinentName() + "' is a disconnected subgraph.");
                 return false;
             }
         }
-
-        // Perform other custom validations as needed
 
         // If all validations pass
         return true;

@@ -3,6 +3,10 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Country class to store the country details
+ */
+
 public class Country {
     private int d_countryId;
     private String d_countryName;
@@ -10,12 +14,24 @@ public class Country {
 
     private int d_continentId;
 
+    /**
+     * Constructor for Country
+     *
+     * @param p_countryId   Id of the country
+     * @param p_countryName Name of the country
+     * @param p_continentId Id of the continent
+     */
+
     public Country(int p_countryId, String p_countryName, int p_continentId) {
         this.d_countryId = p_countryId;
         this.d_countryName = p_countryName;
         this.d_adjacentCountries = new ArrayList<>();
         this.d_continentId = p_continentId;
     }
+
+    /**
+     * Getters and Setters for the Country class
+     */
 
     public int getCountryId() {
         return d_countryId;
@@ -45,8 +61,13 @@ public class Country {
         return d_continentId;
     }
 
-    public void setPlayer() {}
-    public void clearPlayer() {}
-    public void editNeighbor() {}
+    public void setPlayer() {
+    }
+
+    public void clearPlayer() {
+    }
+
+    public void editNeighbor() {
+    }
 
 }
