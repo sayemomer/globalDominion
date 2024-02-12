@@ -1,40 +1,46 @@
 package controllers;
+
 import models.GameMap;
+import models.GameState;
 
 import java.io.File;
 
 public class MapController {
-    GameMap gameMap;
+    GameState gameState;
 
-    public void handleShowMap(String[] p_args){
-        try{
-            if(p_args.length != 0)
+    public MapController(GameState p_gameState) {
+        gameState = p_gameState;
+    }
+
+    public void handleShowMap(String[] p_args) {
+        try {
+            if (p_args.length != 0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SHOW_MAP_SYNTAX);
-            gameMap.showMap();
-        }catch (Exception e) {
+            gameState.getGameMap().showMap();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void handleValidateMap(String[] p_args){
-        try{
-            if(p_args.length != 0)
+    public void handleValidateMap(String[] p_args) {
+        try {
+            if (p_args.length != 0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.VALIDATE_MAP_SYNTAX);
-            gameMap.validateMap();
-        }catch (Exception e) {
+            gameState.getGameMap().validateMap();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void handleEditMap(String[] p_args){
-        try{
-            if(p_args.length != 1)
+    public void handleEditMap(String[] p_args) {
+        try {
+            if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_MAP_SYNTAX);
             File f = new File(p_args[0]);
-            if(f.exists()) {
-                gameMap = new GameMap(p_args[0]);
+            if (f.exists()) {
+                gameState.setMap(new GameMap(p_args[0]));
             } else {
-                gameMap = new GameMap();
+                gameState.setMap(new GameMap());
             }
 
         } catch (Exception e) {
@@ -42,27 +48,27 @@ public class MapController {
         }
     }
 
-    public void handleLoadMap(String[] p_args){
-        try{
-            if(p_args.length != 1)
+    public void handleLoadMap(String[] p_args) {
+        try {
+            if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
             File f = new File(p_args[0]);
-            if(f.exists()) {
-                gameMap = new GameMap(p_args[0]);
+            if (f.exists()) {
+                gameState.setMap(new GameMap(p_args[0]));
             } else {
                 throw new Exception("Map file does not exist.");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void handleSaveMap(String[] p_args){
-        try{
-            if(p_args.length != 1)
+    public void handleSaveMap(String[] p_args) {
+        try {
+            if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SAVE_MAP_SYNTAX);
-            gameMap.saveMap();
-        }catch (Exception e) {
+            gameState.getGameMap().saveMap();
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

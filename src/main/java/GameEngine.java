@@ -1,5 +1,7 @@
 import controllers.Command;
+import controllers.MapController;
 import controllers.PlayerController;
+import models.GameState;
 import models.Player;
 import org.w3c.dom.ls.LSOutput;
 
@@ -9,14 +11,18 @@ import java.util.Scanner;
 
 public class GameEngine {
 
-    ArrayList<Player> players;
     Scanner scanner;
     PlayerController playerController;
+    MapController mapController;
+    GameState gameState;
 
-    public GameEngine() {
-        scanner = new Scanner(System.in);
-        playerController = new PlayerController();
-        this.players = new ArrayList<>();
+    public GameEngine(GameState p_gameState, Scanner p_scanner) {
+        gameState = p_gameState;
+        scanner = p_scanner;
+
+        playerController = new PlayerController(gameState);
+        mapController = new MapController(gameState);
+
         int phaseResult = 0;
         phaseResult = startUpPhase();
         if (phaseResult == 1) {
@@ -39,13 +45,13 @@ public class GameEngine {
 
             String[] inputString = scanner.nextLine().toLowerCase().split("\\s+");
 
-            if (inputString.equals("proceed")) {
+            if (inputString[0].equals("proceed")) {
                 System.out.println("Proceeding to the next phase...");
                 break;
-            } else if (inputString.equals("exit")) {
+            } else if (inputString[0].equals("exit")) {
                 System.out.println("Exiting the game...");
                 return 1;
-            } else if (inputString.equals("help")) {
+            } else if (inputString[0].equals("help")) {
                 System.out.println("Available commands: ");
                 System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
                 System.out.println("  " + Command.LOAD_MAP_SYNTAX);

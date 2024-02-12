@@ -1,53 +1,49 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import models.Country;
+import models.GameState;
 import models.Player;
 
 public class CountryController {
-        private ArrayList<Country> countries;
-        private ArrayList<Player> players;
-        public CountryController() {
-            this.countries = new ArrayList<>();
-            this.players =  new ArrayList<>();
-        }
-        
+    GameState gameState;
 
-    
-        
-        /*
-        * This method is used to handle to assgine Countries to players.
-        * @param p_args command arguments
-        */
+    public CountryController(GameState p_gameState) {
+        this.gameState = p_gameState;
+    }
 
-        public void handleAssigneCountries() {
-            try {
+    /*
+     * This method is used to handle to assign Countries to players.
+     * @param p_args command arguments
+     */
+
+    public void handleAssignCountries() {
+        ArrayList<Player> players = gameState.getPlayerList();
+        Map<Integer, Country> countries = gameState.getGameMap().getCountries();
+
+        try {
             if (countries.size() < players.size())
                 throw new Exception("Invalid number of Countries.");
 
-            
             Set<Integer> assignedCountries = new HashSet<>();
-            
-            while(assignedCountries.size() < countries.size()) {
+
+            while (assignedCountries.size() < countries.size()) {
 
                 Random random = new Random();
-                for(int i = 0; i < players.size(); i++) {
+                for (int i = 0; i < players.size(); i++) {
                     int x = random.nextInt(countries.size());
                     while (assignedCountries.contains(x)) {
                         x = random.nextInt(countries.size());
                     }
                     players.get(i).setCountries(countries.get(x));
-                    
-                    }
+                    assignedCountries.add(x);
+                }
             }
 
 
-            }catch (Exception e) {
-                System.out.println(e.getMessage());
-        } 
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+    }
 }

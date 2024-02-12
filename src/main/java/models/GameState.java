@@ -29,10 +29,6 @@ public class GameState {
         return playerList;
     }
 
-    public void addPlayer(Player player) {
-        playerList.add(player);
-    }
-
     public void setGameMap(GameMap gameMap) {
         this.gameMap = gameMap;
     }
@@ -41,12 +37,9 @@ public class GameState {
         return gameMap;
     }
 
-    public void assignCountries() {
-
+    public void setMap(GameMap p_gameMap) {
+        gameMap = p_gameMap;
     }
 
-    public void removePlayer(Player player) {
-        playerList.remove(player);
-    }
 }
 
