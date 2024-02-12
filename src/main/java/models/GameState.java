@@ -2,6 +2,7 @@ package models;
 
 import models.GameMap;
 import models.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,36 +10,43 @@ import java.util.List;
 public class GameState {
     private int currentTurn;
     private GameMap gameMap;
-    private List<Player> playerList;
+    private ArrayList<Player> playerList;
 
     public GameState() {
-
-        this.playerList = new ArrayList<>();
-
+        playerList = new ArrayList<>();
     }
 
+    public int advanceTurn() {
+        currentTurn = (currentTurn + 1) % playerList.size();
+        return currentTurn;
+    }
 
-    public void advanceTurn() {
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
 
-
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
     }
 
     public void addPlayer(Player player) {
-
         playerList.add(player);
     }
 
+    public void setGameMap(GameMap gameMap) {
+        this.gameMap = gameMap;
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+
     public void assignCountries() {
+
     }
 
     public void removePlayer(Player player) {
         playerList.remove(player);
     }
-
-    public void showMap() {
-
-    }
-
-
 }
 
