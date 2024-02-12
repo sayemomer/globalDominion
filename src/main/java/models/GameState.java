@@ -4,7 +4,6 @@ import models.GameMap;
 import models.Player;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
 
 
 public class GameState {
@@ -18,13 +17,6 @@ public class GameState {
 
     }
 
-    public void saveState(String filename) {
-
-    }
-
-    public void loadState(String filename) {
-
-    }
 
     public void advanceTurn() {
 
