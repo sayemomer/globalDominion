@@ -22,21 +22,24 @@ public class GameMap {
 
     }
 
-    public boolean validateMap(){
+    public boolean validateMap() {
 
         return true;
     }
-    public void showMap(){
 
-    }
-    public void editMap(){
-
-    }
-    public void loadMap(){
+    public void showMap() {
 
     }
 
-    public void saveMap(){
+    public void editMap() {
+
+    }
+
+    public void loadMap() {
+
+    }
+
+    public void saveMap() {
 
     }
 }

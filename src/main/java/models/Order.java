@@ -1,6 +1,7 @@
 package models;
 
-enum ORDERTYPE{Deploy};
+enum ORDERTYPE {Deploy}
+
 public class Order {
     private int d_orderId;
     private int d_playerId;
@@ -8,19 +9,20 @@ public class Order {
     private ORDERTYPE d_orderType;
     private int d_timeStamp;
 
-    public Order(int p_playerId, ORDERTYPE p_orderType){
+    public Order(int p_playerId, ORDERTYPE p_orderType) {
         this.d_playerId = p_playerId;
         this.d_orderType = p_orderType;
     }
-    public Order(){
+
+    public Order() {
 
     }
 
-    public void ExecuteOrder(Player p_player, ORDERTYPE p_orderType){
+    public void ExecuteOrder(Player p_player, ORDERTYPE p_orderType) {
 
     }
 
-    public void ValidateOrder(Player p_player){
+    public void ValidateOrder(Player p_player) {
 
     }
 
