@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class Player {
@@ -19,6 +20,9 @@ public class Player {
     public Player(int p_playerId, String p_name) {
         this.d_playerId = p_playerId;
         this.d_name = p_name;
+        this.d_countries = new ArrayList<>();
+        this.d_orders = new LinkedList<>();
+
     }
 
     /**
