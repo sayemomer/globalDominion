@@ -35,6 +35,13 @@ public class GameMapReader {
         d_continents = d_gameState.getContinents();
         d_countries = d_gameState.getCountries();
     }
+
+
+    public GameMapReader() {
+        this.d_gameState = new GameState();
+        d_continents = new HashMap<>();
+        d_countries = new HashMap<>();
+    }
     /**
      * Parses the game map file and populates the continents, countries, and their connections.
      *
