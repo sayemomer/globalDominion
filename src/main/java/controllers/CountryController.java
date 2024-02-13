@@ -19,8 +19,8 @@ public class CountryController {
      */
 
     public void handleAssignCountries() {
-        ArrayList<Player> players = gameState.getPlayerList();
-        Map<Integer, Country> countries = gameState.getGameMap().getCountries();
+        ArrayList<Player> players = gameState.getPlayers();
+        Map<Integer, Country> countries = gameState.getCountries();
 
         try {
             if (countries.size() < players.size())

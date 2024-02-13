@@ -2,6 +2,7 @@ package services;
 
 import models.Continent;
 import models.Country;
+import models.GameState;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,8 +16,11 @@ import java.util.Map;
  */
 
 public class GameMapReader {
-    private final Map<Integer, Continent> d_continents = new HashMap<>();
-    private final Map<Integer, Country> d_countries = new HashMap<>();
+    private final GameState d_gameState;
+    private final Map<Integer, Continent> d_continents;
+    private final Map<Integer, Country> d_countries;
+//    private final Map<Integer, Continent> d_continents = new HashMap<>();
+//    private final Map<Integer, Country> d_countries = new HashMap<>();
 
     public Map<Integer, Continent> getContinents() {
         return d_continents;
@@ -26,7 +30,11 @@ public class GameMapReader {
         return d_countries;
     }
 
-
+    public GameMapReader(GameState p_gameState) {
+        this.d_gameState = p_gameState;
+        d_continents = d_gameState.getContinents();
+        d_countries = d_gameState.getCountries();
+    }
     /**
      * Parses the game map file and populates the continents, countries, and their connections.
      *
