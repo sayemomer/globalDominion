@@ -17,7 +17,7 @@ public class PlayerController {
      * @param p_args command arguments
      */
     public void handleGamePlayerCommand(String[] p_args) {
-        ArrayList<Player> players = gameState.getPlayerList();
+        ArrayList<Player> players = gameState.getPlayers();
         try {
             if (p_args.length != 2)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.GAME_PLAYER_SYNTAX);

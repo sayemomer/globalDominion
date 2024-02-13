@@ -1,23 +1,45 @@
 package models;
 
-import models.GameMap;
-import models.Player;
-
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GameState {
     private int currentTurn;
-    private GameMap gameMap;
-    private ArrayList<Player> playerList;
+    private boolean mapLoaded = false;
+    private ArrayList<Player> players;
+    private Map<Integer, Continent> continents;
+    private Map<Integer, Country> countries;
 
     public GameState() {
-        playerList = new ArrayList<>();
+        players = new ArrayList<>();
+        continents = new HashMap<>();
+        countries = new HashMap<>();
+    }
+
+    public boolean isMapLoaded() {
+        return mapLoaded;
+    }
+
+    public void setMapLoaded(boolean p_mapLoaded) {
+        mapLoaded = p_mapLoaded;
+    }
+    public void set() {
+        mapLoaded = true;
+    }
+    public void addPlayer(Player p_player) {
+        players.add(p_player);
+    }
+    public Map<Integer, Continent> getContinents() {
+        return continents;
+    }
+    public Map<Integer, Country> getCountries() {
+        return countries;
     }
 
     public int advanceTurn() {
-        currentTurn = (currentTurn + 1) % playerList.size();
+        currentTurn = (currentTurn + 1) % players.size();
         return currentTurn;
     }
 
@@ -25,21 +47,12 @@ public class GameState {
         return currentTurn;
     }
 
-    public ArrayList<Player> getPlayerList() {
-        return playerList;
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
-    public void setGameMap(GameMap gameMap) {
-        this.gameMap = gameMap;
-    }
 
-    public GameMap getGameMap() {
-        return gameMap;
+    public void showMap() {
     }
-
-    public void setMap(GameMap p_gameMap) {
-        gameMap = p_gameMap;
-    }
-
 }
 
