@@ -22,6 +22,18 @@ public class GameMapReader {
 //    private final Map<Integer, Continent> d_continents = new HashMap<>();
 //    private final Map<Integer, Country> d_countries = new HashMap<>();
 
+    public GameMapReader(GameState p_gameState) {
+        this.d_gameState = p_gameState;
+        d_continents = d_gameState.getContinents();
+        d_countries = d_gameState.getCountries();
+    }
+
+    public GameMapReader() {
+        this.d_gameState = new GameState();
+        d_continents = new HashMap<>();
+        d_countries = new HashMap<>();
+    }
+
     public Map<Integer, Continent> getContinents() {
         return d_continents;
     }
@@ -30,25 +42,13 @@ public class GameMapReader {
         return d_countries;
     }
 
-    public GameMapReader(GameState p_gameState) {
-        this.d_gameState = p_gameState;
-        d_continents = d_gameState.getContinents();
-        d_countries = d_gameState.getCountries();
-    }
-
-
-    public GameMapReader() {
-        this.d_gameState = new GameState();
-        d_continents = new HashMap<>();
-        d_countries = new HashMap<>();
-    }
     /**
      * Parses the game map file and populates the continents, countries, and their connections.
      *
      * @param p_filePath The file path of the game map file.
      * @throws IOException If an I/O error occurs.
      */
-    public void parse(String p_filePath) throws IOException {
+    public boolean parse(String p_filePath) throws IOException {
         BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath));
         String l_line;
         boolean l_parsingContinents = false;
@@ -90,6 +90,18 @@ public class GameMapReader {
         }
 
         l_reader.close();
+
+        // validate the map after parsing
+        if (!validateMap()) {
+            return false;
+        } else {
+            d_gameState.setMapLoaded(true);
+            d_gameState.setContinents(d_continents);
+            d_gameState.setCountries(d_countries);
+            return true;
+        }
+
+
     }
 
     /**

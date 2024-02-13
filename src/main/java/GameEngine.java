@@ -3,13 +3,14 @@ import controllers.CountryController;
 import controllers.MapController;
 import controllers.PlayerController;
 import models.GameState;
-import models.Player;
-import org.w3c.dom.ls.LSOutput;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+/**
+ * The GameEngine class is responsible for handling the game loop and the game phases.
+ * It utilizes the PlayerController and MapController classes to handle the game phases.
+ */
 
 public class GameEngine {
 
@@ -29,7 +30,7 @@ public class GameEngine {
 
         int phaseResult = 0;
         phaseResult = startUpPhase();
-        if (phaseResult == 1) {
+        if (phaseResult==1) {
             return;
         }
 
@@ -61,6 +62,22 @@ public class GameEngine {
                 System.out.println("Available commands: ");
                 System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
                 System.out.println("  " + Command.LOAD_MAP_SYNTAX);
+                System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
+            } else if (inputString[0].equals(Command.GAME_PLAYER)) {
+                playerController.handleGamePlayerCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
+            } else if (inputString[0].equals(Command.LOAD_MAP_SYNTAX.split("\\s+")[0])) {
+                //check for loadmap filepath command
+                if (inputString.length!=2) {
+                    System.out.println("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
+                    continue;
+                }
+                String l_fileLocation = inputString[1];
+                String result = mapController.handleloadMap(l_fileLocation);
+                System.out.println(result);
+            }
+            //showmap
+            else if (inputString[0].equals(Command.SHOW_MAP)) {
+                gameState.printMap();
                 System.out.println("  " + Command.EDIT_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
             }
@@ -80,7 +97,6 @@ public class GameEngine {
             }
         }
         return 0;
-
     }
 
     private void mapEditPhase() {
