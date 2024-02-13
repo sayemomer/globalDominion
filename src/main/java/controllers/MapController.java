@@ -1,10 +1,13 @@
 package controllers;
 
+import models.Continent;
+import models.Country;
 import models.GameState;
 import services.GameMapReader;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * The MapController class is responsible for handling the map parsing,
@@ -14,18 +17,65 @@ import java.io.IOException;
 
 public class MapController {
 
-    public GameMapReader d_gameMapReader;
-    public String d_filePath;
+    private final GameMapReader d_gameMapReader;
+    private String d_filePath;
     GameState gameState;
 
+    /**
+     * Constructor for the MapController class.
+     *
+     * @param gameState The game state.
+     */
 
-    public MapController(GameState p_gameState) {
-        this.d_gameMapReader = new GameMapReader(p_gameState);
-        this.gameState = p_gameState;
+    public MapController(GameState gameState, String d_filePath) {
+        this.d_gameMapReader = new GameMapReader(gameState);
+        this.d_filePath = d_filePath;
+        this.gameState = gameState;
     }
 
 
-    public void handleShowMap(String[] p_args) {
+    public MapController(GameState gameState) {
+        this.d_gameMapReader = new GameMapReader(gameState);
+        this.d_filePath = "";
+        this.gameState = gameState;
+    }
+
+    public MapController(String d_filePath) {
+        this.gameState = new GameState();
+        this.d_gameMapReader = new GameMapReader(gameState);
+        this.d_filePath = d_filePath;
+    }
+
+    public String getFilePath() {
+        return d_filePath;
+    }
+
+    /**
+     * Main method to test the MapController class.
+     *
+     * @param args The command-line arguments.
+     */
+
+    public static void main(String[] args) {
+        GameState gameState = new GameState();
+
+        MapController l_mapController = new MapController(gameState, "src/main/resources/canada.map");
+
+        try {
+            if (l_mapController.loadMap()) {
+                System.out.println("Map is valid.");
+                l_mapController.printContinents();
+                l_mapController.printCountries();
+            } else {
+                System.out.println("Map is invalid.");
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+
+    public void handleShowMapCommand(String[] p_args) {
         try {
             if (p_args.length!=0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SHOW_MAP_SYNTAX);
@@ -35,35 +85,44 @@ public class MapController {
         }
     }
 
-    public void handleValidateMap(String[] p_args) {
+    public void handleValidateMapCommand(String[] p_args) {
         try {
             if (p_args.length!=0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.VALIDATE_MAP_SYNTAX);
-//            gameState.validateMap();
+            if (d_gameMapReader.validateMap())
+                System.out.println("Map is valid.");
+            else
+                System.out.println("Map is invalid.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void handleEditMap(String[] p_args) throws Exception {
+    public boolean handleEditMapCommand(String[] p_args) {
         try {
-            if (p_args.length!=1) {
+            if (p_args.length != 1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_MAP_SYNTAX);
             }
 
-
             File f = new File(p_args[0]);
             if (f.exists()) {
-//                gameState.setMap(new GameMap(p_args[0]));
+                d_filePath = p_args[0];
+                gameState.setMapLoaded(loadMap());
             } else {
-//                gameState.setMap(new GameMap());
+                System.out.println("File does not exist. Creating a new map.");
+                gameState.setMapLoaded(true);
             }
 
 
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
+            return false;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
         }
 
+        return true;
     }
 
     /**
@@ -86,29 +145,25 @@ public class MapController {
         d_gameMapReader.getContinents().forEach((id, continent) -> System.out.println(id + ": " + continent.getContinentName() + " (Bonus: " + continent.getContinentValue() + ", Color: " + continent.getColor() + ")"));
     }
 
-//    public void handleLoadMap(String[] p_args) {
-//        try {
-//            if (p_args.length!=1)
-//                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
-//            File f = new File(p_args[0]);
-//            if (f.exists()) {
-////                gameState.setMap(new GameMap(p_args[0]));
-//            } else {
-//                throw new Exception("Map file does not exist.");
-//            }
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
-
-    public void handleSaveMap(String[] p_args) {
+    public boolean handleLoadMapCommand(String[] p_args) {
         try {
-            if (p_args.length!=1)
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SAVE_MAP_SYNTAX);
-//            gameState.getGameMap().saveMap();
+            if (p_args.length != 1)
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
+
+            d_gameMapReader.parse(p_args[0]);
+            if (d_gameMapReader.validateMap())
+                gameState.setMapLoaded(true);
+            else
+                throw new Exception("Map is invalid.");
+
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+            return false;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     /**
@@ -117,8 +172,8 @@ public class MapController {
 
     public void printCountries() {
         d_gameMapReader.getCountries().forEach((id, country) -> {
-            System.out.print("CountryID:" + id + " (" + country.getCountryName() + ") is connected to: ");
-            country.getAdjacentCountries().forEach(connectedId -> System.out.print(d_gameMapReader.getCountries().get(connectedId).getCountryName() + "->"));
+            System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
+            country.getAdjacentCountries().forEach(connectedId -> System.out.print(d_gameMapReader.getCountries().get(connectedId).getName() + "->"));
             System.out.println(" (Continent ID: " + country.getContinentId() + "])");
         });
     }
