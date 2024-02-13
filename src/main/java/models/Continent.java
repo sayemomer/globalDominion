@@ -28,6 +28,13 @@ public class Continent {
         this.d_color = p_color;
     }
 
+    public Continent(int p_continentId, int p_continentValue) {
+        this.d_continentId = p_continentId;
+        this.d_continentName = "N/A";
+        this.d_continentValue = p_continentValue;
+        this.d_color = "N/A";
+    }
+
     /**
      * Getters and Setters for the Continent class
      */
