@@ -160,8 +160,8 @@ public class MapController {
 
     public void printCountries() {
         d_gameMapReader.getCountries().forEach((id, country) -> {
-            System.out.print("CountryID:" + id + " (" + country.getCountryName() + ") is connected to: ");
-            country.getAdjacentCountries().forEach(connectedId -> System.out.print(d_gameMapReader.getCountries().get(connectedId).getCountryName() + "->"));
+            System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
+            country.getAdjacentCountries().forEach(connectedId -> System.out.print(d_gameMapReader.getCountries().get(connectedId).getName() + "->"));
             System.out.println(" (Continent ID: " + country.getContinentId() + "])");
         });
     }

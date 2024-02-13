@@ -41,11 +41,11 @@ public class Country {
         this.d_countryId = p_countryId;
     }
 
-    public String getCountryName() {
+    public String getName() {
         return d_countryName;
     }
 
-    public void setCountryName(String p_countryName) {
+    public void setName(String p_countryName) {
         this.d_countryName = p_countryName;
     }
 
@@ -53,9 +53,19 @@ public class Country {
         return d_adjacentCountries;
     }
 
-    public void setAdjacentCountries(int p_adjacentCountryId) {
+    public void addAdjacentCountry(int p_adjacentCountryId) {
         this.d_adjacentCountries.add(p_adjacentCountryId);
     }
+
+    /**
+     * Remove adjacent country
+     * @param p_adjacentCountryId
+     * @return true if removed successfully
+     */
+    public boolean removeAdjacentCountry(int p_adjacentCountryId) {
+        return this.d_adjacentCountries.remove(p_adjacentCountryId) != null;
+    }
+
 
     public int getContinentId() {
         return d_continentId;
