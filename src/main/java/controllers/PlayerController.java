@@ -12,7 +12,7 @@ public class PlayerController {
         gameState = p_gameState;
     }
 
-    /*
+    /**
      * This method is used to handle the player add and remove commands.
      * @param p_args command arguments
      */

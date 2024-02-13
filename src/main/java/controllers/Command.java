@@ -13,6 +13,7 @@ public class Command {
 
     public static final String SAVE_MAP = "savemap";
     public static final String EDIT_MAP = "editmap";
+    public static final String LOAD_MAP = "loadmap";
 
     public static final String GAME_PLAYER = "gameplayer";
     public static final String DEPLOY = "deploy";

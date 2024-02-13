@@ -155,7 +155,7 @@ public class GameMapReader {
             }
             for (int i = 1; i < l_parts.length; i++) {
                 int l_connectedCountryId = Integer.parseInt(l_parts[i]);
-                l_country.setAdjacentCountries(l_connectedCountryId);
+                l_country.addAdjacentCountry(l_connectedCountryId);
             }
         } catch (NumberFormatException e) {
             System.err.println("Skipping line, unable to parse connection: " + p_line);
