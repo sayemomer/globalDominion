@@ -1,8 +1,10 @@
+import config.AppConfig;
 import controllers.Command;
 import controllers.CountryController;
 import controllers.MapController;
 import controllers.PlayerController;
 import models.GameState;
+import models.Player;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -30,8 +32,10 @@ public class GameEngine {
 
         int phaseResult = 0;
         phaseResult = startUpPhase();
-        if (phaseResult == 1) {
-            return;
+        gameState.assignReinforcements();
+        // print number of reinforcements for each player
+        for (Player player : gameState.getPlayers()) {
+            AppConfig.log(player.getName() + " has " + player.getReinforcement() + " reinforcements.");
         }
 
     }
@@ -58,7 +62,7 @@ public class GameEngine {
                 break;
             } else if (command.equals("exit")) {
                 System.out.println("Exiting the game...");
-                return 1;
+                System.exit(0);
             } else if (command.equals("help")) {
                 System.out.println("Available commands: ");
                 System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
@@ -72,9 +76,6 @@ public class GameEngine {
                 gameState.printMap();
                 System.out.println("  " + Command.EDIT_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-            } else if (command.equals(Command.LOAD_MAP)) {
-                if (mapController.handleLoadMapCommand(args))
-                    mapEditPhase();
             } else if (command.equals(Command.EDIT_MAP)) {
                 if (mapController.handleEditMapCommand(args))
                     mapEditPhase();
@@ -144,21 +145,23 @@ public class GameEngine {
 
     void startGameLoop() {
         System.out.println("Game loop is running...");
-        assignReinforcementsPhase();
         issueOrdersPhase();
         executeOrdersPhase();
     }
 
-    void assignReinforcementsPhase() {
-        System.out.println("Assigning reinforcements...");
-    }
 
     void issueOrdersPhase() {
-        System.out.println("Issuing orders...");
+
     }
 
     void executeOrdersPhase() {
         System.out.println("Executing orders...");
+    }
+
+    boolean isGameRunnable() {
+        // check if map is loaded
+        // check if all countries are correctly assigned
+        return true;
     }
 
 }

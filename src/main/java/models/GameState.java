@@ -109,6 +109,57 @@ public class GameState {
         });
     }
 
+    /**
+     * This method can be used at anytime after the countries are assigned to players.
+     *
+     * @return the list of all continent ids that are owned by the given player.
+     */
+    public void assignReinforcements() {
+        for (Player l_player : getPlayers()) {
+            int l_additionalReinforcements = 0;
+            ArrayList<Integer> l_ownedContinents = getPlayerOwnedContinents(l_player);
+            for (int l_continentID : l_ownedContinents) {
+                l_additionalReinforcements += continents.get(l_continentID).getContinentValue();
+            }
+            l_player.setReinforcement(l_player.getBaseReinforcement() + l_additionalReinforcements);
+        }
+    }
+
+    /**
+     * @param p_player
+     * @return the list of all continent ids that are owned by the given player.
+     */
+    public ArrayList<Integer> getPlayerOwnedContinents(Player p_player) {
+        ArrayList<Integer> l_continents = new ArrayList<>();
+        for (int l_continentID : continents.keySet()) {
+            boolean l_continentOwned = true;
+            for (int l_countryID : getCountryIDsInsideContinent(l_continentID)) {
+                if (p_player.getCountryIds().contains(l_countryID)) {
+                    l_continentOwned = false;
+                    break;
+                }
+            }
+            if (l_continentOwned) {
+                l_continents.add(l_continentID);
+            }
+        }
+
+        return l_continents;
+    }
+
+    /**
+     * @param p_continentID
+     * @return the list of all country ids that are inside the given continent.
+     */
+    public ArrayList<Integer> getCountryIDsInsideContinent(int p_continentID) {
+        ArrayList<Integer> l_countries = new ArrayList<>();
+        for (Map.Entry<Integer, Country> l_entry : countries.entrySet()) {
+            if (l_entry.getValue().getContinentId() == p_continentID) {
+                l_countries.add(l_entry.getKey());
+            }
+        }
+        return l_countries;
+    }
 
 }
 

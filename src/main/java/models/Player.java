@@ -80,6 +80,10 @@ public class Player {
         return d_reinforcement;
     }
 
+    public int getBaseReinforcement() {
+        return d_countries.size() / 3;
+    }
+
     public void setReinforcement(int p_reinforcement) {
         this.d_reinforcement = p_reinforcement;
     }
@@ -97,8 +101,20 @@ public class Player {
         return d_countries;
     }
 
-    public void setCountries(Country p_countries) {
-        this.d_countries.add(p_countries);
+    public ArrayList<Integer> getCountryIds() {
+        ArrayList<Integer> l_countryIds = new ArrayList<>();
+        for (Country l_country : d_countries) {
+            l_countryIds.add(l_country.getCountryId());
+        }
+        return l_countryIds;
+    }
+
+    public void addCountry(Country p_country) {
+        this.d_countries.add(p_country);
+    }
+
+    public void removeAllCountries() {
+        this.d_countries.clear();
     }
 
 }

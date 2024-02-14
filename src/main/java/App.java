@@ -1,6 +1,8 @@
+import config.AppConfig;
+
 public class App {
     public static void main(String[] args) {
-        
+
         AppConfig.setDebugMode(true);
         AppConfig.setVerboseMode(true);
         AppConfig.log("Game started.");

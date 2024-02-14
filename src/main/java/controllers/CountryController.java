@@ -2,10 +2,12 @@ package controllers;
 
 import java.util.*;
 
+import config.AppConfig;
 import models.Country;
 import models.GameState;
 import models.Player;
 import models.Continent;
+
 
 public class CountryController {
     GameState d_gameState;
@@ -30,7 +32,7 @@ public class CountryController {
         Map<Integer, Country> countries = d_gameState.getCountries();
 
         try {
-            if (p_args.length!=0)
+            if (p_args.length != 0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.ASSIGN_COUNTRIES_SYNTAX);
 
 //            if (!d_gameState.isMapLoaded())
@@ -39,23 +41,27 @@ public class CountryController {
             if (countries.size() < players.size())
                 throw new Exception("Invalid number of Countries.");
 
-            Set<Integer> assignedCountries = new HashSet<>();
+            for (Player player : players) {
+                player.removeAllCountries();
+            }
+            AppConfig.log("Removed all countries from players.");
+            
+            List<Integer> countryIndices = new ArrayList<>(countries.keySet());
+            Collections.shuffle(countryIndices);
 
-            while (assignedCountries.size() < countries.size()) {
-
-                Random random = new Random();
-                for (Player player : players) {
-                    int x = random.nextInt(countries.size());
-                    while (assignedCountries.contains(x)) {
-                        x = random.nextInt(countries.size());
-                    }
-                    player.setCountries(countries.get(x));
-                    assignedCountries.add(x);
-                }
+            int playerIndex = 0;
+            for (Integer index : countryIndices) {
+                Player player = players.get(playerIndex);
+                player.addCountry(countries.get(index));
+                playerIndex = (playerIndex + 1) % players.size();
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+        AppConfig.log("Countries assigned to players.");
+        for (Player player : players) {
+            AppConfig.log(player.getName() + " has " + player.getCountries().size() + " countries.");
         }
     }
 
@@ -66,7 +72,7 @@ public class CountryController {
      */
     public void handleEditNeighborCommand(String[] p_args) {
         try {
-            if (p_args.length!=3)
+            if (p_args.length != 3)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
 
             String l_option = p_args[0].toLowerCase();
@@ -103,7 +109,7 @@ public class CountryController {
      */
     public void handleEditCountryCommand(String[] p_args) {
         try {
-            if (p_args.length!=3)
+            if (p_args.length != 3)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
             String l_option = p_args[0].toLowerCase();
             int l_countryId = Integer.parseInt(p_args[1]);
@@ -136,14 +142,14 @@ public class CountryController {
 
     public void handleEditContinentCommand(String[] p_args) {
         try {
-            if (!(p_args.length==3 || p_args.length==2))
+            if (!(p_args.length == 3 || p_args.length == 2))
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
             String l_option = p_args[0].toLowerCase();
             int l_continentId = Integer.parseInt(p_args[1]);
 
             if (l_option.equals(Command.ADD)) {
 
-                if (p_args.length!=3)
+                if (p_args.length != 3)
                     throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
                 int l_bonus = Integer.parseInt(p_args[2]);
                 if (d_gameState.getContinents().containsKey(l_continentId))
@@ -174,7 +180,7 @@ public class CountryController {
         StringBuilder outputString = new StringBuilder("As an effect to previous action, the following countries are removed:\n");
         ArrayList<Country> deletedCountries = new ArrayList<>();
         d_gameState.getCountries().forEach((id, country) -> {
-            if (country.getContinentId()==continentID) {
+            if (country.getContinentId() == continentID) {
                 deletedCountries.add(d_gameState.getCountries().remove(id));
             }
         });

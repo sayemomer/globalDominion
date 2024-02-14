@@ -14,6 +14,7 @@ public class PlayerController {
 
     /**
      * This method is used to handle the player add and remove commands.
+     *
      * @param p_args command arguments
      */
     public void handleGamePlayerCommand(String[] p_args) {
@@ -49,6 +50,5 @@ public class PlayerController {
             System.out.println(e.getMessage());
         }
     }
-
 
 }
