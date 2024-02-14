@@ -53,6 +53,9 @@ public class GameEngine {
             String command = inputString[0];
             String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
 
+            //FIXME:Remove this print statement
+            System.out.println("Command: " + command);
+
             if (command.equals("proceed")) {
                 System.out.println("Proceeding to the next phase...");
                 break;
@@ -84,13 +87,17 @@ public class GameEngine {
             } else if (command.equals(Command.LOAD_MAP)) {
                 if (mapController.handleLoadMapCommand(args))
                     mapEditPhase();
-            } else if (command.equals(Command.EDIT_MAP)) {
+            }
+            //MARK: editmap
+            else if (command.equals(Command.EDIT_MAP)) {
                 if (mapController.handleEditMapCommand(args))
                     mapEditPhase();
             } else if (command.equals(Command.ASSIGN_COUNTRIES)) {
                 countryController.handleAssignCountriesCommand(args);
             } else if (command.equals(Command.GAME_PLAYER)) {
                 playerController.handleGamePlayerCommand(args);
+            } else if (command.equals("back")) {
+                return 1;
             } else {
                 System.out.println("Invalid input. Please try again.");
             }
@@ -131,6 +138,7 @@ public class GameEngine {
                 System.out.println("  " + Command.EDIT_COUNTRY_SYNTAX);
                 System.out.println("  " + Command.EDIT_NEIGHBOR_SYNTAX);
                 System.out.println("  " + Command.VALIDATE_MAP_SYNTAX);
+                System.out.println("  " + Command.SAVE_MAP_SYNTAX);
             } else if (command.equals(Command.VALIDATE_MAP)) {
                 mapController.handleValidateMapCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
             } else if (command.equals(Command.EDIT_CONTINENT)) {
@@ -139,6 +147,10 @@ public class GameEngine {
                 countryController.handleEditCountryCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
             } else if (command.equals(Command.EDIT_NEIGHBOR)) {
                 countryController.handleEditNeighborCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
+            }
+            //mark: savemap command in map edit phase
+            else if (inputString[0].equals(Command.SAVE_MAP)) {
+                mapController.handleSaveMapCommand(args);
             } else {
                 System.out.println("Invalid input. Please try again.");
             }

@@ -16,11 +16,22 @@ public class GameState {
     private Map<Integer, Continent> continents;
     private Map<Integer, Country> countries;
 
+    private String currentFileName;
+
     public GameState() {
         players = new ArrayList<>();
         continents = new HashMap<>();
         countries = new HashMap<>();
+        currentFileName = "";
 
+    }
+
+    public String getCurrentFileName() {
+        return currentFileName;
+    }
+
+    public void setCurrentFileName(String p_currentFileName) {
+        currentFileName = p_currentFileName;
     }
 
     public boolean isMapLoaded() {

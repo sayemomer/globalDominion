@@ -30,7 +30,7 @@ public class CountryController {
         Map<Integer, Country> countries = d_gameState.getCountries();
 
         try {
-            if (p_args.length != 0)
+            if (p_args.length!=0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.ASSIGN_COUNTRIES_SYNTAX);
 
 //            if (!d_gameState.isMapLoaded())
@@ -64,9 +64,11 @@ public class CountryController {
      *
      * @param p_args command arguments
      */
+
+    //MARK: handles the edit neighbor command
     public void handleEditNeighborCommand(String[] p_args) {
         try {
-            if (p_args.length != 3)
+            if (p_args.length!=3)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
 
             String l_option = p_args[0].toLowerCase();
@@ -101,9 +103,11 @@ public class CountryController {
      *
      * @param p_args command arguments
      */
+
+    //MARK: handles the edit country command
     public void handleEditCountryCommand(String[] p_args) {
         try {
-            if (p_args.length != 3)
+            if (p_args.length!=3)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
             String l_option = p_args[0].toLowerCase();
             int l_countryId = Integer.parseInt(p_args[1]);
@@ -115,6 +119,7 @@ public class CountryController {
                     throw new Exception("Continent does not exist.");
 
                 d_gameState.getCountries().put(l_countryId, new Country(l_countryId, "", l_continentID));
+                System.out.println("Added country: " + l_countryId + " to continent: " + l_continentID);
             } else if (l_option.equals(Command.REMOVE)) {
                 if (!d_gameState.getCountries().containsKey(l_countryId))
                     throw new Exception("Country does not exist.");
@@ -126,21 +131,32 @@ public class CountryController {
         }
     }
 
+    /**
+     * This method is used to handle the edit continent command.
+     *
+     * @param p_args command arguments
+     */
 
+
+    //MARK: handles the edit continent command
     public void handleEditContinentCommand(String[] p_args) {
         try {
-            if (!(p_args.length == 3 || p_args.length == 2))
+            if (!(p_args.length==3 || p_args.length==2))
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
             String l_option = p_args[0].toLowerCase();
             int l_continentId = Integer.parseInt(p_args[1]);
 
             if (l_option.equals(Command.ADD)) {
-                if (p_args.length != 3)
+
+                if (p_args.length!=3)
                     throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
                 int l_bonus = Integer.parseInt(p_args[2]);
                 if (d_gameState.getContinents().containsKey(l_continentId))
                     throw new Exception("Continent already exists.");
                 d_gameState.getContinents().put(l_continentId, new Continent(l_continentId, l_bonus));
+                System.out.println("Added continent: " + l_continentId + " with bonus: " + l_bonus);
+                d_gameState.printMap();
+                //TODO: handle the savemap command
             } else if (l_option.equals(Command.REMOVE)) {
                 if (!d_gameState.getContinents().containsKey(l_continentId))
                     throw new Exception("Continent does not exist.");
@@ -163,8 +179,8 @@ public class CountryController {
         StringBuilder outputString = new StringBuilder("As an effect to previous action, the following countries are removed:\n");
         ArrayList<Country> deletedCountries = new ArrayList<>();
         d_gameState.getCountries().forEach((id, country) -> {
-            if (country.getContinentId() == continentID) {
-                deletedCountries.add( d_gameState.getCountries().remove(id));
+            if (country.getContinentId()==continentID) {
+                deletedCountries.add(d_gameState.getCountries().remove(id));
             }
         });
         outputString.append("Removed countries: ");
@@ -200,7 +216,6 @@ public class CountryController {
 
         System.out.println(outputString);
     }
-
 
 
 }

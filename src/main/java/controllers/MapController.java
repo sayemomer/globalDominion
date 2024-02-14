@@ -5,9 +5,12 @@ import models.Country;
 import models.GameState;
 import services.GameMapReader;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * The MapController class is responsible for handling the map parsing,
@@ -97,6 +100,12 @@ public class MapController {
         }
     }
 
+    /**
+     * Handles the edit map command.
+     *
+     * @param p_args The command arguments.
+     */
+
     public boolean handleEditMapCommand(String[] p_args) {
         try {
             if (p_args.length!=1) {
@@ -109,8 +118,10 @@ public class MapController {
                 gameState.setMapLoaded(loadMap());
             } else {
                 String filePath = "src/main/resources/" + p_args[0];
+                System.out.println("File does not exist. Creating a new map...");
+                //MARK: create new map
                 createNewMap(filePath);
-                System.out.println("File does not exist. Creating a new map.");
+                gameState.setCurrentFileName(p_args[0]);
                 gameState.setMapLoaded(true);
             }
 
@@ -126,6 +137,97 @@ public class MapController {
         return true;
     }
 
+    /**
+     * Handles the save map command.
+     *
+     * @param p_args The command arguments.
+     */
+
+    public void handleSaveMapCommand(String[] p_args) {
+        try {
+            if (p_args.length!=1)
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SAVE_MAP_SYNTAX);
+
+            //save the map if the filename in the command is save as the filename in gameState
+            // Save the continents and countries to the file
+            if (gameState.getCurrentFileName().equals(p_args[0])) {
+                saveMap();
+
+            } else {
+                System.out.println("Invalid file name. Please use the same file name as the current map.");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //save the map according to the gamestate continent and country list
+
+    /**
+     * Saves the map to a file.
+     */
+
+    //MARK:savemap
+    public void saveMap() {
+        BufferedWriter writer = null;
+        try {
+            if (gameState.getCurrentFileName().equals("")) {
+                throw new Exception("No file name specified.");
+            }
+            // validate the map before saving
+            if (!d_gameMapReader.validateMap()) {
+                throw new Exception("Map is invalid.");
+            }
+
+            File l_file = new File("src/main/resources/" + gameState.getCurrentFileName());
+            if (l_file.exists()) {
+                l_file.delete();
+            }
+            l_file.createNewFile();
+
+            Map<Integer, Continent> l_continents = gameState.getContinents();
+            Map<Integer, Country> l_countries = gameState.getCountries();
+
+            writer = new BufferedWriter(new FileWriter(l_file));
+
+            // Save continents
+            writer.write("[continents]\n");
+            for (Continent continent : l_continents.values()) {
+                writer.write(continent.getContinentId() + " " + continent.getContinentValue() + "\n");
+            }
+
+            // Save countries
+            writer.write("\n[countries]\n");
+            int line = 1;
+            for (Country country : l_countries.values()) {
+                writer.write(line + " " + country.getCountryId() + " " + country.getContinentId() + "\n");
+                line++;
+            }
+
+            // Assuming you have a method to get borders
+            writer.write("\n[borders]\n");
+            for (Country country : l_countries.values()) {
+                for (Integer neighborId : country.getAdjacentCountries()) {
+                    writer.write(country.getCountryId() + " " + neighborId + "\n");
+                }
+            }
+
+            writer.close(); // Make sure to close the writer to flush and save data
+            System.out.println("Map saved to: " + l_file.getAbsolutePath());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (writer!=null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     /**
      * Creates a new map file.
@@ -138,6 +240,7 @@ public class MapController {
             File l_file = new File(p_filePath);
             if (l_file.createNewFile()) {
                 System.out.println("File created: " + l_file.getName());
+
             } else {
                 System.out.println("File already exists.");
             }

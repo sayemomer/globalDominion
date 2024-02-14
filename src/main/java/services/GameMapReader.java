@@ -113,14 +113,21 @@ public class GameMapReader {
 
     private void parseContinent(String p_line, int p_continentCount) {
         String[] l_parts = p_line.split("\\s+");
-        if (l_parts.length < 3) return; // Not enough parts for a valid continent line
+        if (l_parts.length < 2) return; // Not enough parts for a valid continent line
 
         try {
             int id = p_continentCount;
-            String name = l_parts[0].replace('_', ' ');
             int bonus = Integer.parseInt(l_parts[1]);
-            String color = l_parts[2];
-            d_continents.put(id, new Continent(id, name, bonus, color));
+
+            //if name and color are provided
+            if (l_parts.length > 2) {
+                String name = l_parts[0].replace('_', ' ');
+                String color = l_parts[2];
+                d_continents.put(id, new Continent(id, name, bonus, color));
+            } else {
+                d_continents.put(id, new Continent(id, bonus));
+            }
+
         } catch (NumberFormatException e) {
             System.err.println("Skipping line, unable to parse continent: " + p_line);
         }
@@ -136,7 +143,7 @@ public class GameMapReader {
     private void parseCountry(String p_line, int p_countryCount) {
         String[] l_parts = p_line.split("\\s+");
 
-        if (l_parts.length < 5) return; // Not enough parts for a valid country line
+        if (l_parts.length < 3) return; // Not enough parts for a valid country line
 
         try {
             int l_id = Integer.parseInt(l_parts[0]);
@@ -144,6 +151,7 @@ public class GameMapReader {
             int l_continentId = Integer.parseInt(l_parts[2]);
             d_countries.put(l_id, new Country(l_id, l_name, l_continentId));
         } catch (NumberFormatException e) {
+
             System.err.println("Skipping line, unable to parse country: " + p_line);
         }
     }
@@ -174,6 +182,16 @@ public class GameMapReader {
         }
     }
 
+    //print map rules in a function
+    public void printMapRules() {
+        System.out.println("Map Rules: ");
+        System.out.println("1. The map must contain at least one continent.");
+        System.out.println("2. Each continent must contain at least one country.");
+        System.out.println("3. Each country must have at least one connection.");
+        System.out.println("4. The map must be a connected graph.");
+        System.out.println("5. Each continent must be a connected subgraph.");
+    }
+
     /**
      * Validates the map by checking if it is a connected graph and if each continent is a connected subgraph.
      *
@@ -181,10 +199,33 @@ public class GameMapReader {
      */
 
     public boolean validateMap() {
+
+        // check if the map has atleast one continent
+        if (d_continents.isEmpty()) {
+            System.err.println("The map does not contain any continents.");
+            printMapRules();
+            return false;
+        }
+        // check if the continents have atleast one country
+        //TODO: check of any country is not part of any continent
+        if (d_countries.isEmpty()) {
+            System.err.println("The map does not contain any countries.");
+            printMapRules();
+            return false;
+        }
+        //check if the coutry has atleast one connection
+        for (Country country : d_countries.values()) {
+            if (country.getAdjacentCountries().isEmpty()) {
+                System.err.println("The country '" + country.getCountryId() + "' does not have any connections.");
+                printMapRules();
+                return false;
+            }
+        }
         // Check if map is a connected graph
         GameGraphUtils l_graphUtils = new GameGraphUtils();
         if (!GameGraphUtils.isGraphConnected(d_countries)) {
             System.err.println("The map is a disconnected graph.");
+            printMapRules();
             return false;
         }
 
@@ -193,6 +234,7 @@ public class GameMapReader {
             if (!GameGraphUtils.isContinentConnected(d_countries, continent.getContinentId())) {
                 System.out.println(continent.getContinentId());
                 System.err.println("The continent '" + continent.getContinentName() + "' is a disconnected subgraph.");
+                printMapRules();
                 return false;
             }
         }
