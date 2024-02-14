@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public class MapController {
 
     private final GameMapReader d_gameMapReader;
-    private String d_filePath;
     GameState gameState;
+    private String d_filePath;
 
     /**
      * Constructor for the MapController class.
@@ -46,10 +46,6 @@ public class MapController {
         this.d_filePath = d_filePath;
     }
 
-    public String getFilePath() {
-        return d_filePath;
-    }
-
     /**
      * Main method to test the MapController class.
      *
@@ -74,6 +70,9 @@ public class MapController {
         }
     }
 
+    public String getFilePath() {
+        return d_filePath;
+    }
 
     public void handleShowMapCommand(String[] p_args) {
         try {
@@ -100,7 +99,7 @@ public class MapController {
 
     public boolean handleEditMapCommand(String[] p_args) {
         try {
-            if (p_args.length != 1) {
+            if (p_args.length!=1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_MAP_SYNTAX);
             }
 
@@ -109,6 +108,8 @@ public class MapController {
                 d_filePath = p_args[0];
                 gameState.setMapLoaded(loadMap());
             } else {
+                String filePath = "src/main/resources/" + p_args[0];
+                createNewMap(filePath);
                 System.out.println("File does not exist. Creating a new map.");
                 gameState.setMapLoaded(true);
             }
@@ -123,6 +124,27 @@ public class MapController {
         }
 
         return true;
+    }
+
+
+    /**
+     * Creates a new map file.
+     *
+     * @param p_filePath The file path of the new map file.
+     */
+
+    public void createNewMap(String p_filePath) {
+        try {
+            File l_file = new File(p_filePath);
+            if (l_file.createNewFile()) {
+                System.out.println("File created: " + l_file.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -147,7 +169,7 @@ public class MapController {
 
     public boolean handleLoadMapCommand(String[] p_args) {
         try {
-            if (p_args.length != 1)
+            if (p_args.length!=1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
 
             d_gameMapReader.parse(p_args[0]);

@@ -36,6 +36,7 @@ public class GameEngine {
 
     }
 
+
     int startUpPhase() {
         System.out.println("*-*-* STARTUP PHASE *-*-*");
         System.out.println("In this phase you can: ");
@@ -50,7 +51,7 @@ public class GameEngine {
 
             String[] inputString = scanner.nextLine().toLowerCase().split("\\s+");
             String command = inputString[0];
-            String[] args  = Arrays.copyOfRange(inputString, 1, inputString.length);
+            String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
 
             if (command.equals("proceed")) {
                 System.out.println("Proceeding to the next phase...");
@@ -80,15 +81,13 @@ public class GameEngine {
                 gameState.printMap();
                 System.out.println("  " + Command.EDIT_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-            }
-            else if (command.equals(Command.LOAD_MAP)) {
+            } else if (command.equals(Command.LOAD_MAP)) {
                 if (mapController.handleLoadMapCommand(args))
                     mapEditPhase();
             } else if (command.equals(Command.EDIT_MAP)) {
                 if (mapController.handleEditMapCommand(args))
                     mapEditPhase();
-            }
-            else if (command.equals(Command.ASSIGN_COUNTRIES)) {
+            } else if (command.equals(Command.ASSIGN_COUNTRIES)) {
                 countryController.handleAssignCountriesCommand(args);
             } else if (command.equals(Command.GAME_PLAYER)) {
                 playerController.handleGamePlayerCommand(args);
@@ -99,9 +98,13 @@ public class GameEngine {
         return 0;
     }
 
+    /**
+     * This method is responsible for the map edit phase of the game.
+     */
+
     private void mapEditPhase() {
         System.out.println("*-*-* MAP EDIT *-*-*");
-        System.out.println("location: "  + mapController.getFilePath());
+        System.out.println("location: " + mapController.getFilePath());
         System.out.println("In this phase you can: ");
         System.out.println(" - Add/Remove continents to/from the map.");
         System.out.println(" - Add/Remove countries to/from the map.");
@@ -113,7 +116,7 @@ public class GameEngine {
 
             String[] inputString = scanner.nextLine().toLowerCase().split("\\s+");
             String command = inputString[0];
-            String[] args  = Arrays.copyOfRange(inputString, 1, inputString.length);
+            String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
 
 
             if (command.equals("proceed")) {
@@ -128,11 +131,9 @@ public class GameEngine {
                 System.out.println("  " + Command.EDIT_COUNTRY_SYNTAX);
                 System.out.println("  " + Command.EDIT_NEIGHBOR_SYNTAX);
                 System.out.println("  " + Command.VALIDATE_MAP_SYNTAX);
-            }
-            else if (command.equals(Command.VALIDATE_MAP)) {
+            } else if (command.equals(Command.VALIDATE_MAP)) {
                 mapController.handleValidateMapCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            }
-            else if (command.equals(Command.EDIT_CONTINENT)) {
+            } else if (command.equals(Command.EDIT_CONTINENT)) {
                 countryController.handleEditContinentCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
             } else if (command.equals(Command.EDIT_COUNTRY)) {
                 countryController.handleEditCountryCommand(Arrays.copyOfRange(inputString, 1, inputString.length));

@@ -87,13 +87,13 @@ public class GameState {
             System.out.println("No map loaded.");
             return;
         }
-        
+
         System.out.println("Continents: ");
         continents.forEach((id, continent) -> System.out.println(id + ": " + continent.getContinentName() + " (Bonus: " + continent.getContinentValue() + ", Color: " + continent.getColor() + ")"));
         System.out.println("Countries: ");
         countries.forEach((id, country) -> {
-            System.out.print("CountryID:" + id + " (" + country.getCountryName() + ") is connected to: ");
-            country.getAdjacentCountries().forEach(connectedId -> System.out.print(countries.get(connectedId).getCountryName() + "->"));
+            System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
+            country.getAdjacentCountries().forEach(connectedId -> System.out.print(countries.get(connectedId).getName() + "->"));
             System.out.println(" (Continent ID: " + country.getContinentId() + "])");
         });
     }
