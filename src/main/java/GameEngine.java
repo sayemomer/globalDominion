@@ -53,9 +53,6 @@ public class GameEngine {
             String command = inputString[0];
             String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
 
-            //FIXME:Remove this print statement
-            System.out.println("Command: " + command);
-
             if (command.equals("proceed")) {
                 System.out.println("Proceeding to the next phase...");
                 break;
@@ -87,9 +84,7 @@ public class GameEngine {
             } else if (command.equals(Command.LOAD_MAP)) {
                 if (mapController.handleLoadMapCommand(args))
                     mapEditPhase();
-            }
-            //MARK: editmap
-            else if (command.equals(Command.EDIT_MAP)) {
+            } else if (command.equals(Command.EDIT_MAP)) {
                 if (mapController.handleEditMapCommand(args))
                     mapEditPhase();
             } else if (command.equals(Command.ASSIGN_COUNTRIES)) {
@@ -147,9 +142,7 @@ public class GameEngine {
                 countryController.handleEditCountryCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
             } else if (command.equals(Command.EDIT_NEIGHBOR)) {
                 countryController.handleEditNeighborCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            }
-            //mark: savemap command in map edit phase
-            else if (inputString[0].equals(Command.SAVE_MAP)) {
+            } else if (inputString[0].equals(Command.SAVE_MAP)) {
                 mapController.handleSaveMapCommand(args);
             } else {
                 System.out.println("Invalid input. Please try again.");

@@ -64,8 +64,6 @@ public class CountryController {
      *
      * @param p_args command arguments
      */
-
-    //MARK: handles the edit neighbor command
     public void handleEditNeighborCommand(String[] p_args) {
         try {
             if (p_args.length!=3)
@@ -103,8 +101,6 @@ public class CountryController {
      *
      * @param p_args command arguments
      */
-
-    //MARK: handles the edit country command
     public void handleEditCountryCommand(String[] p_args) {
         try {
             if (p_args.length!=3)
@@ -138,7 +134,6 @@ public class CountryController {
      */
 
 
-    //MARK: handles the edit continent command
     public void handleEditContinentCommand(String[] p_args) {
         try {
             if (!(p_args.length==3 || p_args.length==2))

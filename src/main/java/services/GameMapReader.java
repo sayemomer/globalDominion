@@ -207,7 +207,6 @@ public class GameMapReader {
             return false;
         }
         // check if the continents have atleast one country
-        //TODO: check of any country is not part of any continent
         if (d_countries.isEmpty()) {
             System.err.println("The map does not contain any countries.");
             printMapRules();

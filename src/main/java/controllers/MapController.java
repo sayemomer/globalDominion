@@ -119,7 +119,6 @@ public class MapController {
             } else {
                 String filePath = "src/main/resources/" + p_args[0];
                 System.out.println("File does not exist. Creating a new map...");
-                //MARK: create new map
                 createNewMap(filePath);
                 gameState.setCurrentFileName(p_args[0]);
                 gameState.setMapLoaded(true);
@@ -167,7 +166,6 @@ public class MapController {
      * Saves the map to a file.
      */
 
-    //MARK:savemap
     public void saveMap() {
         BufferedWriter writer = null;
         try {
