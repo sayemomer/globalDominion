@@ -80,4 +80,13 @@ public class Country {
     public void editNeighbor() {
     }
 
+    @Override
+    public String toString() {
+        return "Country{" +
+                "countryId=" + d_countryId +
+                ", countryName='" + d_countryName + '\'' +
+                ", continentId=" + d_continentId +
+                '}';
+    }
+
 }

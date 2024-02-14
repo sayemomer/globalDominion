@@ -70,4 +70,15 @@ public class Continent {
     public void setColor(String p_color) {
         this.d_color = p_color;
     }
+
+    @Override
+    public String toString() {
+        return "Continent{" +
+                "continentId=" + d_continentId +
+                ", continentName='" + d_continentName + '\'' +
+                ", continentValue=" + d_continentValue +
+                ", color='" + d_color + '\'' +
+                '}';
+    }
+
 }

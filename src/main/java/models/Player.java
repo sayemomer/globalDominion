@@ -101,4 +101,11 @@ public class Player {
         this.d_countries.add(p_countries);
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerId=" + d_playerId +
+                ", name='" + d_name + '\'' +
+                '}';
+    }
 }
