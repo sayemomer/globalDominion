@@ -30,7 +30,7 @@ public class GameEngine {
 
         int phaseResult = 0;
         phaseResult = startUpPhase();
-        if (phaseResult==1) {
+        if (phaseResult == 1) {
             return;
         }
 
@@ -64,20 +64,11 @@ public class GameEngine {
                 System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
                 System.out.println("  " + Command.LOAD_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-            } else if (inputString[0].equals(Command.GAME_PLAYER)) {
+            } else if (command.equals(Command.GAME_PLAYER)) {
                 playerController.handleGamePlayerCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            } else if (inputString[0].equals(Command.LOAD_MAP_SYNTAX.split("\\s+")[0])) {
-                //check for loadmap filepath command
-                if (inputString.length!=2) {
-                    System.out.println("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
-                    continue;
-                }
-                String l_fileLocation = inputString[1];
-                String result = mapController.handleloadMap(l_fileLocation);
-                System.out.println(result);
-            }
-            //showmap
-            else if (inputString[0].equals(Command.SHOW_MAP)) {
+            } else if (command.equals(Command.LOAD_MAP)) {
+                mapController.handleLoadMapCommand(args);
+            } else if (command.equals(Command.SHOW_MAP)) {
                 gameState.printMap();
                 System.out.println("  " + Command.EDIT_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
@@ -89,8 +80,6 @@ public class GameEngine {
                     mapEditPhase();
             } else if (command.equals(Command.ASSIGN_COUNTRIES)) {
                 countryController.handleAssignCountriesCommand(args);
-            } else if (command.equals(Command.GAME_PLAYER)) {
-                playerController.handleGamePlayerCommand(args);
             } else if (command.equals("back")) {
                 return 1;
             } else {
@@ -112,7 +101,6 @@ public class GameEngine {
         System.out.println(" - Add/Remove countries to/from the map.");
         System.out.println(" - Add/Remove connections between countries.");
         System.out.println("Type 'help' to see the list of available commands.");
-        System.out.println("Type 'save' or 'discard' to save or discard the changes.");
 
         while (true) {
 
@@ -134,6 +122,7 @@ public class GameEngine {
                 System.out.println("  " + Command.EDIT_NEIGHBOR_SYNTAX);
                 System.out.println("  " + Command.VALIDATE_MAP_SYNTAX);
                 System.out.println("  " + Command.SAVE_MAP_SYNTAX);
+                System.out.println("  " + Command.SHOW_MAP_SYNTAX);
             } else if (command.equals(Command.VALIDATE_MAP)) {
                 mapController.handleValidateMapCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
             } else if (command.equals(Command.EDIT_CONTINENT)) {
@@ -142,8 +131,10 @@ public class GameEngine {
                 countryController.handleEditCountryCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
             } else if (command.equals(Command.EDIT_NEIGHBOR)) {
                 countryController.handleEditNeighborCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            } else if (inputString[0].equals(Command.SAVE_MAP)) {
+            } else if (command.equals(Command.SAVE_MAP)) {
                 mapController.handleSaveMapCommand(args);
+            } else if (command.equals(Command.SHOW_MAP)) {
+                gameState.printMap();
             } else {
                 System.out.println("Invalid input. Please try again.");
             }
