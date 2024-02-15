@@ -14,7 +14,6 @@ public class PlayerController {
 
     /**
      * This method is used to handle the player add and remove commands.
-     *
      * @param p_args command arguments
      */
     public void handleGamePlayerCommand(String[] p_args) {
@@ -28,7 +27,7 @@ public class PlayerController {
 
             if (l_option.equals(Command.ADD)) {
                 for (Player player : players)
-                    if (player.getName().equals(l_option))
+                    if (player.getName().equals(l_name))
                         throw new Exception("Player already exists.");
 
                 players.add(new Player(players.size(), l_name));
@@ -50,5 +49,4 @@ public class PlayerController {
             System.out.println(e.getMessage());
         }
     }
-
 }

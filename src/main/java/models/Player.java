@@ -19,7 +19,7 @@ public class Player {
 
     public Player(int p_playerId, String p_name) {
         this.d_playerId = p_playerId;
-        this.d_name = p_name;
+        this.d_name = p_name.toLowerCase();
         this.d_countries = new ArrayList<>();
         this.d_orders = new LinkedList<>();
 
@@ -115,6 +115,14 @@ public class Player {
 
     public void removeAllCountries() {
         this.d_countries.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "playerId=" + d_playerId +
+                ", name='" + d_name + '\'' +
+                '}';
     }
 
 }
