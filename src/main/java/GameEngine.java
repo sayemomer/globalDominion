@@ -1,4 +1,5 @@
 import config.AppConfig;
+import config.Debug;
 import controllers.Command;
 import controllers.CountryController;
 import controllers.MapController;
@@ -35,7 +36,7 @@ public class GameEngine {
         gameState.assignReinforcements();
         // print number of reinforcements for each player
         for (Player player : gameState.getPlayers()) {
-            AppConfig.log(player.getName() + " has " + player.getReinforcement() + " reinforcements.");
+            Debug.log(player.getName() + " has " + player.getReinforcement() + " reinforcements.");
         }
 
     }

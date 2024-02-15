@@ -3,6 +3,7 @@ package controllers;
 import java.util.*;
 
 import config.AppConfig;
+import config.Debug;
 import models.Country;
 import models.GameState;
 import models.Player;
@@ -44,8 +45,8 @@ public class CountryController {
             for (Player player : players) {
                 player.removeAllCountries();
             }
-            AppConfig.log("Removed all countries from players.");
-            
+            Debug.log("Removed all countries from players.");
+
             List<Integer> countryIndices = new ArrayList<>(countries.keySet());
             Collections.shuffle(countryIndices);
 
@@ -59,9 +60,9 @@ public class CountryController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        AppConfig.log("Countries assigned to players.");
+        Debug.log("Countries assigned to players.");
         for (Player player : players) {
-            AppConfig.log(player.getName() + " has " + player.getCountries().size() + " countries.");
+            Debug.log(player.getName() + " has " + player.getCountries().size() + " countries.");
         }
     }
 
