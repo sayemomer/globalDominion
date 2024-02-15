@@ -48,6 +48,11 @@ mvn build
 
 - [ ] Include at least 10 relevant test cases covering key aspects of the code as specified.
 
+- Map tests :
+    1. Map validation – map is a connected graph
+    2. Continent validation – continent is a connected subgraph
+    3. Map validation – map doesn't has self loop
+
 ```bash
 # command to run test
 mvn test
