@@ -32,8 +32,11 @@ class CountryControllerTest {
         players.add(new Player(3,"Mahdie"));
 
         countries.put(1,new Country(1, "Iran",1));
-        countries.put(2,new Country(2, "Canada",3));
-        countries.put(3,new Country(3, "England",2));
+        countries.put(2,new Country(2, "England",2));
+        countries.put(3,new Country(3, "France",2));
+        countries.put(4,new Country(4, "Canada",3));
+        countries.put(5,new Country(5, "USA",3));
+
 
         countries.get(1).addAdjacentCountry(2);
         countries.get(2).addAdjacentCountry(3);
@@ -43,14 +46,18 @@ class CountryControllerTest {
 
 
     @Test
-    void handleAssignCountries() {
+    void assignedCountryShouldDeferByOneTest() {
 
         countryController.handleAssignCountriesCommand(new String[] {});
+        int mx = 0;
+        int mn = 10000;
+        for (int i = 0; i < players.size() ; i++) {
+            mx = Math.max(mx, players.get(i).getCountries().size());
+            mn = Math.min(mn, players.get(i).getCountries().size());
 
-        for (Player player:
-                players) {
-            assertEquals(1, player.getCountries().size());
         }
+        assertTrue(mx - mn < 2);
+
     }
 
     @Test
