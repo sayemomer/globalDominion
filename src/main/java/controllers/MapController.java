@@ -248,77 +248,39 @@ public class MapController {
         return d_gameMapReader.validateMap();
     }
 
+
     /**
-     * Handles the loadmap command.
+     * Handles the load map command.
      *
      * @param p_args The command arguments.
+     * @return True if the map is valid, false otherwise.
      */
 
-    public boolean handleLoadMapCommand(String[] p_args) {
+    public boolean handleloadMapCommand(String[] p_args) {
         try {
             if (p_args.length!=1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
-
-            d_gameMapReader.parse(p_args[0]);
-            if (d_gameMapReader.validateMap())
-                gameState.setMapLoaded(true);
-            else
-                throw new Exception("Map is invalid.");
-
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
-            return false;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Prints the countries and their details.
-     */
-
-    /**
-     * Prints the continents and their details.
-     */
-
-    public void printContinents() {
-        d_gameMapReader.getContinents().forEach((id, continent) -> System.out.println(id + ": " + continent.getContinentName() + " (Bonus: " + continent.getContinentValue() + ", Color: " + continent.getColor() + ")"));
-    }
-
-    public void printCountries() {
-        d_gameMapReader.getCountries().forEach((id, country) -> {
-            System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
-            country.getAdjacentCountries().forEach(connectedId -> System.out.print(d_gameMapReader.getCountries().get(connectedId).getName() + "->"));
-            System.out.println(" (Continent ID: " + country.getContinentId() + "])");
-        });
-    }
-
-    /**
-     * Handles the loadmap command.
-     *
-     * @param p_fileLocation The file location of the map file.
-     */
-
-    public String handleloadMap(String p_fileLocation) {
-        try {
+            String p_fileLocation = p_args[0];
             if (p_fileLocation==null || p_fileLocation.isEmpty()) {
                 throw new Exception("Invalid file location.");
             }
-            File l_file = new File(p_fileLocation);
+            String l_filePath = "src/main/resources/" + p_fileLocation;
+            File l_file = new File(l_filePath);
             if (l_file.exists()) {
-                if (d_gameMapReader.parse(p_fileLocation)) {
-                    return "Map is valid and loaded.";
+                if (d_gameMapReader.parse(l_filePath)) {
+                    System.out.println("Map is valid and loaded...");
+                    return true;
                 } else {
-                    return "Map is invalid.";
+                    System.out.println("Map is invalid.");
+                    return false;
                 }
             } else {
                 throw new Exception("File does not exist.");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return false;
+
         }
-        return null;
     }
 }

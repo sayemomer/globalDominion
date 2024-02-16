@@ -2,6 +2,10 @@ import models.GameState;
 
 import java.util.Scanner;
 
+/**
+ * The GameMenu class is responsible for handling the game menu and starting the game.
+ */
+
 public class GameMenu {
     private final Scanner l_scanner = new Scanner(System.in);
 
