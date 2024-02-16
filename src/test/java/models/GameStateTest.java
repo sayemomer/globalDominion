@@ -26,20 +26,20 @@ class GameStateTest {
         countries = gameState.getCountries();
         continents = gameState.getContinents();
 
-        continents.put(1,new Continent(1,3));
-        continents.put(2,new Continent(2,2));
-        continents.put(3,new Continent(3,4));
+        continents.put(1, new Continent(1, 3));
+        continents.put(2, new Continent(2, 2));
+        continents.put(3, new Continent(3, 4));
 
-        players.add(new Player(0,"farid"));
+        players.add(new Player(0, "farid"));
         players.add(new Player(1, "parsa"));
-        players.add(new Player(2,"Mahdie"));
+        players.add(new Player(2, "Mahdie"));
 
 
-        countries.put(1,new Country(1, "Iran",1));
-        countries.put(2,new Country(2, "England",2));
-        countries.put(3,new Country(3, "France",2));
-        countries.put(4,new Country(4, "Iraq",1));
-        countries.put(5,new Country(5, "Canada",3));
+        countries.put(1, new Country(1, "Iran", 1));
+        countries.put(2, new Country(2, "England", 2));
+        countries.put(3, new Country(3, "France", 2));
+        countries.put(4, new Country(4, "Iraq", 1));
+        countries.put(5, new Country(5, "Canada", 3));
 
 
         players.get(0).addCountry(countries.get(1));
@@ -48,17 +48,19 @@ class GameStateTest {
 
 
     }
+
     @Test
     void reinforcementBounsTest() {
         gameState.assignReinforcements();
-        assertEquals(3,players.get(0).getReinforcement());
-        assertEquals(5,players.get(1).getReinforcement());
-        assertEquals(3,players.get(2).getReinforcement());
+        assertEquals(3, players.get(0).getReinforcement());
+        assertEquals(5, players.get(1).getReinforcement());
+        assertEquals(3, players.get(2).getReinforcement());
 
     }
+
     @Test
     void getPlayerOwnedContinentsTest() {
-        for (int i: gameState.getPlayerOwnedContinents(players.get(0))) {
+        for (int i : gameState.getPlayerOwnedContinents(players.get(0))) {
             System.out.println(i);
         }
         assertTrue(gameState.getPlayerOwnedContinents(players.get(0)).isEmpty());
