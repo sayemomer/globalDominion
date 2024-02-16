@@ -15,8 +15,8 @@ public class GameState {
     private ArrayList<Player> players;
     private Map<Integer, Continent> continents;
     private Map<Integer, Country> countries;
-
     private String currentFileName;
+    private int[] reinforcementPoll;
 
     public GameState() {
         players = new ArrayList<>();
@@ -24,6 +24,24 @@ public class GameState {
         countries = new HashMap<>();
         currentFileName = "";
 
+    }
+
+    public int getReinforcementPoll(int p_playerID) {
+        if (reinforcementPoll == null) {
+            return 0;
+        }
+        return reinforcementPoll[p_playerID];
+    }
+
+    public void reduceReinforcementPoll(int p_playerID, int p_reinforcement) throws Exception {
+        if (reinforcementPoll[p_playerID] - p_reinforcement < 0) {
+            throw new Exception("Not enough reinforcement armies.");
+        }
+        reinforcementPoll[p_playerID] -= p_reinforcement;
+    }
+
+    public boolean playerCanReinforce(int p_playerID) {
+        return reinforcementPoll[p_playerID] > 0;
     }
 
     public String getCurrentFileName() {
@@ -115,6 +133,7 @@ public class GameState {
      * @return the list of all continent ids that are owned by the given player.
      */
     public void assignReinforcements() {
+        reinforcementPoll = new int[players.size()];
         for (Player l_player : getPlayers()) {
             int l_additionalReinforcements = 0;
             ArrayList<Integer> l_ownedContinents = getPlayerOwnedContinents(l_player);
@@ -122,6 +141,7 @@ public class GameState {
                 l_additionalReinforcements += continents.get(l_continentID).getContinentValue();
             }
             l_player.setReinforcement(l_player.getBaseReinforcement() + l_additionalReinforcements);
+            reinforcementPoll[l_player.getPlayerId()] = l_player.getReinforcement();
         }
     }
 

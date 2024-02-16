@@ -1,12 +1,11 @@
 import config.AppConfig;
 import config.Debug;
-import controllers.Command;
-import controllers.CountryController;
-import controllers.MapController;
-import controllers.PlayerController;
+import controllers.*;
 import models.GameState;
 import models.Player;
+import models.orders.Order;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -21,7 +20,9 @@ public class GameEngine {
     PlayerController playerController;
     MapController mapController;
     CountryController countryController;
+    OrderController orderController;
     GameState gameState;
+    int[] reinforcementPoll;
 
     public GameEngine(GameState p_gameState, Scanner p_scanner) {
         gameState = p_gameState;
@@ -30,15 +31,23 @@ public class GameEngine {
         playerController = new PlayerController(gameState);
         mapController = new MapController(gameState);
         countryController = new CountryController(gameState);
+        orderController = new OrderController(gameState, scanner);
 
         int phaseResult = 0;
         phaseResult = startUpPhase();
         gameState.assignReinforcements();
-        // print number of reinforcements for each player
+        reinforcementPoll = new int[gameState.getPlayers().size()];
         for (Player player : gameState.getPlayers()) {
-            Debug.log(player.getName() + " has " + player.getReinforcement() + " reinforcements.");
+            reinforcementPoll[player.getPlayerId()] = player.getReinforcement();
         }
 
+        // print number of reinforcements for each player
+        for (Player player : gameState.getPlayers()) {
+            Debug.log(player.getName() + " has " + gameState.getReinforcementPoll(player.getPlayerId()) + " reinforcements.");
+        }
+
+        issueOrdersPhase();
+        executeOrdersPhase();
     }
 
 
@@ -153,10 +162,45 @@ public class GameEngine {
 
     void issueOrdersPhase() {
 
+        boolean[] playedFinishedOrders = new boolean[gameState.getPlayers().size()];
+
+        System.out.println("*-*-* ISSUE ORDERS PHASE *-*-*");
+        System.out.println("In this phase you can: ");
+        System.out.println(" - Deploy reinforcements");
+        System.out.println("Type 'help' to see the list of available commands.");
+        System.out.println("Type 'ready' to finish ordering.");
+        System.out.println("Type 'exit' to exit the game.");
+
+        boolean aPlayerOrdered = true;
+        // as long as a player has not finished ordering
+        while (aPlayerOrdered) {
+            aPlayerOrdered = false;
+            for (Player player : gameState.getPlayers()) {
+                if (playedFinishedOrders[player.getPlayerId()]) {
+                    continue;
+                }
+                aPlayerOrdered = true;
+                player.issueOrder();
+                // only for build one where just deploy order is available
+                playedFinishedOrders[player.getPlayerId()] = player.getReinforcementPoll() == 0;
+            }
+        }
     }
 
     void executeOrdersPhase() {
         System.out.println("Executing orders...");
+        boolean anOrderExecuted = true;
+        while (anOrderExecuted) {
+            anOrderExecuted = false;
+            for (Player player : gameState.getPlayers()) {
+                if (player.getOrders().isEmpty())
+                    continue;
+
+                Order order = player.nextOrder();
+                order.execute();
+                anOrderExecuted = true;
+            }
+        }
     }
 
     boolean isGameRunnable() {

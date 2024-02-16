@@ -11,8 +11,8 @@ public class Country {
     private int d_countryId;
     private String d_countryName;
     private List<Integer> d_adjacentCountries;
-
     private int d_continentId;
+    private int numberOfReinforcements;
 
     /**
      * Constructor for Country
@@ -27,11 +27,20 @@ public class Country {
         this.d_countryName = p_countryName;
         this.d_adjacentCountries = new ArrayList<>();
         this.d_continentId = p_continentId;
+        numberOfReinforcements = 0;
     }
 
     /**
      * Getters and Setters for the Country class
      */
+
+    public int getNumberOfReinforcements() {
+        return numberOfReinforcements;
+    }
+
+    public void setNumberOfReinforcements(int p_reinforcements) {
+        numberOfReinforcements = p_reinforcements;
+    }
 
     public int getCountryId() {
         return d_countryId;
@@ -59,6 +68,7 @@ public class Country {
 
     /**
      * Remove adjacent country
+     *
      * @param p_adjacentCountryId
      * @return true if removed successfully
      */
