@@ -132,9 +132,9 @@ public class GameState {
     public ArrayList<Integer> getPlayerOwnedContinents(Player p_player) {
         ArrayList<Integer> l_continents = new ArrayList<>();
         for (int l_continentID : continents.keySet()) {
-            boolean l_continentOwned = true;
+            boolean l_continentOwned = !p_player.getCountries().isEmpty();
             for (int l_countryID : getCountryIDsInsideContinent(l_continentID)) {
-                if (p_player.getCountryIds().contains(l_countryID)) {
+                if (!p_player.getCountryIds().contains(l_countryID)) {
                     l_continentOwned = false;
                     break;
                 }

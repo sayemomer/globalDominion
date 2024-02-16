@@ -81,7 +81,7 @@ public class Player {
     }
 
     public int getBaseReinforcement() {
-        return d_countries.size() / 3;
+        return Math.max(3, d_countries.size() / 3);
     }
 
     public void setReinforcement(int p_reinforcement) {
