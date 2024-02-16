@@ -99,4 +99,22 @@ public class GameGraphUtils {
         }
         return false;
     }
+
+    /**
+     * Checks if the graph has a self-loop.
+     *
+     * @param p_countries The countries in the graph.
+     * @return True if the graph has a self-loop, false otherwise.
+     */
+
+    public static boolean hasSelfLoop(Map<Integer, Country> p_countries) {
+        for (Country country : p_countries.values()) {
+            if (country.getAdjacentCountries().contains(country.getCountryId())) {
+                // A self-loop is detected if a country's adjacent countries contain its own ID
+                System.out.println("The country '" + country.getCountryId() + "' has a self-loop.");
+                return true;
+            }
+        }
+        return false; // No self-loops found
+    }
 }

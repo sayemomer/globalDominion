@@ -29,6 +29,13 @@ public class Country {
         this.d_continentId = p_continentId;
     }
 
+    public Country(int p_countryId, String p_countryName, int p_continentId, List<Integer> p_adjacentCountries) {
+        this.d_countryId = p_countryId;
+        this.d_countryName = p_countryName;
+        this.d_adjacentCountries = p_adjacentCountries;
+        this.d_continentId = p_continentId;
+    }
+
     /**
      * Getters and Setters for the Country class
      */
@@ -59,11 +66,12 @@ public class Country {
 
     /**
      * Remove adjacent country
+     *
      * @param p_adjacentCountryId
      * @return true if removed successfully
      */
     public boolean removeAdjacentCountry(int p_adjacentCountryId) {
-        return this.d_adjacentCountries.remove(p_adjacentCountryId) != null;
+        return this.d_adjacentCountries.remove(p_adjacentCountryId)!=null;
     }
 
 
