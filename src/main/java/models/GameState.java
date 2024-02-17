@@ -105,8 +105,6 @@ public class GameState {
 
     /**
      * This method can be used at anytime after the countries are assigned to players.
-     *
-     * @return the list of all continent ids that are owned by the given player.
      */
     public void assignReinforcements() {
         for (Player l_player : getPlayers().values()) {
