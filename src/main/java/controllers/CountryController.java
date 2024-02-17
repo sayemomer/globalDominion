@@ -158,7 +158,6 @@ public class CountryController {
             int l_continentId = Integer.parseInt(p_args[1]);
 
             if (l_option.equals(Command.ADD)) {
-
                 if (p_args.length != 3)
                     throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
                 int l_bonus = Integer.parseInt(p_args[2]);

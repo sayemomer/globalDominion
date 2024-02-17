@@ -26,11 +26,17 @@ class CountryControllerTest {
         countryController = new CountryController(gameState);
         players = gameState.getPlayers();
         countries = gameState.getCountries();
+        continents = gameState.getContinents();
+
 
         Player p1 = new Player("farid"), p2 = new Player("parsa"), p3 = new Player("Mahdie");
         players.put(p1.getName(), p1);
         players.put(p2.getName(), p2);
         players.put(p3.getName(), p3);
+
+        continents.put(1, new Continent(1, 3));
+        continents.put(2, new Continent(2, 3));
+        continents.put(3, new Continent(3, 2));
 
         countries.put(1, new Country(1, "Iran", 1));
         countries.put(2, new Country(2, "England", 2));
@@ -52,19 +58,24 @@ class CountryControllerTest {
         countryController.handleAssignCountriesCommand(new String[]{});
         int mx = 0;
         int mn = 10000;
-        for (int i = 0; i < players.size(); i++) {
-            mx = Math.max(mx, players.get(i).getCountries().size());
-            mn = Math.min(mn, players.get(i).getCountries().size());
+        for (Player player : players.values()) {
+            mx = Math.max(mx, player.getCountries().size());
+            mn = Math.min(mn, player.getCountries().size());
 
         }
         assertTrue(mx - mn < 2);
-
     }
 
     @Test
     void shouldNotAddCountryToNonExistingContinent() {
         countryController.handleEditCountryCommand(new String[]{"-add", "7", "7"});
         assertFalse(gameState.getCountries().containsKey(7));
+    }
+
+    @Test
+    void removeContinentTest() {
+        countryController.handleEditContinentCommand(new String[]{"-remove", "1"});
+        assertFalse(gameState.getContinents().containsKey(1));
     }
 
     @Test
