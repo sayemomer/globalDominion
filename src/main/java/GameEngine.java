@@ -147,13 +147,6 @@ public class GameEngine {
     }
 
 
-    void startGameLoop() {
-        System.out.println("Game loop is running...");
-        issueOrdersPhase();
-        executeOrdersPhase();
-    }
-
-
     void issueOrdersPhase() {
         Debug.log("issueOrdersPhase() called.");
         // playerFinishedOrders of a player is true if the player has finished issuing orders
