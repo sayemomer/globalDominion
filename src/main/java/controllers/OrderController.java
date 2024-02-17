@@ -70,7 +70,6 @@ public class OrderController {
      * @param p_order can be any instance of Order
      */
     public static boolean validateOrder(Order p_order) {
-        Player l_player = p_order.getOwnerPlayer();
         try {
             if (p_order instanceof DeployOrder) {
                 validateDeployOrder((DeployOrder) p_order);

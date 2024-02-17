@@ -1,6 +1,7 @@
 package models;
 
 import controllers.OrderController;
+import models.orders.DeployOrder;
 import models.orders.Order;
 
 import java.util.ArrayList;
@@ -36,13 +37,18 @@ public class Player {
     public void issueOrder() {
         while (true) {
             Order order = OrderController.takeOrderCommands(this);
-            if (order == null || OrderController.validateOrder(order)) {
+            if (order == null || !OrderController.validateOrder(order)) {
                 continue;
             }
             d_orders.add(order);
+            if (order instanceof DeployOrder) {
+                reduceReinforcementPoll(((DeployOrder)order).getNumReinforcements());
+                System.out.println(d_reinforcementPoll);
+            }
             break;
         }
     }
+
 
     /**
      * this method should not have any parameters
