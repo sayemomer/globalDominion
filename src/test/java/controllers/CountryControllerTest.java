@@ -41,6 +41,7 @@ class CountryControllerTest {
         countries.get(1).addAdjacentCountry(2);
         countries.get(2).addAdjacentCountry(3);
         countries.get(3).addAdjacentCountry(1);
+        countries.get(3).addAdjacentCountry(2);
 
     }
 
@@ -76,7 +77,10 @@ class CountryControllerTest {
     void shouldRemoveRelatedConnectionsWhenCountryRemoved() {
         String[] args = {"-remove", "1"};
         countryController.handleEditCountryCommand(args);
+        String[] args2 = {"-remove", "2"};
+        countryController.handleEditCountryCommand(args2);
         assertFalse(gameState.getCountries().get(3).getAdjacentCountries().contains(1));
+        assertFalse(gameState.getCountries().get(3).getAdjacentCountries().contains(2));
     }
 
 }

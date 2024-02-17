@@ -110,12 +110,16 @@ public class CountryController {
      */
     public void handleEditCountryCommand(String[] p_args) {
         try {
-            if (p_args.length != 3)
+            if (!(p_args.length == 3 || p_args.length == 2))
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
             String l_option = p_args[0].toLowerCase();
             int l_countryId = Integer.parseInt(p_args[1]);
-            int l_continentID = Integer.parseInt(p_args[2]);
+            int l_continentID = 0;
+            if (p_args.length == 3)
+                l_continentID = Integer.parseInt(p_args[2]);
             if (l_option.equals(Command.ADD)) {
+                if (!(p_args.length == 3))
+                    throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
                 if (d_gameState.getCountries().containsKey(l_countryId))
                     throw new Exception("Country already exists.");
                 if (!d_gameState.getContinents().containsKey(l_continentID))
@@ -124,10 +128,12 @@ public class CountryController {
                 d_gameState.getCountries().put(l_countryId, new Country(l_countryId, "", l_continentID));
                 System.out.println("Added country: " + l_countryId + " to continent: " + l_continentID);
             } else if (l_option.equals(Command.REMOVE)) {
+                if (!(p_args.length == 2))
+                    throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
                 if (!d_gameState.getCountries().containsKey(l_countryId))
                     throw new Exception("Country does not exist.");
-                d_gameState.getCountries().remove(l_countryId);
                 removeRelatedConnectionsToCountry(l_countryId);
+                d_gameState.getCountries().remove(l_countryId);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -212,7 +218,7 @@ public class CountryController {
         d_gameState.getCountries().forEach((id, country) -> {
             if (country.getAdjacentCountries().contains(countryID)) {
                 outputString.append(" ").append(country.getCountryId()).append(" -> ").append(deletedCountry.getCountryId()).append("\n");
-                country.getAdjacentCountries().remove(countryID);
+                country.getAdjacentCountries().remove(new Integer(countryID));
             }
         });
 
