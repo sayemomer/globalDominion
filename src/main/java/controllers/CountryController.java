@@ -1,5 +1,6 @@
 package controllers;
 
+import java.sql.Array;
 import java.util.*;
 
 import config.AppConfig;
@@ -29,7 +30,7 @@ public class CountryController {
     public void handleAssignCountriesCommand(String[] p_args) {
         // TODO: check if map is loaded before assigning countries
 
-        ArrayList<Player> players = d_gameState.getPlayers();
+        Map<String, Player> players = d_gameState.getPlayers();
         Map<Integer, Country> countries = d_gameState.getCountries();
 
         try {
@@ -42,7 +43,7 @@ public class CountryController {
             if (countries.size() < players.size())
                 throw new Exception("Invalid number of Countries.");
 
-            for (Player player : players) {
+            for (Player player : players.values()) {
                 player.removeAllCountries();
             }
             Debug.log("Removed all countries from players.");
@@ -50,18 +51,20 @@ public class CountryController {
             List<Integer> countryIndices = new ArrayList<>(countries.keySet());
             Collections.shuffle(countryIndices);
 
+            ArrayList<String> playerKeySet = new ArrayList<>(players.keySet());
+
             int playerIndex = 0;
             for (Integer index : countryIndices) {
-                Player player = players.get(playerIndex);
+                Player player = players.get(playerKeySet.get(playerIndex));
                 player.addCountry(countries.get(index));
-                playerIndex = (playerIndex + 1) % players.size();
+                playerIndex = (playerIndex + 1) % playerKeySet.size();
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         Debug.log("Countries assigned to players.");
-        for (Player player : players) {
+        for (Player player : players.values()) {
             Debug.log(player.getName() + " has " + player.getCountries().size() + " countries.");
         }
     }

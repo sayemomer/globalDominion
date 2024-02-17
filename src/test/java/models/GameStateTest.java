@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameStateTest {
     private GameState gameState;
     private CountryController countryController;
-    private ArrayList<Player> players;
+    private Map<String, Player> players;
 
     private Map<Integer, Country> countries;
     private Map<Integer, Continent> continents;
@@ -30,9 +31,13 @@ class GameStateTest {
         continents.put(2, new Continent(2, 2));
         continents.put(3, new Continent(3, 4));
 
-        players.add(new Player(0, "farid"));
-        players.add(new Player(1, "parsa"));
-        players.add(new Player(2, "Mahdie"));
+        Player p1 = new Player("farid");
+        Player p2 = new Player("parsa");
+        Player p3 = new Player("mahdie");
+
+        players.put(p1.getName(), p1);
+        players.put(p2.getName(), p2);
+        players.put(p3.getName(), p3);
 
 
         countries.put(1, new Country(1, "Iran", 1));
@@ -42,30 +47,26 @@ class GameStateTest {
         countries.put(5, new Country(5, "Canada", 3));
 
 
-        players.get(0).addCountry(countries.get(1));
-        players.get(1).addCountry(countries.get(2));
-        players.get(1).addCountry(countries.get(3));
-
+        p1.addCountry(countries.get(1));
+        p2.addCountry(countries.get(2));
+        p2.addCountry(countries.get(3));
 
     }
 
     @Test
     void reinforcementBounsTest() {
         gameState.assignReinforcements();
-        assertEquals(3, players.get(0).getReinforcement());
-        assertEquals(5, players.get(1).getReinforcement());
-        assertEquals(3, players.get(2).getReinforcement());
-
+        assertEquals(3, players.get("farid").getReinforcement());
+        assertEquals(5, players.get("parsa").getReinforcement());
+        assertEquals(3, players.get("mahdie").getReinforcement());
     }
 
     @Test
     void getPlayerOwnedContinentsTest() {
-        for (int i : gameState.getPlayerOwnedContinents(players.get(0))) {
-            System.out.println(i);
-        }
-        assertTrue(gameState.getPlayerOwnedContinents(players.get(0)).isEmpty());
-        assertTrue(gameState.getPlayerOwnedContinents(players.get(2)).isEmpty());
-        assertTrue(gameState.getPlayerOwnedContinents(players.get(1)).contains(2));
+
+        assertTrue(gameState.getPlayerOwnedContinents(players.get("farid")).isEmpty());
+        assertTrue(gameState.getPlayerOwnedContinents(players.get("mahdie")).isEmpty());
+        assertTrue(gameState.getPlayerOwnedContinents(players.get("parsa")).contains(2));
     }
 
     @Test

@@ -16,7 +16,7 @@ class PlayerControllerTest {
 
     private GameState gameState;
     private PlayerController playerController;
-    private ArrayList<Player> players;
+    private Map<String, Player> players;
     private Map<Integer, Country> countries;
 
     @BeforeEach
@@ -26,9 +26,10 @@ class PlayerControllerTest {
         players = gameState.getPlayers();
         countries = gameState.getCountries();
 
-        players.add(new Player(1,"farid"));
-        players.add(new Player(2, "parsa"));
-        players.add(new Player(3,"Mahdieh"));
+        Player p1 = new Player("farid"), p2 = new Player("parsa"), p3 = new Player("Mahdieh");
+        players.put(p1.getName(), p1);
+        players.put(p2.getName(), p2);
+        players.put(p3.getName(), p3);
 
     }
 
@@ -44,13 +45,13 @@ class PlayerControllerTest {
     }
 
     @Test
-    void shouldNotRemoveNonExistentPlayer(){
+    void shouldNotRemoveNonExistentPlayer() {
         String[] args = {"-remove", "Amir"};
         playerController.handleGamePlayerCommand(args);
     }
 
     @Test
-    void shouldRemovePlayerCorrectly(){
+    void shouldRemovePlayerCorrectly() {
         String[] args = {"-remove", "Mahdieh"};
         playerController.handleGamePlayerCommand(args);
 

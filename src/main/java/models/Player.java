@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Player {
-
-    private int d_playerId;
+    static private int d_totalPlayers = 0;
+    //    private int d_playerId;
     private String d_name;
     private int d_playerStat;
     private int d_reinforcement;
@@ -21,8 +21,8 @@ public class Player {
 
     }
 
-    public Player(int p_playerId, String p_name) {
-        this.d_playerId = p_playerId;
+    public Player(String p_name) {
+//        this.d_playerId = d_totalPlayers++;
         this.d_name = p_name.toLowerCase();
         this.d_countries = new ArrayList<>();
         this.d_orders = new LinkedList<>();
@@ -54,13 +54,13 @@ public class Player {
         return d_orders.poll();
     }
 
-    public int getPlayerId() {
-        return d_playerId;
-    }
+//    public int getPlayerId() {
+//        return d_playerId;
+//    }
 
-    public void setPlayerId(int p_playerId) {
-        this.d_playerId = p_playerId;
-    }
+//    public void setPlayerId(int p_playerId) {
+//        this.d_playerId = p_playerId;
+//    }
 
     public String getName() {
         return d_name;
@@ -121,10 +121,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "playerId=" + d_playerId +
-                ", name='" + d_name + '\'' +
-                '}';
+        return "Player{" + d_name + '}';
     }
 
     public int getReinforcementPoll() {

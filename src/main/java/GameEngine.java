@@ -5,9 +5,7 @@ import models.GameState;
 import models.Player;
 import models.orders.Order;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The GameEngine class is responsible for handling the game loop and the game phases.
@@ -22,7 +20,6 @@ public class GameEngine {
     CountryController countryController;
     OrderController orderController;
     GameState gameState;
-    int[] reinforcementPoll;
 
     public GameEngine(GameState p_gameState, Scanner p_scanner) {
         gameState = p_gameState;
@@ -36,14 +33,11 @@ public class GameEngine {
         int phaseResult = 0;
         phaseResult = startUpPhase();
         gameState.assignReinforcements();
-        reinforcementPoll = new int[gameState.getPlayers().size()];
-        for (Player player : gameState.getPlayers()) {
-            reinforcementPoll[player.getPlayerId()] = player.getReinforcement();
-        }
+
 
         // print number of reinforcements for each player
-        for (Player player : gameState.getPlayers()) {
-            Debug.log(player.getName() + " has " + gameState.getReinforcementPoll(player.getPlayerId()) + " reinforcements.");
+        for (Player player : gameState.getPlayers().values()) {
+            Debug.log(player.getName() + " has " + player.getReinforcementPoll() + " reinforcements.");
         }
 
         issueOrdersPhase();
@@ -161,8 +155,12 @@ public class GameEngine {
 
 
     void issueOrdersPhase() {
-
-        boolean[] playedFinishedOrders = new boolean[gameState.getPlayers().size()];
+        Debug.log("issueOrdersPhase() called.");
+        // playerFinishedOrders of a player is true if the player has finished issuing orders
+        Map<String, Boolean> playerFinishedOrders = new HashMap<>();
+        for (Player player : gameState.getPlayers().values()) {
+            playerFinishedOrders.put(player.getName(), false);
+        }
 
         System.out.println("*-*-* ISSUE ORDERS PHASE *-*-*");
         System.out.println("In this phase you can: ");
@@ -175,14 +173,14 @@ public class GameEngine {
         // as long as a player has not finished ordering
         while (aPlayerOrdered) {
             aPlayerOrdered = false;
-            for (Player player : gameState.getPlayers()) {
-                if (playedFinishedOrders[player.getPlayerId()]) {
+            for (Player player : gameState.getPlayers().values()) {
+                if (playerFinishedOrders.get(player.getName())) {
                     continue;
                 }
                 aPlayerOrdered = true;
                 player.issueOrder();
                 // only for build one where just deploy order is available
-                playedFinishedOrders[player.getPlayerId()] = player.getReinforcementPoll() == 0;
+                playerFinishedOrders.put(player.getName(), player.getReinforcementPoll() == 0);
             }
         }
     }
@@ -192,7 +190,7 @@ public class GameEngine {
         boolean anOrderExecuted = true;
         while (anOrderExecuted) {
             anOrderExecuted = false;
-            for (Player player : gameState.getPlayers()) {
+            for (Player player : gameState.getPlayers().values()) {
                 if (player.getOrders().isEmpty())
                     continue;
 
