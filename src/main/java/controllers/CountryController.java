@@ -94,6 +94,11 @@ public class CountryController {
             Country l_country = d_gameState.getCountries().get(l_countryID);
             Country l_neighbor = d_gameState.getCountries().get(l_neighborID);
 
+            if (l_country == null)
+                throw new Exception("Country does not exist.");
+            if (l_neighbor == null)
+                throw new Exception("Neighbor does not exist.");
+
             if (l_option.equals(Command.ADD)) {
                 if (l_country.getAdjacentCountries().contains(l_neighborID))
                     throw new Exception("Connection already exists.");
