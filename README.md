@@ -52,6 +52,10 @@ mvn build
     1. Map validation – map is a connected graph
     2. Continent validation – continent is a connected subgraph
     3. Map validation – map doesn't has self loop
+    4. reinforcements validation- bonus reinforcements are valid
+    5. Continent validation- returned list of continents owned by players is correct
+    6. Country validation- the list of country IDs for a given continent is correct
+
 
 ```bash
 # command to run test
