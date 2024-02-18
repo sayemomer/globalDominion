@@ -16,9 +16,9 @@ public class GameMenu {
             String l_inputString = l_scanner.nextLine();
             if (l_inputString.equals("start")) {
                 System.out.println("The game is starting...");
+
                 GameEngine l_gameEngine = new GameEngine(new GameState(), l_scanner);
 
-                l_gameEngine.startGameLoop();
                 break;
             } else if (l_inputString.equals("exit")) {
                 System.out.println("Exiting the game...");

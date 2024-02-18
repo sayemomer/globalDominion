@@ -1,11 +1,11 @@
-import controllers.Command;
-import controllers.CountryController;
-import controllers.MapController;
-import controllers.PlayerController;
+import config.AppConfig;
+import config.Debug;
+import controllers.*;
 import models.GameState;
+import models.Player;
+import models.orders.Order;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The GameEngine class is responsible for handling the game loop and the game phases.
@@ -18,6 +18,7 @@ public class GameEngine {
     PlayerController playerController;
     MapController mapController;
     CountryController countryController;
+    OrderController orderController;
     GameState gameState;
 
     /**
@@ -34,13 +35,21 @@ public class GameEngine {
         playerController = new PlayerController(gameState);
         mapController = new MapController(gameState);
         countryController = new CountryController(gameState);
+        orderController = new OrderController(gameState, scanner);
 
-        int l_phaseResult = 0;
-        l_phaseResult = startUpPhase();
-        if (l_phaseResult==1) {
-            return;
+        int phaseResult = 0;
+        phaseResult = startUpPhase();
+        gameState.assignReinforcements();
+
+
+        // print number of reinforcements for each player
+        for (Player player : gameState.getPlayers().values()) {
+            Debug.log(player.getName() + " has " + player.getReinforcementPoll() + " reinforcements.");
+
         }
 
+        issueOrdersPhase();
+        executeOrdersPhase();
     }
 
     /**
@@ -73,17 +82,13 @@ public class GameEngine {
                 break;
             } else if (l_command.equals("exit")) {
                 System.out.println("Exiting the game...");
-                return 1;
             } else if (l_command.equals("help")) {
+
                 System.out.println("Available commands: ");
                 System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
                 System.out.println("  " + Command.LOAD_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-            } else if (l_inputString[0].equals(Command.GAME_PLAYER)) {
-                playerController.handleGamePlayerCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
-            }
-            //showmap
-            else if (l_command.equals(Command.SHOW_MAP)) {
+            } else if (l_command.equals(Command.SHOW_MAP)) {
                 gameState.printMap();
                 System.out.println("  " + Command.EDIT_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
@@ -121,7 +126,6 @@ public class GameEngine {
         System.out.println(" - Save the map.");
         System.out.println(" - Show the map.");
         System.out.println("Type 'help' to see the list of available commands.");
-        System.out.println("Type 'save' or 'discard' to save or discard the changes.");
 
         while (true) {
 
@@ -144,6 +148,7 @@ public class GameEngine {
                 System.out.println("  " + Command.VALIDATE_MAP_SYNTAX);
                 System.out.println("  " + Command.SAVE_MAP_SYNTAX);
                 System.out.println("  " + Command.SHOW_MAP_SYNTAX);
+
             } else if (l_command.equals(Command.VALIDATE_MAP)) {
                 mapController.handleValidateMapCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
             } else if (l_command.equals(Command.EDIT_CONTINENT)) {
@@ -167,23 +172,50 @@ public class GameEngine {
      */
 
 
-    void startGameLoop() {
-        System.out.println("Game loop is running...");
-        assignReinforcementsPhase();
-        issueOrdersPhase();
-        executeOrdersPhase();
-    }
-
-    void assignReinforcementsPhase() {
-        System.out.println("Assigning reinforcements...");
-    }
-
     void issueOrdersPhase() {
-        System.out.println("Issuing orders...");
+        Debug.log("issueOrdersPhase() called.");
+        // playerFinishedOrders of a player is true if the player has finished issuing orders
+        Map<String, Boolean> playerFinishedOrders = new HashMap<>();
+        for (Player player : gameState.getPlayers().values()) {
+            playerFinishedOrders.put(player.getName(), false);
+        }
+
+        System.out.println("*-*-* ISSUE ORDERS PHASE *-*-*");
+        System.out.println("In this phase you can: ");
+        System.out.println(" - Deploy reinforcements");
+        System.out.println("Type 'help' to see the list of available commands.");
+        System.out.println("Type 'ready' to finish ordering.");
+        System.out.println("Type 'exit' to exit the game.");
+
+        boolean aPlayerOrdered = true;
+        // as long as a player has not finished ordering
+        while (aPlayerOrdered) {
+            aPlayerOrdered = false;
+            for (Player player : gameState.getPlayers().values()) {
+                if (playerFinishedOrders.get(player.getName())) {
+                    continue;
+                }
+                aPlayerOrdered = true;
+                player.issueOrder();
+                // only for build one where just deploy order is available
+                playerFinishedOrders.put(player.getName(), player.getReinforcementPoll() == 0);
+            }
+        }
     }
 
     void executeOrdersPhase() {
         System.out.println("Executing orders...");
-    }
+        boolean anOrderExecuted = true;
+        while (anOrderExecuted) {
+            anOrderExecuted = false;
+            for (Player player : gameState.getPlayers().values()) {
+                if (player.getOrders().isEmpty())
+                    continue;
 
+                Order order = player.nextOrder();
+                order.execute();
+                anOrderExecuted = true;
+            }
+        }
+    }
 }

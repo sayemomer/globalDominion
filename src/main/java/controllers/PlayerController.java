@@ -1,9 +1,12 @@
 package controllers;
 
+import config.Debug;
 import models.GameState;
 import models.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerController {
     private final GameState gameState;
@@ -14,10 +17,11 @@ public class PlayerController {
 
     /**
      * This method is used to handle the player add and remove commands.
+     *
      * @param p_args command arguments
      */
     public void handleGamePlayerCommand(String[] p_args) {
-        ArrayList<Player> players = gameState.getPlayers();
+        Map<String, Player> players = gameState.getPlayers();
         try {
             if (p_args.length != 2)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.GAME_PLAYER_SYNTAX);
@@ -26,29 +30,24 @@ public class PlayerController {
             String l_name = p_args[1].toLowerCase();
 
             if (l_option.equals(Command.ADD)) {
-                for (Player player : players)
-                    if (player.getName().equals(l_option))
-                        throw new Exception("Player already exists.");
+                if (players.containsKey(l_name))
+                    throw new Exception("Player already exists.");
 
-                players.add(new Player(players.size(), l_name));
+                Player newPlayer = new Player(l_name);
+                players.put(newPlayer.getName(), newPlayer);
+                Debug.log("Player " + newPlayer + " added.");
             }
 
             if (l_option.equals(Command.REMOVE)) {
-                boolean found = false;
-                for (Player player : players) {
-                    if (player.getName().equals(l_name)) {
-                        players.remove(player);
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
+                if (!players.containsKey(l_name))
                     throw new Exception("Player not found.");
+
+                players.remove(l_name);
+                Debug.log("Player " + l_name + " removed.");
+
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-
-
 }

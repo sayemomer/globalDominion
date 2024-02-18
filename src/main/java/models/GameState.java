@@ -12,18 +12,16 @@ import java.util.Map;
 public class GameState {
     private int currentTurn;
     private boolean mapLoaded = false;
-    private ArrayList<Player> players;
+    private Map<String, Player> players;
     private Map<Integer, Continent> continents;
     private Map<Integer, Country> countries;
-
     private String currentFileName;
 
     public GameState() {
-        players = new ArrayList<>();
+        players = new HashMap<>();
         continents = new HashMap<>();
         countries = new HashMap<>();
         currentFileName = "";
-
     }
 
     public String getCurrentFileName() {
@@ -47,7 +45,7 @@ public class GameState {
     }
 
     public void addPlayer(Player p_player) {
-        players.add(p_player);
+        players.put(p_player.getName(), p_player);
     }
 
     public Map<Integer, Continent> getContinents() {
@@ -76,12 +74,8 @@ public class GameState {
         return currentTurn;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public Map<String, Player> getPlayers() {
         return players;
-    }
-
-    public void setPlayers(ArrayList<Player> p_players) {
-        players = p_players;
     }
 
     public void showMap() {
@@ -109,6 +103,54 @@ public class GameState {
         });
     }
 
+    /**
+     * This method can be used at anytime after the countries are assigned to players.
+     */
+    public void assignReinforcements() {
+        for (Player l_player : getPlayers().values()) {
+            int l_additionalReinforcements = 0;
+            ArrayList<Integer> l_ownedContinents = getPlayerOwnedContinents(l_player);
+            for (int l_continentID : l_ownedContinents) {
+                l_additionalReinforcements += continents.get(l_continentID).getContinentValue();
+            }
+            l_player.setReinforcement(l_player.getBaseReinforcement() + l_additionalReinforcements);
+        }
+    }
+
+    /**
+     * @param p_player
+     * @return the list of all continent ids that are owned by the given player.
+     */
+    public ArrayList<Integer> getPlayerOwnedContinents(Player p_player) {
+        ArrayList<Integer> l_continents = new ArrayList<>();
+        for (int l_continentID : continents.keySet()) {
+            boolean l_continentOwned = !p_player.getCountries().isEmpty();
+            for (int l_countryID : getCountryIDsInsideContinent(l_continentID)) {
+                if (!p_player.getCountryIds().contains(l_countryID)) {
+                    l_continentOwned = false;
+                    break;
+                }
+            }
+            if (l_continentOwned) {
+                l_continents.add(l_continentID);
+            }
+        }
+        return l_continents;
+    }
+
+    /**
+     * @param p_continentID
+     * @return the list of all country ids that are inside the given continent.
+     */
+    public ArrayList<Integer> getCountryIDsInsideContinent(int p_continentID) {
+        ArrayList<Integer> l_countries = new ArrayList<>();
+        for (Map.Entry<Integer, Country> l_entry : countries.entrySet()) {
+            if (l_entry.getValue().getContinentId() == p_continentID) {
+                l_countries.add(l_entry.getKey());
+            }
+        }
+        return l_countries;
+    }
 
 }
 

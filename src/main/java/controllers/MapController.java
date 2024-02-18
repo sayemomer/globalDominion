@@ -68,7 +68,7 @@ public class MapController {
 
     public void handleShowMapCommand(String[] p_args) {
         try {
-            if (p_args.length!=0)
+            if (p_args.length != 0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SHOW_MAP_SYNTAX);
             gameState.showMap();
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class MapController {
 
     public void handleValidateMapCommand(String[] p_args) {
         try {
-            if (p_args.length!=0)
+            if (p_args.length != 0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.VALIDATE_MAP_SYNTAX);
             if (d_gameMapReader.validateMap())
                 System.out.println("Map is valid.");
@@ -97,7 +97,7 @@ public class MapController {
 
     public boolean handleEditMapCommand(String[] p_args) {
         try {
-            if (p_args.length!=1) {
+            if (p_args.length != 1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_MAP_SYNTAX);
             }
 
@@ -135,7 +135,7 @@ public class MapController {
 
     public void handleSaveMapCommand(String[] p_args) {
         try {
-            if (p_args.length!=1)
+            if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SAVE_MAP_SYNTAX);
 
             //save the map if the filename in the command is save as the filename in gameState
@@ -205,7 +205,7 @@ public class MapController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
-            if (writer!=null) {
+            if (writer != null) {
                 try {
                     writer.close();
                 } catch (IOException e) {
@@ -258,29 +258,68 @@ public class MapController {
 
     public boolean handleloadMapCommand(String[] p_args) {
         try {
-            if (p_args.length!=1)
+
+            if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
-            String p_fileLocation = p_args[0];
-            if (p_fileLocation==null || p_fileLocation.isEmpty()) {
-                throw new Exception("Invalid file location.");
-            }
-            String l_filePath = "src/main/resources/" + p_fileLocation;
-            File l_file = new File(l_filePath);
-            if (l_file.exists()) {
-                if (d_gameMapReader.parse(l_filePath)) {
-                    System.out.println("Map is valid and loaded...");
-                    return true;
-                } else {
-                    System.out.println("Map is invalid.");
-                    return false;
-                }
-            } else {
+
+            String l_fileLocation = p_args[0];
+            File l_file = new File(l_fileLocation);
+            if (!l_file.exists()) {
                 throw new Exception("File does not exist.");
             }
+
+//            l_fileLocation = "src/main/resources/" + l_fileLocation;
+            if (d_gameMapReader.parse(l_fileLocation)) {
+                System.out.println("Map is valid and loaded.");
+            } else {
+                throw new Exception("Map is invalid.");
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+            return false;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
-
         }
+        return true;
     }
+
+    /**
+     * Prints the countries and their details.
+     */
+
+    public void printCountries() {
+        d_gameMapReader.getCountries().forEach((id, country) -> {
+            System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
+            country.getAdjacentCountries().forEach(connectedId -> System.out.print(d_gameMapReader.getCountries().get(connectedId).getName() + "->"));
+            System.out.println(" (Continent ID: " + country.getContinentId() + "])");
+        });
+    }
+
+
+//    /**
+//     * Handles the loadmap command.
+//     *
+//     * @param p_fileLocation The file location of the map file.
+//     */
+
+//    public static void main(String[] args) {
+//        GameState gameState = new GameState();
+//
+//        MapController l_mapController = new MapController("src/main/resources/canada.map", gameState);
+//
+//        try {
+//            if (l_mapController.loadMap()) {
+//                System.out.println("Map is valid.");
+//                l_mapController.printContinents();
+//                l_mapController.printCountries();
+//            } else {
+//                System.out.println("Map is invalid.");
+//            }
+//        } catch (IOException e) {
+//            System.err.println("Error reading the file: " + e.getMessage());
+//        }
+//    }
+    
 }
