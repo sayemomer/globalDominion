@@ -1,14 +1,13 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * The GameState class is responsible for keeping track of the game state.
  */
-
-
 public class GameState {
     private int currentTurn;
     private boolean mapLoaded = false;
@@ -16,6 +15,28 @@ public class GameState {
     private Map<Integer, Continent> continents;
     private Map<Integer, Country> countries;
     private String currentFileName;
+
+    /**
+     * This enum represents the game actions. used as flags to keep track of the game state.
+     */
+    public enum GameAction {
+        VALID_MAP_LOADED, PlAYERS_ADDED, COUNTRIES_ASSIGNED,
+    }
+
+    private EnumSet<GameAction> gameStateFlags = EnumSet.noneOf(GameAction.class);
+
+    public void setActionDone(GameAction action) {
+        gameStateFlags.add(action);
+    }
+
+    public boolean isActionDone(GameAction action) {
+        return gameStateFlags.contains(action);
+    }
+
+    public void removeAction(GameAction action) {
+        gameStateFlags.remove(action);
+    }
+
 
     public GameState() {
         players = new HashMap<>();
@@ -86,8 +107,7 @@ public class GameState {
      */
     public void printMap() {
 
-        //check if the continets and countries are empty
-
+        //check if the continents and countries are empty
         if (continents.isEmpty() && countries.isEmpty()) {
             System.out.println("No map loaded.");
             return;
@@ -114,6 +134,11 @@ public class GameState {
                 l_additionalReinforcements += continents.get(l_continentID).getContinentValue();
             }
             l_player.setReinforcement(l_player.getBaseReinforcement() + l_additionalReinforcements);
+        }
+
+        // print number of reinforcements for each player
+        for (Player l_player : getPlayers().values()) {
+            System.out.println(l_player.getName() + " has " + l_player.getReinforcement() + " reinforcements.");
         }
     }
 

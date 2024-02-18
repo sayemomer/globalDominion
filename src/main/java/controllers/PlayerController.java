@@ -36,15 +36,16 @@ public class PlayerController {
                 Player newPlayer = new Player(l_name);
                 players.put(newPlayer.getName(), newPlayer);
                 Debug.log("Player " + newPlayer + " added.");
+                gameState.setActionDone(GameState.GameAction.PlAYERS_ADDED);
             }
 
             if (l_option.equals(Command.REMOVE)) {
                 if (!players.containsKey(l_name))
                     throw new Exception("Player not found.");
 
-                players.remove(l_name);
-                Debug.log("Player " + l_name + " removed.");
-
+                System.out.println(("Player " + players.remove(l_name) + " removed."));
+                if (gameState.getPlayers().isEmpty())
+                    gameState.removeAction(GameState.GameAction.PlAYERS_ADDED);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

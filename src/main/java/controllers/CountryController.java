@@ -28,7 +28,6 @@ public class CountryController {
      */
 
     public void handleAssignCountriesCommand(String[] p_args) {
-        // TODO: check if map is loaded before assigning countries
 
         Map<String, Player> players = d_gameState.getPlayers();
         Map<Integer, Country> countries = d_gameState.getCountries();
@@ -37,8 +36,13 @@ public class CountryController {
             if (p_args.length != 0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.ASSIGN_COUNTRIES_SYNTAX);
 
-//            if (!d_gameState.isMapLoaded())
-//                throw new Exception("Map is not loaded. Please load the map first.");
+            if (!d_gameState.isActionDone(GameState.GameAction.PlAYERS_ADDED))
+                throw new Exception("No players were found. Add players before assigning countries.");
+            if (!d_gameState.isActionDone(GameState.GameAction.VALID_MAP_LOADED))
+                throw new Exception("No valid map is loaded. load a valid map before assigning countries.");
+
+            // remove the previous action in case of reassigning countries
+            d_gameState.removeAction(GameState.GameAction.COUNTRIES_ASSIGNED);
 
             if (countries.size() < players.size())
                 throw new Exception("Invalid number of Countries.");
@@ -60,12 +64,16 @@ public class CountryController {
                 playerIndex = (playerIndex + 1) % playerKeySet.size();
             }
 
+            System.out.println("Countries assigned to players.");
+            for (Player player : players.values()) {
+                Debug.log(player.getName() + " has " + player.getCountries().size() + " countries:");
+                for (Country country : player.getCountries()) {
+                    Debug.log("  " + country.getName());
+                }
+            }
+            d_gameState.setActionDone(GameState.GameAction.COUNTRIES_ASSIGNED);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        Debug.log("Countries assigned to players.");
-        for (Player player : players.values()) {
-            Debug.log(player.getName() + " has " + player.getCountries().size() + " countries.");
         }
     }
 

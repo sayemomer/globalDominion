@@ -27,7 +27,6 @@ public class GameEngine {
      * @param p_gameState The game state.
      * @param p_scanner   The scanner object.
      */
-
     public GameEngine(GameState p_gameState, Scanner p_scanner) {
         gameState = p_gameState;
         scanner = p_scanner;
@@ -37,10 +36,6 @@ public class GameEngine {
         countryController = new CountryController(gameState);
         orderController = new OrderController(gameState, scanner);
 
-        int phaseResult = 0;
-        phaseResult = startUpPhase();
-        gameState.assignReinforcements();
-
 
         // print number of reinforcements for each player
         for (Player player : gameState.getPlayers().values()) {
@@ -48,121 +43,136 @@ public class GameEngine {
 
         }
 
+    }
+
+    public void mainGameLoop() {
+        // This loop continues until the user has 1. loaded a valid map, 2. added players, and 3. assigned countries.
+        while (true) {
+            startUpPhase();
+            if (!gameState.isActionDone(GameState.GameAction.VALID_MAP_LOADED)) {
+                System.out.println("Map is not valid. Please try again.");
+                continue;
+            }
+            if (!gameState.isActionDone(GameState.GameAction.PlAYERS_ADDED)) {
+                System.out.println("Players are not added. Please try again.");
+                continue;
+            }
+            if (!gameState.isActionDone(GameState.GameAction.COUNTRIES_ASSIGNED)) {
+                System.out.println("Countries are not assigned. Please try again.");
+                continue;
+            }
+            break;
+        }
+        gameState.assignReinforcements();
         issueOrdersPhase();
         executeOrdersPhase();
     }
 
     /**
      * This method is responsible for the startup phase of the game.
-     *
-     * @return 0 if the game should proceed to the next phase, 1 if the game should exit.
      */
-
-
-    int startUpPhase() {
+    void startUpPhase() {
         System.out.println("*-*-* STARTUP PHASE *-*-*");
-        System.out.println("In this phase you can: ");
-        System.out.println(" - Add/Remove players to/from the game.");
-        System.out.println(" - Assign countries to players.");
-        System.out.println(" - Load and edit maps.");
-        System.out.println("Type 'help' to see the list of available commands.");
+        System.out.println("Available commands: ");
+        System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
+        System.out.println("  " + Command.LOAD_MAP_SYNTAX);
+        System.out.println("  " + Command.EDIT_MAP_SYNTAX);
+        System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
         System.out.println("Type 'proceed' to proceed to the next phase.");
-        System.out.println("Type 'back' to go back to the main menu.");
+        System.out.println("Type 'exit' to exit the game.");
 
+        label:
         while (true) {
-
-            //split the input string into command and arguments
-
-            String[] l_inputString = scanner.nextLine().toLowerCase().split("\\s+");
+            System.out.print("startup-phase> ");
+            String[] l_inputString = scanner.nextLine().trim().toLowerCase().split("\\s+");
             String l_command = l_inputString[0];
             String[] l_args = Arrays.copyOfRange(l_inputString, 1, l_inputString.length);
 
-            if (l_command.equals("proceed")) {
-                System.out.println("Proceeding to the next phase...");
-                break;
-            } else if (l_command.equals("exit")) {
-                System.out.println("Exiting the game...");
-            } else if (l_command.equals("help")) {
-
-                System.out.println("Available commands: ");
-                System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
-                System.out.println("  " + Command.LOAD_MAP_SYNTAX);
-                System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-            } else if (l_command.equals(Command.SHOW_MAP)) {
-                gameState.printMap();
-                System.out.println("  " + Command.EDIT_MAP_SYNTAX);
-                System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-            } else if (l_command.equals(Command.LOAD_MAP)) {
-                if (mapController.handleloadMapCommand(l_args))
-                    mapEditPhase();
-            } else if (l_command.equals(Command.EDIT_MAP)) {
-                if (mapController.handleEditMapCommand(l_args))
-                    mapEditPhase();
-            } else if (l_command.equals(Command.ASSIGN_COUNTRIES)) {
-                countryController.handleAssignCountriesCommand(l_args);
-            } else if (l_command.equals(Command.GAME_PLAYER)) {
-                playerController.handleGamePlayerCommand(l_args);
-            } else if (l_command.equals("back")) {
-                return 1;
-            } else {
-                System.out.println("Invalid input. Please try again.");
+            switch (l_command) {
+                case "proceed":
+                    System.out.println("Proceeding to the next phase...");
+                    break label;
+                case "exit":
+                    System.out.println("Exiting the game...");
+                    System.exit(0);
+                case Command.SHOW_MAP:
+                    gameState.printMap();
+                    System.out.println("  " + Command.EDIT_MAP_SYNTAX);
+                    System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
+                    break;
+                case Command.GAME_PLAYER:
+                    playerController.handleGamePlayerCommand(l_args);
+                    break;
+                case Command.LOAD_MAP:
+                    if (mapController.handleloadMapCommand(l_args)) mapEditPhase();
+                    break;
+                case Command.EDIT_MAP:
+                    if (mapController.handleEditMapCommand(l_args)) mapEditPhase();
+                    break;
+                case Command.ASSIGN_COUNTRIES:
+                    countryController.handleAssignCountriesCommand(l_args);
+                    break;
+                default:
+                    System.err.println("Invalid input. Please try again.");
+                    break;
             }
         }
-        return 0;
     }
 
     /**
      * This method is responsible for the map edit phase of the game.
+     * gets user input and calls the appropriate method in the controllers.
      */
-
     private void mapEditPhase() {
-        System.out.println("*-*-* MAP EDIT *-*-*");
-        System.out.println("location: " + mapController.getFilePath());
-        System.out.println("In this phase you can: ");
-        System.out.println(" - Add/Remove continents to/from the map.");
-        System.out.println(" - Add/Remove countries to/from the map.");
-        System.out.println(" - Add/Remove connections between countries.");
-        System.out.println(" - Validate the map.");
-        System.out.println(" - Save the map.");
-        System.out.println(" - Show the map.");
-        System.out.println("Type 'help' to see the list of available commands.");
 
+        System.out.println("*-*-* MAP EDITOR *-*-*");
+        System.out.println("file location: " + mapController.getFilePath());
+        System.out.println("Available commands: ");
+        System.out.println("  " + Command.EDIT_CONTINENT_SYNTAX);
+        System.out.println("  " + Command.EDIT_COUNTRY_SYNTAX);
+        System.out.println("  " + Command.EDIT_NEIGHBOR_SYNTAX);
+        System.out.println("  " + Command.VALIDATE_MAP_SYNTAX);
+        System.out.println("  " + Command.SAVE_MAP_SYNTAX);
+        System.out.println("  " + Command.SHOW_MAP_SYNTAX);
+        System.out.println("Type 'exit' to exit the game.");
+
+        label:
         while (true) {
-
-            String[] l_inputString = scanner.nextLine().toLowerCase().split("\\s+");
+            System.out.print("map-editor> ");
+            String[] l_inputString = scanner.nextLine().trim().toLowerCase().split("\\s+");
             String l_command = l_inputString[0];
             String[] l_args = Arrays.copyOfRange(l_inputString, 1, l_inputString.length);
 
-
-            if (l_command.equals("proceed")) {
-                System.out.println("Proceeding to the next phase...");
-                break;
-            } else if (l_command.equals("exit")) {
-                System.out.println("Exiting the game...");
-                return;
-            } else if (l_command.equals("help")) {
-                System.out.println("Available commands: ");
-                System.out.println("  " + Command.EDIT_CONTINENT_SYNTAX);
-                System.out.println("  " + Command.EDIT_COUNTRY_SYNTAX);
-                System.out.println("  " + Command.EDIT_NEIGHBOR_SYNTAX);
-                System.out.println("  " + Command.VALIDATE_MAP_SYNTAX);
-                System.out.println("  " + Command.SAVE_MAP_SYNTAX);
-                System.out.println("  " + Command.SHOW_MAP_SYNTAX);
-
-            } else if (l_command.equals(Command.VALIDATE_MAP)) {
-                mapController.handleValidateMapCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
-            } else if (l_command.equals(Command.EDIT_CONTINENT)) {
-                countryController.handleEditContinentCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
-            } else if (l_command.equals(Command.EDIT_COUNTRY)) {
-                countryController.handleEditCountryCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
-            } else if (l_command.equals(Command.EDIT_NEIGHBOR)) {
-                countryController.handleEditNeighborCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
-            } else if (l_inputString[0].equals(Command.SAVE_MAP)) {
-                mapController.handleSaveMapCommand(l_args);
-            } else if (l_command.equals(Command.SHOW_MAP)) {
-                gameState.printMap();
-            } else {
-                System.out.println("Invalid input. Please try again.");
+            switch (l_command) {
+                case "proceed":
+                    System.out.println("Proceeding to the next phase...");
+                    break label;
+                case "exit":
+                    System.out.println("Exiting the game...");
+                    System.exit(0);
+                    return;
+                case Command.EDIT_CONTINENT:
+                    countryController.handleEditContinentCommand(l_args);
+                    break;
+                case Command.EDIT_COUNTRY:
+                    countryController.handleEditCountryCommand(l_args);
+                    break;
+                case Command.EDIT_NEIGHBOR:
+                    countryController.handleEditNeighborCommand(l_args);
+                    break;
+                case Command.VALIDATE_MAP:
+                    mapController.handleValidateMapCommand(l_args);
+                    break;
+                case Command.SAVE_MAP:
+                    if (mapController.handleSaveMapCommand(l_args))
+                        return;
+                    break;
+                case Command.SHOW_MAP:
+                    gameState.printMap();
+                    break;
+                default:
+                    System.out.println("Invalid input. Please try again.");
+                    break;
             }
         }
     }
@@ -170,21 +180,18 @@ public class GameEngine {
     /**
      * This method is responsible for the game loop.
      */
-
-
     void issueOrdersPhase() {
-        Debug.log("issueOrdersPhase() called.");
+
         // playerFinishedOrders of a player is true if the player has finished issuing orders
         Map<String, Boolean> playerFinishedOrders = new HashMap<>();
+        // initializing playerFinishedOrders to false for all players.
         for (Player player : gameState.getPlayers().values()) {
             playerFinishedOrders.put(player.getName(), false);
         }
 
         System.out.println("*-*-* ISSUE ORDERS PHASE *-*-*");
-        System.out.println("In this phase you can: ");
-        System.out.println(" - Deploy reinforcements");
-        System.out.println("Type 'help' to see the list of available commands.");
-        System.out.println("Type 'ready' to finish ordering.");
+        System.out.println("Available commands: ");
+        System.out.println("  " + Command.DEPLOY_SYNTAX);
         System.out.println("Type 'exit' to exit the game.");
 
         boolean aPlayerOrdered = true;
@@ -197,8 +204,8 @@ public class GameEngine {
                 }
                 aPlayerOrdered = true;
                 player.issueOrder();
-                // only for build one where just deploy order is available
-                playerFinishedOrders.put(player.getName(), player.getReinforcementPoll() == 0);
+                // only for build 1: player finishes ordering when all reinforcement is deployed.
+                playerFinishedOrders.replace(player.getName(), player.getReinforcementPoll() == 0);
             }
         }
     }
@@ -209,13 +216,20 @@ public class GameEngine {
         while (anOrderExecuted) {
             anOrderExecuted = false;
             for (Player player : gameState.getPlayers().values()) {
-                if (player.getOrders().isEmpty())
-                    continue;
+                if (player.getOrders().isEmpty()) continue;
 
                 Order order = player.nextOrder();
                 order.execute();
                 anOrderExecuted = true;
             }
         }
+        //  print all the players and their countries and their armies
+        for (Player player : gameState.getPlayers().values()) {
+            System.out.println(player.getName() + " has the following countries: ");
+            for (int countryId : player.getCountryIds()) {
+                System.out.println(gameState.getCountries().get(countryId).getName() + " with " + gameState.getCountries().get(countryId).getNumberOfReinforcements() + " reinforcements.");
+            }
+        }
+        
     }
 }

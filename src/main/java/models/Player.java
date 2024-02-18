@@ -43,7 +43,7 @@ public class Player {
             d_orders.add(order);
             if (order instanceof DeployOrder) {
                 reduceReinforcementPoll(((DeployOrder) order).getNumReinforcements());
-                System.out.println(d_reinforcementPoll);
+                System.out.println(this.d_name + " has " + this.d_reinforcementPoll + " reinforcements left.");
             }
             break;
         }

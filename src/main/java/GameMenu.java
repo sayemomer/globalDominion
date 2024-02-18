@@ -13,11 +13,12 @@ public class GameMenu {
         System.out.println("This is Global Dominion!");
         System.out.println("To start the game write 'start'. To exit write 'exit'. ");
         while (true) {
-            String l_inputString = l_scanner.nextLine();
+            String l_inputString = l_scanner.nextLine().trim().toLowerCase();
             if (l_inputString.equals("start")) {
                 System.out.println("The game is starting...");
 
                 GameEngine l_gameEngine = new GameEngine(new GameState(), l_scanner);
+                l_gameEngine.mainGameLoop();
 
                 break;
             } else if (l_inputString.equals("exit")) {

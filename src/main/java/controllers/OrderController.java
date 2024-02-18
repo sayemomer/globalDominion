@@ -19,14 +19,16 @@ public class OrderController {
 
 
     public static Order takeOrderCommands(Player p_ownerPlayer) {
-        System.out.println("It's " + p_ownerPlayer + "'s turn.");
+        System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
         Order order = null;
         while (order == null) {
             String[] inputString = scanner.nextLine().toLowerCase().split("\\s+");
             String command = inputString[0];
             String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
-
-            if (command.equals(Command.DEPLOY)) {
+            if (command.equals("exit")) {
+                System.out.println("Exiting the game...");
+                System.exit(0);
+            } else if (command.equals(Command.DEPLOY)) {
                 order = handleDeployOrderCommand(args, p_ownerPlayer);
                 break;
             } else {
@@ -55,7 +57,7 @@ public class OrderController {
                 throw new Exception("Invalid number of reinforcement. Please try again.");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID or number of armies.");
+            System.out.println("Invalid country ID or number of reinforcements.");
             return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -85,7 +87,7 @@ public class OrderController {
      * Validates the deploy order
      *
      * @param p_order must be an instance of DeployOrder
-     * @throws Exception
+     * @throws Exception if the order is not in players territories or if the player does not have enough reinforcements
      */
     public static void validateDeployOrder(DeployOrder p_order) throws Exception {
         Player l_player = p_order.getOwnerPlayer();

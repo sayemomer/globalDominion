@@ -108,10 +108,10 @@ public class MapController {
                 d_filePath = p_args[0];
                 gameState.setMapLoaded(loadMap());
             } else {
-                String filePath = "src/main/resources/" + p_args[0];
+                String l_fileLocation = "src/main/resources/" + p_args[0];
                 System.out.println("File does not exist. Creating a new map...");
-                createNewMap(filePath);
-                gameState.setCurrentFileName(p_args[0]);
+                createNewMap(l_fileLocation);
+                gameState.setCurrentFileName(l_fileLocation);
                 gameState.setMapLoaded(true);
             }
 
@@ -135,22 +135,26 @@ public class MapController {
      * @param p_args The command arguments.
      */
 
-    public void handleSaveMapCommand(String[] p_args) {
+    public boolean handleSaveMapCommand(String[] p_args) {
         try {
             if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SAVE_MAP_SYNTAX);
 
-            //save the map if the filename in the command is save as the filename in gameState
+            // save the map if the filename in the command is save as the filename in gameState
             // Save the continents and countries to the file
-            if (gameState.getCurrentFileName().equals(p_args[0])) {
-                saveMap();
 
+            if (gameState.getCurrentFileName().equals(p_args[0])) {
+                System.out.println("saving map ...");
+                saveMap();
+                gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
+                return true;
             } else {
                 System.err.println("Invalid file name. Please use the same file name as the current map.");
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+        return false;
     }
 
     /**
@@ -264,8 +268,7 @@ public class MapController {
             if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
 
-            String l_fileLocation = p_args[0];
-            l_fileLocation = "src/main/resources/" + l_fileLocation;
+            String l_fileLocation = "src/main/resources/" + p_args[0];
             File l_file = new File(l_fileLocation);
             if (!l_file.exists()) {
                 throw new Exception("File does not exist.");
@@ -273,6 +276,7 @@ public class MapController {
 
             if (d_gameMapReader.parse(l_fileLocation)) {
                 System.out.println("Map is valid and loaded.");
+                gameState.setCurrentFileName(p_args[0]);
             } else {
                 throw new Exception("Map is invalid.");
             }

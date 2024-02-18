@@ -6,10 +6,9 @@ package models;
 
 public class Continent {
 
-    private int d_continentId;
-    private String d_continentName;
-
-    private int d_continentValue;
+    private int d_id;
+    private int d_value;
+    private String d_name;
     private String d_color;
 
     /**
@@ -22,16 +21,16 @@ public class Continent {
      */
 
     public Continent(int p_continentId, String p_continentName, int p_continentValue, String p_color) {
-        this.d_continentId = p_continentId;
-        this.d_continentName = p_continentName;
-        this.d_continentValue = p_continentValue;
+        this.d_id = p_continentId;
+        this.d_name = p_continentName;
+        this.d_value = p_continentValue;
         this.d_color = p_color;
     }
 
     public Continent(int p_continentId, int p_continentValue) {
-        this.d_continentId = p_continentId;
-        this.d_continentName = "N/A";
-        this.d_continentValue = p_continentValue;
+        this.d_id = p_continentId;
+        this.d_name = "" + p_continentId;
+        this.d_value = p_continentValue;
         this.d_color = "N/A";
     }
 
@@ -40,27 +39,27 @@ public class Continent {
      */
 
     public int getContinentId() {
-        return d_continentId;
+        return d_id;
     }
 
     public void setContinentId(int p_continentId) {
-        this.d_continentId = p_continentId;
+        this.d_id = p_continentId;
     }
 
     public String getContinentName() {
-        return d_continentName;
+        return d_name;
     }
 
     public void setContinentName(String p_continentName) {
-        this.d_continentName = p_continentName;
+        this.d_name = p_continentName;
     }
 
     public int getContinentValue() {
-        return d_continentValue;
+        return d_value;
     }
 
     public void setContinentValue(int p_continentValue) {
-        this.d_continentValue = p_continentValue;
+        this.d_value = p_continentValue;
     }
 
     public String getColor() {
@@ -73,11 +72,9 @@ public class Continent {
 
     @Override
     public String toString() {
-        return "Continent{" +
-                "continentId=" + d_continentId +
-                ", continentName='" + d_continentName + '\'' +
-                ", continentValue=" + d_continentValue +
-                ", color='" + d_color + '\'' +
+        return "Continent {" +
+                "id=" + d_id +
+                ", value=" + d_value +
                 '}';
     }
 
