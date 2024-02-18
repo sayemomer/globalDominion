@@ -55,6 +55,9 @@ mvn build
     4. reinforcements validation- bonus reinforcements are valid
     5. Continent validation- returned list of continents owned by players is correct
     6. Country validation- the list of country IDs for a given continent is correct
+    7. player validation- add player command doesn't add players when map is full of players
+    8. player validation- remove player command doesn't remove a player that doesn't exist
+    9. player validation- checks if the number of players reduce after removing a player
 
 
 ```bash
