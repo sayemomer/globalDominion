@@ -44,6 +44,7 @@ mvn install
 mvn build
 ```
 
+
 ## Testing
 
 - [ ] Include at least 10 relevant test cases covering key aspects of the code as specified.
@@ -58,6 +59,11 @@ mvn build
     7. player validation- add player command doesn't add players when map is full of players
     8. player validation- remove player command doesn't remove a player that doesn't exist
     9. player validation- checks if the number of players reduce after removing a player
+    10. map validation- checks if the difference between assigned number of countries to each player is 1 at max
+    11. map validation- checks if the continent exist before adding a country to it
+    12. map validation- checks if the continent is removed correctly from game state
+    13. map validation- checks if the related countries are also removed after removing a continent
+    14. map validation- checks if the related connections are also removed after removing a country
 
 
 ```bash
