@@ -5,6 +5,7 @@ import models.GameState;
 import models.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ class PlayerControllerTest {
     }
 
     @Test
+    @DisplayName("player validation- add player command doesn't add players when map is full of players")
     void shouldNotAddMultiplePlayer() {
         String[] args = {"-add", "Mahdieh"};
         playerController.handleGamePlayerCommand(args);
@@ -45,12 +47,14 @@ class PlayerControllerTest {
     }
 
     @Test
+    @DisplayName("player validation- remove player command doesn't remove a player that doesn't exist")
     void shouldNotRemoveNonExistentPlayer() {
         String[] args = {"-remove", "Amir"};
         playerController.handleGamePlayerCommand(args);
     }
 
     @Test
+    @DisplayName("player validation- checks if the number of players reduce after removing a player")
     void shouldRemovePlayerCorrectly() {
         String[] args = {"-remove", "Mahdieh"};
         playerController.handleGamePlayerCommand(args);
