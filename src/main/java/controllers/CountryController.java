@@ -195,25 +195,46 @@ public class CountryController {
      */
     private void removeRelatedCountriesToContinent(int continentID) {
         StringBuilder outputString = new StringBuilder("As an effect to previous action, the following countries are removed:\n");
-        ArrayList<Country> deletedCountries = new ArrayList<>();
-        d_gameState.getCountries().forEach((id, country) -> {
+        ArrayList<Integer> coutriesToBeDeleted = new ArrayList<>();
+
+        for (Country country : d_gameState.getCountries().values()) {
             if (country.getContinentId() == continentID) {
-                deletedCountries.add(d_gameState.getCountries().remove(id));
+                coutriesToBeDeleted.add(country.getCountryId());
             }
-        });
+        }
+
+        coutriesToBeDeleted.forEach(countryId -> removeRelatedConnectionsToCountry(countryId));
+        coutriesToBeDeleted.forEach(countryId -> d_gameState.getCountries().remove(countryId));
+
+        ArrayList<Continent> deletedContinents = new ArrayList<>();
+
+        // remove empty countries
+        for (Continent continent : d_gameState.getContinents().values()) {
+            boolean foundCountry = false;
+            for (Country country : d_gameState.getCountries().values()) {
+                if (country.getContinentId() == continent.getContinentId()) {
+                    foundCountry = true;
+                    break;
+                }
+            }
+            if (!foundCountry) {
+                d_gameState.getContinents().remove(continent.getContinentId());
+                deletedContinents.add(continent);
+            }
+        }
+
         outputString.append("Removed countries: ");
-        deletedCountries.forEach(country -> outputString.append(country.getCountryId()).append(", "));
+        coutriesToBeDeleted.forEach(countryId -> outputString.append(countryId).append(", "));
+        outputString.append("\n");
+        outputString.append("Removed continents: ");
+        deletedContinents.forEach(continent -> outputString.append(continent.getContinentId()).append(", "));
         outputString.append("\n");
 
-        if (deletedCountries.isEmpty()) {
+        if (coutriesToBeDeleted.isEmpty() && deletedContinents.isEmpty()) {
             return;
         }
 
         System.out.println(outputString);
-
-        for (Country deletedCountry : deletedCountries) {
-            removeRelatedConnectionsToCountry(deletedCountry.getCountryId());
-        }
     }
 
     /**
