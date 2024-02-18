@@ -30,6 +30,13 @@ public class Country {
         numberOfReinforcements = 0;
     }
 
+    public Country(int p_countryId, String p_countryName, int p_continentId, List<Integer> p_adjacentCountries) {
+        this.d_countryId = p_countryId;
+        this.d_countryName = p_countryName;
+        this.d_adjacentCountries = p_adjacentCountries;
+        this.d_continentId = p_continentId;
+    }
+
     /**
      * Getters and Setters for the Country class
      */
@@ -73,7 +80,7 @@ public class Country {
      * @return true if removed successfully
      */
     public boolean removeAdjacentCountry(int p_adjacentCountryId) {
-        return this.d_adjacentCountries.remove(p_adjacentCountryId) != null;
+        return this.d_adjacentCountries.remove(p_adjacentCountryId)!=null;
     }
 
 
@@ -88,6 +95,15 @@ public class Country {
     }
 
     public void editNeighbor() {
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "countryId=" + d_countryId +
+                ", countryName='" + d_countryName + '\'' +
+                ", continentId=" + d_continentId +
+                '}';
     }
 
 }

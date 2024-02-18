@@ -42,7 +42,7 @@ public class Player {
             }
             d_orders.add(order);
             if (order instanceof DeployOrder) {
-                reduceReinforcementPoll(((DeployOrder)order).getNumReinforcements());
+                reduceReinforcementPoll(((DeployOrder) order).getNumReinforcements());
                 System.out.println(d_reinforcementPoll);
             }
             break;
@@ -137,6 +137,5 @@ public class Player {
     public void reduceReinforcementPoll(int p_reinforcement) {
         d_reinforcementPoll -= p_reinforcement;
     }
-
 
 }

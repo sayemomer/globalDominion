@@ -190,6 +190,7 @@ public class GameMapReader {
         System.out.println("3. Each country must have at least one connection.");
         System.out.println("4. The map must be a connected graph.");
         System.out.println("5. Each continent must be a connected subgraph.");
+        System.out.println("6. The map must not contain any self-loops.");
     }
 
     /**
@@ -200,18 +201,21 @@ public class GameMapReader {
 
     public boolean validateMap() {
 
+        //FIXME: move this to GameGrapgUtils
         // check if the map has atleast one continent
         if (d_continents.isEmpty()) {
             System.err.println("The map does not contain any continents.");
             printMapRules();
             return false;
         }
+        //FIXME: move this to GameGrapgUtils
         // check if the continents have atleast one country
         if (d_countries.isEmpty()) {
             System.err.println("The map does not contain any countries.");
             printMapRules();
             return false;
         }
+        //FIXME: move this to GameGrapgUtils
         //check if the coutry has atleast one connection
         for (Country country : d_countries.values()) {
             if (country.getAdjacentCountries().isEmpty()) {
@@ -228,6 +232,12 @@ public class GameMapReader {
             return false;
         }
 
+        //check if the contries have self loop using l_graphUtils.isSelfLoop
+        if (l_graphUtils.hasSelfLoop(d_countries)) {
+            printMapRules();
+            return false;
+        }
+
         // Check if each continent is a connected subgraph
         for (Continent continent : d_continents.values()) {
             if (!GameGraphUtils.isContinentConnected(d_countries, continent.getContinentId())) {
@@ -237,6 +247,7 @@ public class GameMapReader {
                 return false;
             }
         }
+
 
         // If all validations pass
         return true;

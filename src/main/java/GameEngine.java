@@ -21,6 +21,13 @@ public class GameEngine {
     OrderController orderController;
     GameState gameState;
 
+    /**
+     * This is the constructor for the GameEngine class.
+     *
+     * @param p_gameState The game state.
+     * @param p_scanner   The scanner object.
+     */
+
     public GameEngine(GameState p_gameState, Scanner p_scanner) {
         gameState = p_gameState;
         scanner = p_scanner;
@@ -38,11 +45,18 @@ public class GameEngine {
         // print number of reinforcements for each player
         for (Player player : gameState.getPlayers().values()) {
             Debug.log(player.getName() + " has " + player.getReinforcementPoll() + " reinforcements.");
+
         }
 
         issueOrdersPhase();
         executeOrdersPhase();
     }
+
+    /**
+     * This method is responsible for the startup phase of the game.
+     *
+     * @return 0 if the game should proceed to the next phase, 1 if the game should exit.
+     */
 
 
     int startUpPhase() {
@@ -57,35 +71,38 @@ public class GameEngine {
 
         while (true) {
 
-            String[] inputString = scanner.nextLine().toLowerCase().split("\\s+");
-            String command = inputString[0];
-            String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
+            //split the input string into command and arguments
 
-            if (command.equals("proceed")) {
+            String[] l_inputString = scanner.nextLine().toLowerCase().split("\\s+");
+            String l_command = l_inputString[0];
+            String[] l_args = Arrays.copyOfRange(l_inputString, 1, l_inputString.length);
+
+            if (l_command.equals("proceed")) {
                 System.out.println("Proceeding to the next phase...");
                 break;
-            } else if (command.equals("exit")) {
+            } else if (l_command.equals("exit")) {
                 System.out.println("Exiting the game...");
-                System.exit(0);
-            } else if (command.equals("help")) {
+            } else if (l_command.equals("help")) {
+
                 System.out.println("Available commands: ");
                 System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
                 System.out.println("  " + Command.LOAD_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-            } else if (command.equals(Command.GAME_PLAYER)) {
-                playerController.handleGamePlayerCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            } else if (command.equals(Command.LOAD_MAP)) {
-                mapController.handleLoadMapCommand(args);
-            } else if (command.equals(Command.SHOW_MAP)) {
+            } else if (l_command.equals(Command.SHOW_MAP)) {
                 gameState.printMap();
                 System.out.println("  " + Command.EDIT_MAP_SYNTAX);
                 System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-            } else if (command.equals(Command.EDIT_MAP)) {
-                if (mapController.handleEditMapCommand(args))
+            } else if (l_command.equals(Command.LOAD_MAP)) {
+                if (mapController.handleloadMapCommand(l_args))
                     mapEditPhase();
-            } else if (command.equals(Command.ASSIGN_COUNTRIES)) {
-                countryController.handleAssignCountriesCommand(args);
-            } else if (command.equals("back")) {
+            } else if (l_command.equals(Command.EDIT_MAP)) {
+                if (mapController.handleEditMapCommand(l_args))
+                    mapEditPhase();
+            } else if (l_command.equals(Command.ASSIGN_COUNTRIES)) {
+                countryController.handleAssignCountriesCommand(l_args);
+            } else if (l_command.equals(Command.GAME_PLAYER)) {
+                playerController.handleGamePlayerCommand(l_args);
+            } else if (l_command.equals("back")) {
                 return 1;
             } else {
                 System.out.println("Invalid input. Please try again.");
@@ -105,22 +122,25 @@ public class GameEngine {
         System.out.println(" - Add/Remove continents to/from the map.");
         System.out.println(" - Add/Remove countries to/from the map.");
         System.out.println(" - Add/Remove connections between countries.");
+        System.out.println(" - Validate the map.");
+        System.out.println(" - Save the map.");
+        System.out.println(" - Show the map.");
         System.out.println("Type 'help' to see the list of available commands.");
 
         while (true) {
 
-            String[] inputString = scanner.nextLine().toLowerCase().split("\\s+");
-            String command = inputString[0];
-            String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
+            String[] l_inputString = scanner.nextLine().toLowerCase().split("\\s+");
+            String l_command = l_inputString[0];
+            String[] l_args = Arrays.copyOfRange(l_inputString, 1, l_inputString.length);
 
 
-            if (command.equals("proceed")) {
+            if (l_command.equals("proceed")) {
                 System.out.println("Proceeding to the next phase...");
                 break;
-            } else if (command.equals("exit")) {
+            } else if (l_command.equals("exit")) {
                 System.out.println("Exiting the game...");
                 return;
-            } else if (command.equals("help")) {
+            } else if (l_command.equals("help")) {
                 System.out.println("Available commands: ");
                 System.out.println("  " + Command.EDIT_CONTINENT_SYNTAX);
                 System.out.println("  " + Command.EDIT_COUNTRY_SYNTAX);
@@ -128,23 +148,28 @@ public class GameEngine {
                 System.out.println("  " + Command.VALIDATE_MAP_SYNTAX);
                 System.out.println("  " + Command.SAVE_MAP_SYNTAX);
                 System.out.println("  " + Command.SHOW_MAP_SYNTAX);
-            } else if (command.equals(Command.VALIDATE_MAP)) {
-                mapController.handleValidateMapCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            } else if (command.equals(Command.EDIT_CONTINENT)) {
-                countryController.handleEditContinentCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            } else if (command.equals(Command.EDIT_COUNTRY)) {
-                countryController.handleEditCountryCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            } else if (command.equals(Command.EDIT_NEIGHBOR)) {
-                countryController.handleEditNeighborCommand(Arrays.copyOfRange(inputString, 1, inputString.length));
-            } else if (command.equals(Command.SAVE_MAP)) {
-                mapController.handleSaveMapCommand(args);
-            } else if (command.equals(Command.SHOW_MAP)) {
+
+            } else if (l_command.equals(Command.VALIDATE_MAP)) {
+                mapController.handleValidateMapCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
+            } else if (l_command.equals(Command.EDIT_CONTINENT)) {
+                countryController.handleEditContinentCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
+            } else if (l_command.equals(Command.EDIT_COUNTRY)) {
+                countryController.handleEditCountryCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
+            } else if (l_command.equals(Command.EDIT_NEIGHBOR)) {
+                countryController.handleEditNeighborCommand(Arrays.copyOfRange(l_inputString, 1, l_inputString.length));
+            } else if (l_inputString[0].equals(Command.SAVE_MAP)) {
+                mapController.handleSaveMapCommand(l_args);
+            } else if (l_command.equals(Command.SHOW_MAP)) {
                 gameState.printMap();
             } else {
                 System.out.println("Invalid input. Please try again.");
             }
         }
     }
+
+    /**
+     * This method is responsible for the game loop.
+     */
 
 
     void issueOrdersPhase() {
@@ -193,11 +218,4 @@ public class GameEngine {
             }
         }
     }
-
-    boolean isGameRunnable() {
-        // check if map is loaded
-        // check if all countries are correctly assigned
-        return true;
-    }
-
 }

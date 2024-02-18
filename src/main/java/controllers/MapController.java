@@ -27,14 +27,20 @@ public class MapController {
     /**
      * Constructor for the MapController class.
      *
-     * @param gameState The game state.
+     * @param gameState  The game state.
+     * @param d_filePath The file path of the map file.
      */
-
     public MapController(GameState gameState, String d_filePath) {
         this.d_gameMapReader = new GameMapReader(gameState);
         this.d_filePath = d_filePath;
         this.gameState = gameState;
     }
+
+    /**
+     * Constructor for the MapController class.
+     *
+     * @param gameState The game state.
+     */
 
 
     public MapController(GameState gameState) {
@@ -43,35 +49,18 @@ public class MapController {
         this.gameState = gameState;
     }
 
+    /**
+     * Constructor for the MapController class.
+     *
+     * @param d_filePath The file path of the map file.
+     */
+
     public MapController(String d_filePath) {
         this.gameState = new GameState();
         this.d_gameMapReader = new GameMapReader(gameState);
         this.d_filePath = d_filePath;
     }
 
-    /**
-     * Main method to test the MapController class.
-     *
-     * @param args The command-line arguments.
-     */
-
-    public static void main(String[] args) {
-        GameState gameState = new GameState();
-
-        MapController l_mapController = new MapController(gameState, "src/main/resources/canada.map");
-
-        try {
-            if (l_mapController.loadMap()) {
-                System.out.println("Map is valid.");
-                l_mapController.printContinents();
-                l_mapController.printCountries();
-            } else {
-                System.out.println("Map is invalid.");
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
-        }
-    }
 
     public String getFilePath() {
         return d_filePath;
@@ -136,6 +125,8 @@ public class MapController {
         return true;
     }
 
+    //save the map according to the gamestate continent and country list
+
     /**
      * Handles the save map command.
      *
@@ -159,8 +150,6 @@ public class MapController {
             System.out.println(e.getMessage());
         }
     }
-
-    //save the map according to the gamestate continent and country list
 
     /**
      * Saves the map to a file.
@@ -226,7 +215,6 @@ public class MapController {
         }
     }
 
-
     /**
      * Creates a new map file.
      *
@@ -260,15 +248,15 @@ public class MapController {
         return d_gameMapReader.validateMap();
     }
 
+
     /**
-     * Prints the continents and their details.
+     * Handles the load map command.
+     *
+     * @param p_args The command arguments.
+     * @return True if the map is valid, false otherwise.
      */
 
-    public void printContinents() {
-        d_gameMapReader.getContinents().forEach((id, continent) -> System.out.println(id + ": " + continent.getContinentName() + " (Bonus: " + continent.getContinentValue() + ", Color: " + continent.getColor() + ")"));
-    }
-
-    public boolean handleLoadMapCommand(String[] p_args) {
+    public boolean handleloadMapCommand(String[] p_args) {
         try {
 
             if (p_args.length != 1)
@@ -280,6 +268,7 @@ public class MapController {
                 throw new Exception("File does not exist.");
             }
 
+//            l_fileLocation = "src/main/resources/" + l_fileLocation;
             if (d_gameMapReader.parse(l_fileLocation)) {
                 System.out.println("Map is valid and loaded.");
             } else {
@@ -309,12 +298,12 @@ public class MapController {
     }
 
 
-    /**
-     * Handles the loadmap command.
-     *
-     * @param p_fileLocation The file location of the map file.
-     */
-    
+//    /**
+//     * Handles the loadmap command.
+//     *
+//     * @param p_fileLocation The file location of the map file.
+//     */
+
 //    public static void main(String[] args) {
 //        GameState gameState = new GameState();
 //
@@ -332,4 +321,5 @@ public class MapController {
 //            System.err.println("Error reading the file: " + e.getMessage());
 //        }
 //    }
+    
 }
