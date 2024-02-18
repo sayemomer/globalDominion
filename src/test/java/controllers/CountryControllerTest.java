@@ -5,6 +5,7 @@ import models.Country;
 import models.GameState;
 import models.Player;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ class CountryControllerTest {
 
 
     @Test
+    @DisplayName("map validation- checks if the difference between assigned number of countries to each player is 1 at max")
+
     void assignedCountryShouldDeferByOneTest() {
 
         countryController.handleAssignCountriesCommand(new String[]{});
@@ -67,24 +70,28 @@ class CountryControllerTest {
     }
 
     @Test
+    @DisplayName("map validation- checks if the continent exist before adding a country to it")
     void shouldNotAddCountryToNonExistingContinent() {
         countryController.handleEditCountryCommand(new String[]{"-add", "7", "7"});
         assertFalse(gameState.getCountries().containsKey(7));
     }
 
     @Test
+    @DisplayName("map validation- checks if the continent is removed correctly from game state")
     void removeContinentTest() {
         countryController.handleEditContinentCommand(new String[]{"-remove", "1"});
         assertFalse(gameState.getContinents().containsKey(1));
     }
 
     @Test
+    @DisplayName("map validation- checks if the related countries are also removed after removing a continent")
     void shouldRemoveRelatedCountriesWhenContinentRemoved() {
         countryController.handleEditContinentCommand(new String[]{"-remove", "1"});
         assertFalse(gameState.getCountries().containsKey(1));
     }
 
     @Test
+    @DisplayName("map validation- checks if the related connections are also removed after removing a country")
     void shouldRemoveRelatedConnectionsWhenCountryRemoved() {
         String[] args = {"-remove", "1"};
         countryController.handleEditCountryCommand(args);
