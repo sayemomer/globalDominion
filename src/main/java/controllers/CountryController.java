@@ -223,16 +223,15 @@ public class CountryController {
                 }
             }
             if (!foundCountry) {
-                d_gameState.getContinents().remove(continent.getContinentId());
                 deletedContinents.add(continent);
+                d_gameState.getContinents().remove(continent.getContinentId());
             }
         }
 
-        outputString.append("Removed countries: ");
-        coutriesToBeDeleted.forEach(countryId -> outputString.append(countryId).append(", "));
-        outputString.append("\n");
-        outputString.append("Removed continents: ");
-        deletedContinents.forEach(continent -> outputString.append(continent.getContinentId()).append(", "));
+        if (!coutriesToBeDeleted.isEmpty()) {
+            outputString.append("Removed countries: ");
+            coutriesToBeDeleted.forEach(countryId -> outputString.append(countryId).append(", "));
+        }
         outputString.append("\n");
 
         if (coutriesToBeDeleted.isEmpty() && deletedContinents.isEmpty()) {
