@@ -72,7 +72,7 @@ public class MapController {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SHOW_MAP_SYNTAX);
             gameState.showMap();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -83,16 +83,18 @@ public class MapController {
             if (d_gameMapReader.validateMap())
                 System.out.println("Map is valid.");
             else
-                System.out.println("Map is invalid.");
+                throw new Exception("Map is invalid.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
     /**
      * Handles the edit map command.
+     * creates a new map if the file does not exist
      *
      * @param p_args The command arguments.
+     * @return True if the map is valid, false otherwise.
      */
 
     public boolean handleEditMapCommand(String[] p_args) {
@@ -118,7 +120,7 @@ public class MapController {
             System.err.println("Error reading the file: " + e.getMessage());
             return false;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return false;
         }
 
@@ -144,10 +146,10 @@ public class MapController {
                 saveMap();
 
             } else {
-                System.out.println("Invalid file name. Please use the same file name as the current map.");
+                System.err.println("Invalid file name. Please use the same file name as the current map.");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -203,7 +205,7 @@ public class MapController {
             System.out.println("Map saved to: " + l_file.getAbsolutePath());
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         } finally {
             if (writer != null) {
                 try {
@@ -228,10 +230,10 @@ public class MapController {
                 System.out.println("File created: " + l_file.getName());
 
             } else {
-                System.out.println("File already exists.");
+                System.err.println("File already exists.");
             }
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.err.println("An error occurred.");
             e.printStackTrace();
         }
     }
@@ -263,12 +265,12 @@ public class MapController {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
 
             String l_fileLocation = p_args[0];
+            l_fileLocation = "src/main/resources/" + l_fileLocation;
             File l_file = new File(l_fileLocation);
             if (!l_file.exists()) {
                 throw new Exception("File does not exist.");
             }
 
-//            l_fileLocation = "src/main/resources/" + l_fileLocation;
             if (d_gameMapReader.parse(l_fileLocation)) {
                 System.out.println("Map is valid and loaded.");
             } else {
@@ -279,7 +281,7 @@ public class MapController {
             System.err.println("Error reading the file: " + e.getMessage());
             return false;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             return false;
         }
         return true;
@@ -321,5 +323,5 @@ public class MapController {
 //            System.err.println("Error reading the file: " + e.getMessage());
 //        }
 //    }
-    
+
 }
