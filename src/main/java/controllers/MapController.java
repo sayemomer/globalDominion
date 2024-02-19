@@ -9,7 +9,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -21,7 +20,7 @@ import java.util.Map;
 public class MapController {
 
     private final GameMapReader d_gameMapReader;
-    GameState gameState;
+    GameState d_gameState;
     private String d_filePath;
 
     /**
@@ -33,7 +32,7 @@ public class MapController {
     public MapController(GameState gameState, String d_filePath) {
         this.d_gameMapReader = new GameMapReader(gameState);
         this.d_filePath = d_filePath;
-        this.gameState = gameState;
+        this.d_gameState = gameState;
     }
 
     /**
@@ -41,12 +40,10 @@ public class MapController {
      *
      * @param gameState The game state.
      */
-
-
     public MapController(GameState gameState) {
         this.d_gameMapReader = new GameMapReader(gameState);
         this.d_filePath = "";
-        this.gameState = gameState;
+        this.d_gameState = gameState;
     }
 
     /**
@@ -54,10 +51,9 @@ public class MapController {
      *
      * @param d_filePath The file path of the map file.
      */
-
     public MapController(String d_filePath) {
-        this.gameState = new GameState();
-        this.d_gameMapReader = new GameMapReader(gameState);
+        this.d_gameState = new GameState();
+        this.d_gameMapReader = new GameMapReader(d_gameState);
         this.d_filePath = d_filePath;
     }
 
@@ -66,16 +62,11 @@ public class MapController {
         return d_filePath;
     }
 
-    public void handleShowMapCommand(String[] p_args) {
-        try {
-            if (p_args.length != 0)
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SHOW_MAP_SYNTAX);
-            gameState.showMap();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
+    /**
+     * Handles the validate command.
+     *
+     * @param p_args
+     */
     public void handleValidateMapCommand(String[] p_args) {
         try {
             if (p_args.length != 0)
@@ -103,16 +94,16 @@ public class MapController {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_MAP_SYNTAX);
             }
 
-            File f = new File(p_args[0]);
-            if (f.exists()) {
+            File l_file = new File(p_args[0]);
+            if (l_file.exists()) {
                 d_filePath = p_args[0];
-                gameState.setMapLoaded(loadMap());
+                d_gameState.setMapLoaded(loadMap());
             } else {
                 String l_fileLocation = "src/main/resources/" + p_args[0];
                 System.out.println("File does not exist. Creating a new map...");
                 createNewMap(l_fileLocation);
-                gameState.setCurrentFileName(l_fileLocation);
-                gameState.setMapLoaded(true);
+                d_gameState.setCurrentFileName(l_fileLocation);
+                d_gameState.setMapLoaded(true);
             }
 
 
@@ -127,27 +118,25 @@ public class MapController {
         return true;
     }
 
-    //save the map according to the gamestate continent and country list
 
     /**
      * Handles the save map command.
      *
      * @param p_args The command arguments.
      */
-
     public boolean handleSaveMapCommand(String[] p_args) {
         try {
             if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.SAVE_MAP_SYNTAX);
 
-            // save the map if the filename in the command is save as the filename in gameState
+            // save the map if the filename in the command is same as the filename in gameState
             // Save the continents and countries to the file
 
-            if (gameState.getCurrentFileName().equals(p_args[0])) {
+            if (d_gameState.getCurrentFileName().equals(p_args[0])) {
                 System.out.println("saving map ...");
                 if (d_gameMapReader.validateMap()) {
                     saveMap();
-                    gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
+                    d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
                     return true;
                 } else {
                     throw new Exception("Map is invalid.");
@@ -164,11 +153,10 @@ public class MapController {
     /**
      * Saves the map to a file.
      */
-
     public void saveMap() {
-        BufferedWriter writer = null;
+        BufferedWriter l_writer = null;
         try {
-            if (gameState.getCurrentFileName().equals("")) {
+            if (d_gameState.getCurrentFileName().equals("")) {
                 throw new Exception("No file name specified.");
             }
             // validate the map before saving
@@ -176,48 +164,48 @@ public class MapController {
                 throw new Exception("Map is invalid.");
             }
 
-            File l_file = new File("src/main/resources/" + gameState.getCurrentFileName());
+            File l_file = new File("src/main/resources/" + d_gameState.getCurrentFileName());
             if (l_file.exists()) {
                 l_file.delete();
             }
             l_file.createNewFile();
 
-            Map<Integer, Continent> l_continents = gameState.getContinents();
-            Map<Integer, Country> l_countries = gameState.getCountries();
+            Map<Integer, Continent> l_continents = d_gameState.getContinents();
+            Map<Integer, Country> l_countries = d_gameState.getCountries();
 
-            writer = new BufferedWriter(new FileWriter(l_file));
+            l_writer = new BufferedWriter(new FileWriter(l_file));
 
             // Save continents
-            writer.write("[continents]\n");
+            l_writer.write("[continents]\n");
             for (Continent continent : l_continents.values()) {
-                writer.write(continent.getContinentId() + " " + continent.getContinentValue() + "\n");
+                l_writer.write(continent.getContinentId() + " " + continent.getContinentValue() + "\n");
             }
 
             // Save countries
-            writer.write("\n[countries]\n");
+            l_writer.write("\n[countries]\n");
             int line = 1;
             for (Country country : l_countries.values()) {
-                writer.write(line + " " + country.getCountryId() + " " + country.getContinentId() + "\n");
+                l_writer.write(line + " " + country.getCountryId() + " " + country.getContinentId() + "\n");
                 line++;
             }
 
             // Assuming you have a method to get borders
-            writer.write("\n[borders]\n");
+            l_writer.write("\n[borders]\n");
             for (Country country : l_countries.values()) {
                 for (Integer neighborId : country.getAdjacentCountries()) {
-                    writer.write(country.getCountryId() + " " + neighborId + "\n");
+                    l_writer.write(country.getCountryId() + " " + neighborId + "\n");
                 }
             }
 
-            writer.close(); // Make sure to close the writer to flush and save data
+            l_writer.close(); // Make sure to close the writer to flush and save data
             System.out.println("Map saved to: " + l_file.getAbsolutePath());
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
-            if (writer != null) {
+            if (l_writer != null) {
                 try {
-                    writer.close();
+                    l_writer.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -230,7 +218,6 @@ public class MapController {
      *
      * @param p_filePath The file path of the new map file.
      */
-
     public void createNewMap(String p_filePath) {
         try {
             File l_file = new File(p_filePath);
@@ -252,7 +239,6 @@ public class MapController {
      * @return True if the map is valid, false otherwise.
      * @throws IOException If an I/O error occurs.
      */
-
     public boolean loadMap() throws IOException {
         d_gameMapReader.parse(d_filePath);
         return d_gameMapReader.validateMap();
@@ -265,10 +251,8 @@ public class MapController {
      * @param p_args The command arguments.
      * @return True if the map is valid, false otherwise.
      */
-
     public boolean handleloadMapCommand(String[] p_args) {
         try {
-
             if (p_args.length != 1)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
 
@@ -280,7 +264,7 @@ public class MapController {
 
             if (d_gameMapReader.parse(l_fileLocation)) {
                 System.out.println("Map is valid and loaded.");
-                gameState.setCurrentFileName(p_args[0]);
+                d_gameState.setCurrentFileName(p_args[0]);
             } else {
                 throw new Exception("Map is invalid.");
             }
@@ -298,7 +282,6 @@ public class MapController {
     /**
      * Prints the countries and their details.
      */
-
     public void printCountries() {
         d_gameMapReader.getCountries().forEach((id, country) -> {
             System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
@@ -306,30 +289,5 @@ public class MapController {
             System.out.println(" (Continent ID: " + country.getContinentId() + "])");
         });
     }
-
-
-//    /**
-//     * Handles the loadmap command.
-//     *
-//     * @param p_fileLocation The file location of the map file.
-//     */
-
-//    public static void main(String[] args) {
-//        GameState gameState = new GameState();
-//
-//        MapController l_mapController = new MapController("src/main/resources/canada.map", gameState);
-//
-//        try {
-//            if (l_mapController.loadMap()) {
-//                System.out.println("Map is valid.");
-//                l_mapController.printContinents();
-//                l_mapController.printCountries();
-//            } else {
-//                System.out.println("Map is invalid.");
-//            }
-//        } catch (IOException e) {
-//            System.err.println("Error reading the file: " + e.getMessage());
-//        }
-//    }
 
 }

@@ -26,8 +26,7 @@ public class Command {
     // options
     public static final String ADD = "-add";
     public static final String REMOVE = "-remove";
-
-
+    
     // command syntax
     public static final String GAME_PLAYER_SYNTAX = "gameplayer -add playername -remove playername";
     public static final String ASSIGN_COUNTRIES_SYNTAX = "assigncountries";
