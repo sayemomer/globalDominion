@@ -29,8 +29,8 @@ public class CountryController {
 
     public void handleAssignCountriesCommand(String[] p_args) {
 
-        Map<String, Player> players = d_gameState.getPlayers();
-        Map<Integer, Country> countries = d_gameState.getCountries();
+        Map<String, Player> l_players = d_gameState.getPlayers();
+        Map<Integer, Country> l_countries = d_gameState.getCountries();
 
         try {
             if (p_args.length != 0)
@@ -44,28 +44,28 @@ public class CountryController {
             // remove the previous action in case of reassigning countries
             d_gameState.removeAction(GameState.GameAction.COUNTRIES_ASSIGNED);
 
-            if (countries.size() < players.size())
+            if (l_countries.size() < l_players.size())
                 throw new Exception("Invalid number of Countries.");
 
-            for (Player player : players.values()) {
+            for (Player player : l_players.values()) {
                 player.removeAllCountries();
             }
             Debug.log("Removed all countries from players.");
 
-            List<Integer> countryIndices = new ArrayList<>(countries.keySet());
-            Collections.shuffle(countryIndices);
+            List<Integer> l_countryIndices = new ArrayList<>(l_countries.keySet());
+            Collections.shuffle(l_countryIndices);
 
-            ArrayList<String> playerKeySet = new ArrayList<>(players.keySet());
+            ArrayList<String> playerKeySet = new ArrayList<>(l_players.keySet());
 
-            int playerIndex = 0;
-            for (Integer index : countryIndices) {
-                Player player = players.get(playerKeySet.get(playerIndex));
-                player.addCountry(countries.get(index));
-                playerIndex = (playerIndex + 1) % playerKeySet.size();
+            int l_playerIndex = 0;
+            for (Integer index : l_countryIndices) {
+                Player player = l_players.get(playerKeySet.get(l_playerIndex));
+                player.addCountry(l_countries.get(index));
+                l_playerIndex = (l_playerIndex + 1) % playerKeySet.size();
             }
 
             System.out.println("Countries assigned to players.");
-            for (Player player : players.values()) {
+            for (Player player : l_players.values()) {
                 Debug.log(player.getName() + " has " + player.getCountries().size() + " countries:");
                 for (Country country : player.getCountries()) {
                     Debug.log("  " + country.getName());
@@ -199,46 +199,46 @@ public class CountryController {
      * @param continentID continent ID
      */
     private void removeRelatedCountriesToContinent(int continentID) {
-        StringBuilder outputString = new StringBuilder("As an effect to previous action, the following countries are removed:\n");
-        ArrayList<Integer> coutriesToBeDeleted = new ArrayList<>();
+        StringBuilder l_outputString = new StringBuilder("As an effect to previous action, the following countries are removed:\n");
+        ArrayList<Integer> l_coutriesToBeDeleted = new ArrayList<>();
 
         for (Country country : d_gameState.getCountries().values()) {
             if (country.getContinentId() == continentID) {
-                coutriesToBeDeleted.add(country.getCountryId());
+                l_coutriesToBeDeleted.add(country.getCountryId());
             }
         }
 
-        coutriesToBeDeleted.forEach(countryId -> removeRelatedConnectionsToCountry(countryId));
-        coutriesToBeDeleted.forEach(countryId -> d_gameState.getCountries().remove(countryId));
+        l_coutriesToBeDeleted.forEach(countryId -> removeRelatedConnectionsToCountry(countryId));
+        l_coutriesToBeDeleted.forEach(countryId -> d_gameState.getCountries().remove(countryId));
 
-        ArrayList<Continent> deletedContinents = new ArrayList<>();
+        ArrayList<Continent> l_deletedContinents = new ArrayList<>();
 
         // remove empty countries
         for (Continent continent : d_gameState.getContinents().values()) {
-            boolean foundCountry = false;
+            boolean l_foundCountry = false;
             for (Country country : d_gameState.getCountries().values()) {
                 if (country.getContinentId() == continent.getContinentId()) {
-                    foundCountry = true;
+                    l_foundCountry = true;
                     break;
                 }
             }
-            if (!foundCountry) {
-                deletedContinents.add(continent);
+            if (!l_foundCountry) {
+                l_deletedContinents.add(continent);
                 d_gameState.getContinents().remove(continent.getContinentId());
             }
         }
 
-        if (!coutriesToBeDeleted.isEmpty()) {
-            outputString.append("Removed countries: ");
-            coutriesToBeDeleted.forEach(countryId -> outputString.append(countryId).append(", "));
+        if (!l_coutriesToBeDeleted.isEmpty()) {
+            l_outputString.append("Removed countries: ");
+            l_coutriesToBeDeleted.forEach(countryId -> l_outputString.append(countryId).append(", "));
         }
-        outputString.append("\n");
+        l_outputString.append("\n");
 
-        if (coutriesToBeDeleted.isEmpty() && deletedContinents.isEmpty()) {
+        if (l_coutriesToBeDeleted.isEmpty() && l_deletedContinents.isEmpty()) {
             return;
         }
 
-        System.out.println(outputString);
+        System.out.println(l_outputString);
     }
 
     /**
@@ -248,16 +248,16 @@ public class CountryController {
      * @param countryID country ID
      */
     private void removeRelatedConnectionsToCountry(int countryID) {
-        StringBuilder outputString = new StringBuilder("As an effect to previous action, the following connections are removed:\n");
-        Country deletedCountry = d_gameState.getCountries().get(countryID);
+        StringBuilder l_outputString = new StringBuilder("As an effect to previous action, the following connections are removed:\n");
+        Country l_deletedCountry = d_gameState.getCountries().get(countryID);
         d_gameState.getCountries().forEach((id, country) -> {
             if (country.getAdjacentCountries().contains(countryID)) {
-                outputString.append(" ").append(country.getCountryId()).append(" -> ").append(deletedCountry.getCountryId()).append("\n");
+                l_outputString.append(" ").append(country.getCountryId()).append(" -> ").append(l_deletedCountry.getCountryId()).append("\n");
                 country.getAdjacentCountries().remove(new Integer(countryID));
             }
         });
 
-        System.out.println(outputString);
+        System.out.println(l_outputString);
     }
 
 
