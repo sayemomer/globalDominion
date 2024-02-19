@@ -39,7 +39,7 @@ class PlayerControllerTest {
     }
 
     @Test
-    @DisplayName("player validation- add player command doesn't add players when map is full of players")
+    @DisplayName("player validation- doesn't add multiple players with the same name")
     void shouldNotAddMultiplePlayer() {
         String[] args = {"-add", "Mahdieh"};
         playerController.handleGamePlayerCommand(args);

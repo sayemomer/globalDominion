@@ -55,7 +55,7 @@ class GameStateTest {
     }
 
     @Test
-    @DisplayName("reinforcements validation- bonus reinforcements are valid")
+    @DisplayName("reinforcements validation- check if bonus reinforcements are valid")
     void reinforcementBounsTest() {
         gameState.assignReinforcements();
         assertEquals(3, players.get("farid").getReinforcement());
@@ -64,7 +64,7 @@ class GameStateTest {
     }
 
     @Test
-    @DisplayName("Continent validation- returned list of continents owned by players is correct ")
+    @DisplayName("Continent validation- checks if returned list of continents owned by players is correct ")
     void getPlayerOwnedContinentsTest() {
 
         assertTrue(gameState.getPlayerOwnedContinents(players.get("farid")).isEmpty());
@@ -73,7 +73,7 @@ class GameStateTest {
     }
 
     @Test
-    @DisplayName("Country validation- the list of country IDs for a given continent is correct ")
+    @DisplayName("Country validation- checks if the list of country IDs for a given continent is correct ")
     void getCountryIDsInsideContinentTest() {
         ArrayList<Integer> c = gameState.getCountryIDsInsideContinent(2);
         assertTrue(c.contains(2));

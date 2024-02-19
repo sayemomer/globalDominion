@@ -54,7 +54,7 @@ class CountryControllerTest {
 
 
     @Test
-    @DisplayName("map validation- checks if the difference between assigned number of countries to each player is 1 at max")
+    @DisplayName("map validation- checks that the disparity in the number of assigned countries per player does not exceed one")
 
     void assignedCountryShouldDeferByOneTest() {
 
