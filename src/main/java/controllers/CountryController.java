@@ -1,16 +1,16 @@
 package controllers;
 
-import java.sql.Array;
 import java.util.*;
 
-import config.AppConfig;
 import config.Debug;
 import models.Country;
 import models.GameState;
 import models.Player;
 import models.Continent;
 
-
+/**
+ * The CountryController class is responsible for handling country related commands.
+ */
 public class CountryController {
     GameState d_gameState;
 

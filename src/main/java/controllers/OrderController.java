@@ -8,6 +8,9 @@ import models.Player;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * The OrderController class is responsible for handling the order commands.
+ */
 public class OrderController {
     private final GameState d_gameState;
     private static Scanner d_scanner;
@@ -49,7 +52,7 @@ public class OrderController {
      * handle deploy order command
      *
      * @param p_ownerPlayer can be any instance of player
-     * @param args  the command arguments
+     * @param args          the command arguments
      */
     public static DeployOrder handleDeployOrderCommand(String[] args, Player p_ownerPlayer) {
         int l_countryId;

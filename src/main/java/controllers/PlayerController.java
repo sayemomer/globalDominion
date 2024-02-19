@@ -4,10 +4,11 @@ import config.Debug;
 import models.GameState;
 import models.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The PlayerController class is responsible player related commands.
+ */
 public class PlayerController {
     private final GameState gameState;
 
