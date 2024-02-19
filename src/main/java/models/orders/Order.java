@@ -14,6 +14,9 @@ public class Order {
 
     }
 
+    /**
+     * This method must be overridden by the subclasses
+     */
     public void execute() {
 
     }
@@ -21,13 +24,9 @@ public class Order {
     public int getOrderID() {
         return d_orderId;
     }
-
+    
     public Player getOwnerPlayer() {
         return d_owner;
-    }
-
-    public boolean validate() {
-        return false;
     }
 
 }

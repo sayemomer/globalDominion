@@ -6,75 +6,120 @@ import java.util.List;
 /**
  * Country class to store the country details
  */
-
 public class Country {
     private int d_countryId;
     private String d_countryName;
     private List<Integer> d_adjacentCountries;
     private int d_continentId;
-    private int numberOfReinforcements;
+    private int d_numberOfReinforcements;
 
     /**
      * Constructor for Country
+     * has automatic name generation
+     * sets d_adjacentCountries to an empty list
      *
      * @param p_countryId   Id of the country
      * @param p_continentId Id of the continent
      */
     public Country(int p_countryId, int p_continentId) {
-        this.d_countryId = p_countryId;
-        this.d_countryName = String.valueOf(p_countryId);
-        this.d_continentId = p_continentId;
-        this.d_adjacentCountries = new ArrayList<>();
-        numberOfReinforcements = 0;
-    }
-
-    public Country(int p_countryId, String p_countryName, int p_continentId) {
-        this.d_countryId = p_countryId;
-        this.d_countryName = p_countryName;
-        this.d_adjacentCountries = new ArrayList<>();
-        this.d_continentId = p_continentId;
-        numberOfReinforcements = 0;
-    }
-
-    public Country(int p_countryId, String p_countryName, int p_continentId, List<Integer> p_adjacentCountries) {
-        this.d_countryId = p_countryId;
-        this.d_countryName = p_countryName;
-        this.d_adjacentCountries = p_adjacentCountries;
-        this.d_continentId = p_continentId;
+        d_countryId = p_countryId;
+        d_countryName = String.valueOf(p_countryId);
+        d_continentId = p_continentId;
+        d_adjacentCountries = new ArrayList<>();
+        d_numberOfReinforcements = 0;
     }
 
     /**
-     * Getters and Setters for the Country class
+     * Constructor for Country
+     * sets d_adjacentCountries to an empty list
+     *
+     * @param p_countryId   Id of the country
+     * @param p_countryName Name of the country
+     * @param p_continentId Id of the continent
      */
+    public Country(int p_countryId, String p_countryName, int p_continentId) {
+        d_countryId = p_countryId;
+        d_countryName = p_countryName;
+        d_adjacentCountries = new ArrayList<>();
+        d_continentId = p_continentId;
+        d_numberOfReinforcements = 0;
+    }
 
+    /**
+     * Constructor for Country
+     *
+     * @param p_countryId         Id of the country
+     * @param p_countryName       Name of the country
+     * @param p_continentId       Id of the continent
+     * @param p_adjacentCountries List of adjacent countries
+     */
+    public Country(int p_countryId, String p_countryName, int p_continentId, List<Integer> p_adjacentCountries) {
+        d_countryId = p_countryId;
+        d_countryName = p_countryName;
+        d_adjacentCountries = p_adjacentCountries;
+        d_continentId = p_continentId;
+    }
+
+    /**
+     * @return total number of reinforcements for current round.
+     */
     public int getNumberOfReinforcements() {
-        return numberOfReinforcements;
+        return d_numberOfReinforcements;
     }
 
+    /**
+     * Set the number of reinforcements for current round.
+     *
+     * @param p_reinforcements
+     */
     public void setNumberOfReinforcements(int p_reinforcements) {
-        numberOfReinforcements = p_reinforcements;
+        d_numberOfReinforcements = p_reinforcements;
     }
 
+    /**
+     * @return country id of the country
+     */
     public int getCountryId() {
         return d_countryId;
     }
 
+    /**
+     * Set the country id
+     *
+     * @param p_countryId
+     */
     public void setCountryId(int p_countryId) {
         this.d_countryId = p_countryId;
     }
 
+    /**
+     * @return country name
+     */
     public String getName() {
         return d_countryName;
     }
 
+    /**
+     * Set the country name
+     *
+     * @param p_countryName
+     */
     public void setName(String p_countryName) {
         this.d_countryName = p_countryName;
     }
 
+    /**
+     * @return list of adjacent country ids
+     */
     public List<Integer> getAdjacentCountries() {
         return d_adjacentCountries;
     }
 
+    /**
+     * adds adjacent country
+     *
+     * @param p_adjacentCountryId
+     */
     public void addAdjacentCountry(int p_adjacentCountryId) {
         this.d_adjacentCountries.add(p_adjacentCountryId);
     }
@@ -89,18 +134,11 @@ public class Country {
         return this.d_adjacentCountries.remove(p_adjacentCountryId) != null;
     }
 
-
+    /**
+     * @return continent id of the country
+     */
     public int getContinentId() {
         return d_continentId;
-    }
-
-    public void setPlayer() {
-    }
-
-    public void clearPlayer() {
-    }
-
-    public void editNeighbor() {
     }
 
     @Override

@@ -9,10 +9,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Player {
-    static private int d_totalPlayers = 0;
-    //    private int d_playerId;
     private String d_name;
-    private int d_playerStat;
     private int d_reinforcement;
     private int d_reinforcementPoll;
     private Queue<Order> d_orders;
@@ -22,12 +19,16 @@ public class Player {
 
     }
 
+    /**
+     * Constructor for the Player class
+     *
+     * @param p_name
+     */
     public Player(String p_name) {
-//        this.d_playerId = d_totalPlayers++;
-        this.d_name = p_name.toLowerCase();
-        this.d_countries = new ArrayList<>();
-        this.d_orders = new LinkedList<>();
-        this.d_reinforcement = this.d_reinforcementPoll = 0;
+        d_name = p_name.toLowerCase();
+        d_countries = new ArrayList<>();
+        d_orders = new LinkedList<>();
+        d_reinforcement = this.d_reinforcementPoll = 0;
     }
 
     /**
@@ -36,13 +37,13 @@ public class Player {
      */
     public void issueOrder() {
         while (true) {
-            Order order = OrderController.takeOrderCommands(this);
-            if (order == null || !OrderController.validateOrder(order)) {
+            Order l_order = OrderController.takeOrderCommands(this);
+            if (l_order == null || !OrderController.validateOrder(l_order)) {
                 continue;
             }
-            d_orders.add(order);
-            if (order instanceof DeployOrder) {
-                reduceReinforcementPoll(((DeployOrder) order).getNumReinforcements());
+            d_orders.add(l_order);
+            if (l_order instanceof DeployOrder) {
+                reduceReinforcementPoll(((DeployOrder) l_order).getNumReinforcements());
                 System.out.println(this.d_name + " has " + this.d_reinforcementPoll + " reinforcements left.");
             }
             break;
@@ -60,14 +61,6 @@ public class Player {
         return d_orders.poll();
     }
 
-//    public int getPlayerId() {
-//        return d_playerId;
-//    }
-
-//    public void setPlayerId(int p_playerId) {
-//        this.d_playerId = p_playerId;
-//    }
-
     public String getName() {
         return d_name;
     }
@@ -76,18 +69,15 @@ public class Player {
         this.d_name = p_name;
     }
 
-    public int getPlayerStat() {
-        return d_playerStat;
-    }
-
-    public void setPlayerStat(int p_playerStat) {
-        this.d_playerStat = p_playerStat;
-    }
-
     public int getReinforcement() {
         return d_reinforcement;
     }
 
+    /**
+     * number of owned countries divided by 3, with a minimum of 3
+     *
+     * @return the base reinforcement for the player
+     */
     public int getBaseReinforcement() {
         return Math.max(3, d_countries.size() / 3);
     }
@@ -96,19 +86,17 @@ public class Player {
         this.d_reinforcement = this.d_reinforcementPoll = p_reinforcement;
     }
 
-
     public Queue<Order> getOrders() {
         return d_orders;
-    }
-
-    public void setOrders(Order p_orders) {
-        this.d_orders.add(p_orders);
     }
 
     public ArrayList<Country> getCountries() {
         return d_countries;
     }
 
+    /**
+     * @return country ids of all the countries owned by the player
+     */
     public ArrayList<Integer> getCountryIds() {
         ArrayList<Integer> l_countryIds = new ArrayList<>();
         for (Country l_country : d_countries) {
