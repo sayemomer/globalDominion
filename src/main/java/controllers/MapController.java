@@ -145,9 +145,13 @@ public class MapController {
 
             if (gameState.getCurrentFileName().equals(p_args[0])) {
                 System.out.println("saving map ...");
-                saveMap();
-                gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
-                return true;
+                if (d_gameMapReader.validateMap()) {
+                    saveMap();
+                    gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
+                    return true;
+                } else {
+                    throw new Exception("Map is invalid.");
+                }
             } else {
                 System.err.println("Invalid file name. Please use the same file name as the current map.");
             }

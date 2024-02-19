@@ -94,6 +94,11 @@ public class CountryController {
             Country l_country = d_gameState.getCountries().get(l_countryID);
             Country l_neighbor = d_gameState.getCountries().get(l_neighborID);
 
+            if (l_country == null)
+                throw new Exception("Country does not exist.");
+            if (l_neighbor == null)
+                throw new Exception("Neighbor does not exist.");
+
             if (l_option.equals(Command.ADD)) {
                 if (l_country.getAdjacentCountries().contains(l_neighborID))
                     throw new Exception("Connection already exists.");
@@ -145,6 +150,8 @@ public class CountryController {
                     throw new Exception("Country does not exist.");
                 removeRelatedConnectionsToCountry(l_countryId);
                 d_gameState.getCountries().remove(l_countryId);
+            } else {
+                throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -180,6 +187,8 @@ public class CountryController {
                     throw new Exception("Continent does not exist.");
                 d_gameState.getContinents().remove(l_continentId);
                 removeRelatedCountriesToContinent(l_continentId);
+            } else {
+                throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -195,25 +204,45 @@ public class CountryController {
      */
     private void removeRelatedCountriesToContinent(int continentID) {
         StringBuilder outputString = new StringBuilder("As an effect to previous action, the following countries are removed:\n");
-        ArrayList<Country> deletedCountries = new ArrayList<>();
-        d_gameState.getCountries().forEach((id, country) -> {
+        ArrayList<Integer> coutriesToBeDeleted = new ArrayList<>();
+
+        for (Country country : d_gameState.getCountries().values()) {
             if (country.getContinentId() == continentID) {
-                deletedCountries.add(d_gameState.getCountries().remove(id));
+                coutriesToBeDeleted.add(country.getCountryId());
             }
-        });
-        outputString.append("Removed countries: ");
-        deletedCountries.forEach(country -> outputString.append(country.getCountryId()).append(", "));
+        }
+
+        coutriesToBeDeleted.forEach(countryId -> removeRelatedConnectionsToCountry(countryId));
+        coutriesToBeDeleted.forEach(countryId -> d_gameState.getCountries().remove(countryId));
+
+        ArrayList<Continent> deletedContinents = new ArrayList<>();
+
+        // remove empty countries
+        for (Continent continent : d_gameState.getContinents().values()) {
+            boolean foundCountry = false;
+            for (Country country : d_gameState.getCountries().values()) {
+                if (country.getContinentId() == continent.getContinentId()) {
+                    foundCountry = true;
+                    break;
+                }
+            }
+            if (!foundCountry) {
+                deletedContinents.add(continent);
+                d_gameState.getContinents().remove(continent.getContinentId());
+            }
+        }
+
+        if (!coutriesToBeDeleted.isEmpty()) {
+            outputString.append("Removed countries: ");
+            coutriesToBeDeleted.forEach(countryId -> outputString.append(countryId).append(", "));
+        }
         outputString.append("\n");
 
-        if (deletedCountries.isEmpty()) {
+        if (coutriesToBeDeleted.isEmpty() && deletedContinents.isEmpty()) {
             return;
         }
 
         System.out.println(outputString);
-
-        for (Country deletedCountry : deletedCountries) {
-            removeRelatedConnectionsToCountry(deletedCountry.getCountryId());
-        }
     }
 
     /**
