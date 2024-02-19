@@ -53,18 +53,19 @@ mvn build
     1. Map validation – checks if map is a connected graph
     2. Continent validation – checks if continent is a connected subgraph
     3. Map validation – checks if map doesn't has self loop
-    4. reinforcements validation- checks if bonus reinforcements are valid
-    5. Continent validation- checks if returned list of continents owned by players is correct
-    6. Country validation- checks if the list of country IDs for a given continent is correct
-    7. player validation- checks if add player command doesn't add players when map is full of players
-    8. player validation- checks if remove player command doesn't remove a player that doesn't exist
-    9. player validation- checks if the number of players reduce after removing a player
-    10. map validation- checks that the disparity in the number of assigned countries per player does not exceed one
-    11. map validation- checks if the continent exist before adding a country to it
-    12. map validation- checks if the continent is removed correctly from game state
-    13. map validation- checks if the related countries are also removed after removing a continent
-    14. map validation- checks if the related connections are also removed after removing a country
-
+- GameState tests:
+    1. Country validation- checks if the list of country IDs for a given continent is correct
+    2. Continent validation- checks if returned list of continents owned by players is correct 
+    3. reinforcements validation- check if assign reinforcements works correctly
+ - Controllers tests:
+    1. player validation- checks if add player command doesn't add multiple players with the same name
+    2. player validation- checks if remove player command doesn't remove a player that doesn't exist
+    3. player validation- checks if the number of players reduce after removing a player
+    4. map edit- checks if the related countries are also removed after removing a continent
+    5. map edit- checks if the related connections are also removed after removing a country
+    6. map edit- checks that the disparity in the number of assigned countries per player does not exceed one
+    7. map edit- checks if the continent exist before adding a country to it
+    8. map edit- checks if the continent is removed correctly from game state
 
 ```bash
 # command to run test
