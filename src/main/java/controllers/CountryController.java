@@ -150,6 +150,8 @@ public class CountryController {
                     throw new Exception("Country does not exist.");
                 removeRelatedConnectionsToCountry(l_countryId);
                 d_gameState.getCountries().remove(l_countryId);
+            } else {
+                throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -185,6 +187,8 @@ public class CountryController {
                     throw new Exception("Continent does not exist.");
                 d_gameState.getContinents().remove(l_continentId);
                 removeRelatedCountriesToContinent(l_continentId);
+            } else {
+                throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -37,15 +37,15 @@ public class PlayerController {
                 players.put(newPlayer.getName(), newPlayer);
                 Debug.log("Player " + newPlayer + " added.");
                 gameState.setActionDone(GameState.GameAction.PlAYERS_ADDED);
-            }
-
-            if (l_option.equals(Command.REMOVE)) {
+            } else if (l_option.equals(Command.REMOVE)) {
                 if (!players.containsKey(l_name))
                     throw new Exception("Player not found.");
 
                 System.out.println(("Player " + players.remove(l_name) + " removed."));
                 if (gameState.getPlayers().isEmpty())
                     gameState.removeAction(GameState.GameAction.PlAYERS_ADDED);
+            } else {
+                throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.GAME_PLAYER_SYNTAX);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
