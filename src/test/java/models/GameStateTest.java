@@ -2,6 +2,7 @@ package models;
 
 import controllers.CountryController;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ class GameStateTest {
     }
 
     @Test
+    @DisplayName("reinforcements validation- check if bonus reinforcements are valid")
     void reinforcementBounsTest() {
         gameState.assignReinforcements();
         assertEquals(3, players.get("farid").getReinforcement());
@@ -62,6 +64,7 @@ class GameStateTest {
     }
 
     @Test
+    @DisplayName("Continent validation- checks if returned list of continents owned by players is correct ")
     void getPlayerOwnedContinentsTest() {
 
         assertTrue(gameState.getPlayerOwnedContinents(players.get("farid")).isEmpty());
@@ -70,6 +73,7 @@ class GameStateTest {
     }
 
     @Test
+    @DisplayName("Country validation- checks if the list of country IDs for a given continent is correct ")
     void getCountryIDsInsideContinentTest() {
         ArrayList<Integer> c = gameState.getCountryIDsInsideContinent(2);
         assertTrue(c.contains(2));
