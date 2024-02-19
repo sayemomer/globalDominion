@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * The Debug class is responsible for logging messages to the console and a log file.
+ */
 public class Debug {
     private static final String logFile = "log.txt";
 
