@@ -107,20 +107,43 @@ public class GameState {
      */
     public void printMap() {
 
-        //check if the continents and countries are empty
-        if (continents.isEmpty() && countries.isEmpty()) {
-            System.out.println("No map loaded.");
+        //check if the map is loaded based on the gameState action
+        if (!isActionDone(GameAction.VALID_MAP_LOADED)) {
+            System.out.println("No map is loaded.");
             return;
         }
 
-        System.out.println("Continents: ");
-        continents.forEach((id, continent) -> System.out.println(id + ": " + continent.getContinentName() + " (Bonus: " + continent.getContinentValue() + ", Color: " + continent.getColor() + ")"));
-        System.out.println("Countries: ");
-        countries.forEach((id, country) -> {
-            System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
-            country.getAdjacentCountries().forEach(connectedId -> System.out.print(countries.get(connectedId).getName() + "->"));
-            System.out.println(" (Continent ID: " + country.getContinentId() + "])");
-        });
+        // based on the gameState action , if the COUNTRIES_ASSIGNED is true then print the countries and continents
+        // as per the players designated countries
+
+        if (isActionDone(GameAction.COUNTRIES_ASSIGNED)) {
+
+            for (Player l_player : getPlayers().values()) {
+
+                // shows all countries and continents, armies on each country, ownership, and connectivity in a way that enables efficient game play
+                //random different colors for each player
+                System.out.println("Player: " + l_player.getName() + " (Reinforcements: " + l_player.getReinforcement() + ")");
+                for (int l_countryID : l_player.getCountryIds()) {
+                    Country l_country = countries.get(l_countryID);
+                    System.out.print("CountryID: " + l_countryID +  " is connected to: ");
+                    l_country.getAdjacentCountries().forEach(connectedId -> System.out.print(countries.get(connectedId).getCountryId() + "->"));
+                    System.out.println(" (Reinforcements: " + l_country.getNumberOfReinforcements() + "])");
+                    System.out.println(" (Continent ID: " + l_country.getContinentId() + "])");
+                }
+
+                System.out.println("=====================================");
+            }
+            return;
+        }else {
+            System.out.println("Continents: ");
+            continents.forEach((id, continent) -> System.out.println(id + ": " + continent.getContinentName() + " (Bonus: " + continent.getContinentValue() + ", Color: " + continent.getColor() + ")"));
+            System.out.println("Countries: ");
+            countries.forEach((id, country) -> {
+                System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
+                country.getAdjacentCountries().forEach(connectedId -> System.out.print(countries.get(connectedId).getName() + "->"));
+                System.out.println(" (Continent ID: " + country.getContinentId() + "])");
+            });
+        }
     }
 
     /**
