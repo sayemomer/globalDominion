@@ -9,51 +9,63 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class OrderController {
-    private final GameState gameState;
-    private static Scanner scanner;
+    private final GameState d_gameState;
+    private static Scanner d_scanner;
 
     public OrderController(GameState p_gameState, Scanner p_scanner) {
-        gameState = p_gameState;
-        scanner = p_scanner;
+        d_gameState = p_gameState;
+        d_scanner = p_scanner;
     }
+
+    /**
+     * take order commands
+     *
+     * @param p_ownerPlayer can be any instance of player
+     */
 
 
     public static Order takeOrderCommands(Player p_ownerPlayer) {
         System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
-        Order order = null;
-        while (order == null) {
-            String[] inputString = scanner.nextLine().toLowerCase().split("\\s+");
+        Order l_order = null;
+        while (l_order == null) {
+            String[] inputString = d_scanner.nextLine().toLowerCase().split("\\s+");
             String command = inputString[0];
             String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
             if (command.equals("exit")) {
                 System.out.println("Exiting the game...");
                 System.exit(0);
             } else if (command.equals(Command.DEPLOY)) {
-                order = handleDeployOrderCommand(args, p_ownerPlayer);
+                l_order = handleDeployOrderCommand(args, p_ownerPlayer);
                 break;
             } else {
                 System.out.println("Invalid command. Please try again.");
             }
         }
 
-        return order;
+        return l_order;
     }
 
+    /**
+     * handle deploy order command
+     *
+     * @param p_ownerPlayer can be any instance of player
+     * @param args  the command arguments
+     */
     public static DeployOrder handleDeployOrderCommand(String[] args, Player p_ownerPlayer) {
-        int countryId;
-        int numReinforcements;
+        int l_countryId;
+        int l_numReinforcements;
         try {
             if (args.length != 2) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.DEPLOY_SYNTAX);
             }
 
-            countryId = Integer.parseInt(args[0]);
-            numReinforcements = Integer.parseInt(args[1]);
+            l_countryId = Integer.parseInt(args[0]);
+            l_numReinforcements = Integer.parseInt(args[1]);
 
-            if (!p_ownerPlayer.getCountryIds().contains(countryId)) {
+            if (!p_ownerPlayer.getCountryIds().contains(l_countryId)) {
                 throw new Exception("The given country is not owned by the player. Please try again.");
             }
-            if (numReinforcements < 0) {
+            if (l_numReinforcements < 0) {
                 throw new Exception("Invalid number of reinforcement. Please try again.");
             }
         } catch (NumberFormatException e) {
@@ -63,7 +75,7 @@ public class OrderController {
             System.out.println(e.getMessage());
             return null;
         }
-        return new DeployOrder(p_ownerPlayer, countryId, numReinforcements);
+        return new DeployOrder(p_ownerPlayer, l_countryId, l_numReinforcements);
     }
 
     /**
