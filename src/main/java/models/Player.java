@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * The Player class is responsible for keeping track of the player's state.
+ */
 public class Player {
     private String d_name;
     private int d_reinforcement;
