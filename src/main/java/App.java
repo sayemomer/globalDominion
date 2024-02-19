@@ -4,8 +4,8 @@ import config.Debug;
 public class App {
     public static void main(String[] args) {
 
-        AppConfig.setDebugMode(true);
-        AppConfig.setVerboseMode(true);
+        AppConfig.setDebugMode(false);
+        AppConfig.setVerboseMode(false);
 
         Debug.log("Game started.");
         Debug.log("verboseMode is " + (AppConfig.isVerboseMode() ? "on" : "off"));

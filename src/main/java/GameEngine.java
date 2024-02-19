@@ -35,8 +35,7 @@ public class GameEngine {
         mapController = new MapController(gameState);
         countryController = new CountryController(gameState);
         orderController = new OrderController(gameState, scanner);
-
-
+        
         // print number of reinforcements for each player
         for (Player player : gameState.getPlayers().values()) {
             Debug.log(player.getName() + " has " + player.getReinforcementPoll() + " reinforcements.");
@@ -45,6 +44,10 @@ public class GameEngine {
 
     }
 
+    /**
+     * This method is the main game loop.
+     * It calls the startUpPhase, issueOrdersPhase, and executeOrdersPhase methods.
+     */
     public void mainGameLoop() {
         // This loop continues until the user has 1. loaded a valid map, 2. added players, and 3. assigned countries.
         while (true) {
@@ -70,6 +73,7 @@ public class GameEngine {
 
     /**
      * This method is responsible for the startup phase of the game.
+     * gets user input and calls the appropriate method in the controllers.
      */
     void startUpPhase() {
         System.out.println("*-*-* STARTUP PHASE *-*-*");
@@ -178,7 +182,7 @@ public class GameEngine {
     }
 
     /**
-     * This method is responsible for the game loop.
+     * This method is responsible for the issueOrders phase of the game.
      */
     void issueOrdersPhase() {
 
@@ -210,9 +214,13 @@ public class GameEngine {
         }
     }
 
+    /**
+     * This method is responsible for the executeOrders phase of the game.
+     */
     void executeOrdersPhase() {
         System.out.println("Executing orders...");
         boolean anOrderExecuted = true;
+        // continues until no orders are left to execute
         while (anOrderExecuted) {
             anOrderExecuted = false;
             for (Player player : gameState.getPlayers().values()) {
@@ -230,6 +238,6 @@ public class GameEngine {
                 System.out.println(gameState.getCountries().get(countryId).getName() + " with " + gameState.getCountries().get(countryId).getNumberOfReinforcements() + " reinforcements.");
             }
         }
-        
+
     }
 }

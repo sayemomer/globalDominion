@@ -66,9 +66,9 @@ public class CountryController {
 
             System.out.println("Countries assigned to players.");
             for (Player player : players.values()) {
-                Debug.log(player.getName() + " has " + player.getCountries().size() + " countries:");
+                System.out.println((player.getName() + " has " + player.getCountries().size() + " countries:"));
                 for (Country country : player.getCountries()) {
-                    Debug.log("  " + country.getName());
+                    System.out.println("  " + country.getName());
                 }
             }
             d_gameState.setActionDone(GameState.GameAction.COUNTRIES_ASSIGNED);
@@ -178,7 +178,6 @@ public class CountryController {
                     throw new Exception("Continent already exists.");
                 d_gameState.getContinents().put(l_continentId, new Continent(l_continentId, l_bonus));
                 System.out.println("Added continent: " + l_continentId + " with bonus: " + l_bonus);
-                d_gameState.printMap();
                 //TODO: handle the savemap command
             } else if (l_option.equals(Command.REMOVE)) {
                 if (!d_gameState.getContinents().containsKey(l_continentId))
