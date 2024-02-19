@@ -50,16 +50,16 @@ mvn build
 - [ ] Include at least 10 relevant test cases covering key aspects of the code as specified.
 
 - Map tests :
-    1. Map validation – map is a connected graph
-    2. Continent validation – continent is a connected subgraph
-    3. Map validation – map doesn't has self loop
-    4. reinforcements validation- bonus reinforcements are valid
-    5. Continent validation- returned list of continents owned by players is correct
-    6. Country validation- the list of country IDs for a given continent is correct
-    7. player validation- add player command doesn't add players when map is full of players
-    8. player validation- remove player command doesn't remove a player that doesn't exist
+    1. Map validation – checks if map is a connected graph
+    2. Continent validation – checks if continent is a connected subgraph
+    3. Map validation – checks if map doesn't has self loop
+    4. reinforcements validation- checks if bonus reinforcements are valid
+    5. Continent validation- checks if returned list of continents owned by players is correct
+    6. Country validation- checks if the list of country IDs for a given continent is correct
+    7. player validation- checks if add player command doesn't add players when map is full of players
+    8. player validation- checks if remove player command doesn't remove a player that doesn't exist
     9. player validation- checks if the number of players reduce after removing a player
-    10. map validation- checks if the difference between assigned number of countries to each player is 1 at max
+    10. map validation- checks that the disparity in the number of assigned countries per player does not exceed one
     11. map validation- checks if the continent exist before adding a country to it
     12. map validation- checks if the continent is removed correctly from game state
     13. map validation- checks if the related countries are also removed after removing a continent
