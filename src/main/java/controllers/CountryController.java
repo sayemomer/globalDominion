@@ -141,7 +141,7 @@ public class CountryController {
                 if (!d_gameState.getContinents().containsKey(l_continentID))
                     throw new Exception("Continent does not exist.");
 
-                d_gameState.getCountries().put(l_countryId, new Country(l_countryId, "", l_continentID));
+                d_gameState.getCountries().put(l_countryId, new Country(l_countryId, l_continentID));
                 System.out.println("Added country: " + l_countryId + " to continent: " + l_continentID);
             } else if (l_option.equals(Command.REMOVE)) {
                 if (!(p_args.length == 2))
