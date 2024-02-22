@@ -45,6 +45,7 @@ public class PlayerController {
                 System.out.println(("Player " + l_name + " removed."));
                 if (gameState.getPlayers().isEmpty())
                     gameState.removeAction(GameState.GameAction.PlAYERS_ADDED);
+                l_players.remove(l_name);
             } else {
                 throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.GAME_PLAYER_SYNTAX);
             }
