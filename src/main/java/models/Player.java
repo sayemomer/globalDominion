@@ -35,21 +35,16 @@ public class Player {
     }
 
     /**
-     * this method should not have any parameters and return value
+     * this method should not have any parameters and does not return value
      * adds an order to the list of orders when the game engine calls it during the issue orders phase.
      */
     public void issueOrder() {
         while (true) {
             Order l_order = OrderController.takeOrderCommands(this);
-            if (l_order == null || !OrderController.validateOrder(l_order)) {
-                continue;
+            if (l_order != null) {
+                d_orders.add(l_order);
+                break;
             }
-            d_orders.add(l_order);
-            if (l_order instanceof DeployOrder) {
-                reduceReinforcementPoll(((DeployOrder) l_order).getNumReinforcements());
-                System.out.println(this.d_name + " has " + this.d_reinforcementPoll + " reinforcements left.");
-            }
-            break;
         }
     }
 
