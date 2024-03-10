@@ -72,6 +72,7 @@ public class CountryController {
                 }
             }
             d_gameState.setActionDone(GameState.GameAction.COUNTRIES_ASSIGNED);
+            d_gameState.assignReinforcements();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

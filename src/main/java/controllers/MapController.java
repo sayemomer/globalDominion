@@ -73,8 +73,10 @@ public class MapController {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.VALIDATE_MAP_SYNTAX);
             if (d_gameMapReader.validateMap())
                 System.out.println("Map is valid.");
-            else
+            else {
+                d_gameState.removeAction(GameState.GameAction.VALID_MAP_LOADED);
                 throw new Exception("Map is invalid.");
+            }
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -139,6 +141,7 @@ public class MapController {
                     d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
                     return true;
                 } else {
+                    d_gameState.removeAction(GameState.GameAction.VALID_MAP_LOADED);
                     throw new Exception("Map is invalid.");
                 }
             } else {
@@ -161,6 +164,7 @@ public class MapController {
             }
             // validate the map before saving
             if (!d_gameMapReader.validateMap()) {
+
                 throw new Exception("Map is invalid.");
             }
 
@@ -264,6 +268,7 @@ public class MapController {
 
             if (d_gameMapReader.parse(l_fileLocation)) {
                 System.out.println("Map is valid and loaded.");
+                d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
                 d_gameState.setCurrentFileName(p_args[0]);
             } else {
                 throw new Exception("Map is invalid.");

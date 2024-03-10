@@ -144,7 +144,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" + d_name + '}';
+        return "Player{" + d_name + ", reinforcements: " + d_reinforcement + '}';
     }
 
     /**

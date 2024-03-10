@@ -65,6 +65,5 @@ public class DeployOrder extends Order {
     public String toString() {
         return "DeployOrder{" + d_owner + " deployed + " + d_numReinforcements + " reinforcements to country " + d_countryId + "}";
     }
-
-
+    
 }
