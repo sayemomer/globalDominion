@@ -3,34 +3,36 @@ package models.orders;
 import models.GameState;
 import models.Player;
 
-public class Order {
-    private int d_orderId;
+public abstract class Order {
 
-    protected GameState d_gameState;
+    protected final GameState d_gameState;
+    protected final Player d_owner;
 
-
-
-    public Order(GameState p_gameState) {
-        this.d_gameState = p_gameState;
-    }
-
-    public Order() {
-
+    public Order(GameState p_gameState, Player p_owner) {
+        assert p_gameState != null;
+        assert p_owner != null;
+        d_gameState = p_gameState;
+        d_owner = p_owner;
     }
 
     /**
-     * This method must be overridden by the subclasses
+     * avoid creating Order without gameState or owner
      */
-    public void execute() {
-
+    private Order() {
+        d_gameState = null;
+        d_owner = null;
     }
 
-    public int getOrderID() {
-        return d_orderId;
-    }
-    
-    public GameState getGameState() {
-        return d_gameState;
-    }
+    /**
+     * This method must be overridden by the subclasses.
+     * executes the order
+     */
+    public abstract void execute();
+
+    /**
+     * This method must be overridden by the subclasses.
+     * validates the order
+     */
+    protected abstract void validate();
 
 }
