@@ -12,7 +12,7 @@ import java.util.Scanner;
  * The OrderController class is responsible for handling the order commands.
  */
 public class OrderController {
-    private final GameState d_gameState;
+    private static GameState d_gameState;
     private static Scanner d_scanner;
 
     public OrderController(GameState p_gameState, Scanner p_scanner) {
@@ -78,7 +78,7 @@ public class OrderController {
             System.out.println(e.getMessage());
             return null;
         }
-        return new DeployOrder(p_ownerPlayer, l_countryId, l_numReinforcements);
+        return new DeployOrder(d_gameState, l_countryId, l_numReinforcements);
     }
 
     /**
@@ -86,10 +86,10 @@ public class OrderController {
      *
      * @param p_order can be any instance of Order
      */
-    public static boolean validateOrder(Order p_order) {
+    public static boolean validateOrder(Order p_order, Player p_player) {
         try {
             if (p_order instanceof DeployOrder) {
-                validateDeployOrder((DeployOrder) p_order);
+                validateDeployOrder((DeployOrder) p_order, p_player);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -104,11 +104,10 @@ public class OrderController {
      * @param p_order must be an instance of DeployOrder
      * @throws Exception if the order is not in players territories or if the player does not have enough reinforcements
      */
-    public static void validateDeployOrder(DeployOrder p_order) throws Exception {
-        Player l_player = p_order.getOwnerPlayer();
-        if (p_order.getNumReinforcements() > l_player.getReinforcementPoll())
+    public static void validateDeployOrder(DeployOrder p_order, Player p_player) throws Exception {
+        if (p_order.getNumReinforcements() > p_player.getReinforcement())
             throw new Exception("The player does not have enough reinforcements. Please try again.");
-        if (!l_player.getCountryIds().contains(p_order.getCountryId()))
+        if (!p_player.getCountryIds().contains(p_order.getCountryId()))
             throw new Exception("The given country is not owned by the player. Please try again.");
     }
 

@@ -48,6 +48,7 @@ class GameStateTest {
         countries.put(5, new Country(5, "Canada", 3));
 
 
+
         p1.addCountry(countries.get(1));
         p2.addCountry(countries.get(2));
         p2.addCountry(countries.get(3));

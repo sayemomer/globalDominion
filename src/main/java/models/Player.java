@@ -41,7 +41,7 @@ public class Player {
     public void issueOrder() {
         while (true) {
             Order l_order = OrderController.takeOrderCommands(this);
-            if (l_order == null || !OrderController.validateOrder(l_order)) {
+            if (l_order == null || !OrderController.validateOrder(l_order, this)) {
                 continue;
             }
             d_orders.add(l_order);
