@@ -67,7 +67,7 @@ public class CountryController {
             System.out.println("Countries assigned to players.");
             for (Player player : players.values()) {
                 System.out.println((player.getName() + " has " + player.getCountries().size() + " countries:"));
-                for (Country country : player.getCountries()) {
+                for (Country country : player.getCountries().values()) {
                     System.out.println("  " + country.getName());
                 }
             }

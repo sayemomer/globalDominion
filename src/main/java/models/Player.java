@@ -4,9 +4,7 @@ import controllers.OrderController;
 import models.orders.DeployOrder;
 import models.orders.Order;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * The Player class is responsible for keeping track of the player's state.
@@ -16,7 +14,7 @@ public class Player {
     private int d_reinforcement;
     private int d_reinforcementPoll;
     private Queue<Order> d_orders;
-    private ArrayList<Country> d_countries;
+    private Map<Integer, Country> d_countries;
 
     public Player() {
 
@@ -29,7 +27,7 @@ public class Player {
      */
     public Player(String p_name) {
         d_name = p_name.toLowerCase();
-        d_countries = new ArrayList<>();
+        d_countries = new HashMap<>();
         d_orders = new LinkedList<>();
         d_reinforcement = this.d_reinforcementPoll = 0;
     }
@@ -111,7 +109,7 @@ public class Player {
     /**
      * @return the list of all the countries the player owns
      */
-    public ArrayList<Country> getCountries() {
+    public Map<Integer, Country> getCountries() {
         return d_countries;
     }
 
@@ -120,7 +118,7 @@ public class Player {
      */
     public ArrayList<Integer> getCountryIds() {
         ArrayList<Integer> l_countryIds = new ArrayList<>();
-        for (Country l_country : d_countries) {
+        for (Country l_country : d_countries.values()) {
             l_countryIds.add(l_country.getCountryId());
         }
         return l_countryIds;
@@ -132,7 +130,7 @@ public class Player {
      * @param p_country
      */
     public void addCountry(Country p_country) {
-        this.d_countries.add(p_country);
+        this.d_countries.put(p_country.getCountryId(), p_country);
     }
 
     /**
