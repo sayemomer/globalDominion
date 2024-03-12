@@ -56,20 +56,16 @@ public class OrderControllerTest {
         countries.put(3, new Country(3, "USA", 1));
         countries.put(4, new Country(4, "Iraq", 1));
 
-
-
         // assign countries to players
         p1.addCountry(countries.get(1));
         p2.addCountry(countries.get(4));
 
         p3.addCountry(countries.get(2));
         p3.addCountry(countries.get(3));
-
         countries.get(2).addAdjacentCountry(3);
 
         countries.get(2).setNumberOfReinforcements(10);
         countries.get(3).setNumberOfReinforcements(6);
-
         orderController = new OrderController(gameState, new Scanner(System.in));
     }
 
