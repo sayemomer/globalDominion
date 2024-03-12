@@ -11,8 +11,8 @@ public class AdvanceOrder extends Order{
     private final int d_countryDefenderId;
     private final int d_numReinforcements;
 
-    private static final double ATTACKER_BEING_KILLED = 0.3;
-    private static final double DEFENDER_BEING_KILLED = 0.4;
+    private static final double ATTACKER_BEING_KILLED = 0.7;
+    private static final double DEFENDER_BEING_KILLED = 0.6;
 
     /**
      * Constructor for AdvanceOrder
@@ -41,12 +41,12 @@ public class AdvanceOrder extends Order{
      */
     @Override
     public void execute() {
-        Country countryFrom = d_gameState.getCountries().get(d_countryAttackerId);
-        Country countryTo = d_gameState.getCountries().get(d_countryDefenderId);
+        Country attackerCountry = d_gameState.getCountries().get(d_countryAttackerId);
+        Country defenderCountry = d_gameState.getCountries().get(d_countryDefenderId);
 
         if(d_owner.getCountries().get(d_countryDefenderId) != null) {
-            countryTo.setNumberOfReinforcements(countryTo.getNumberOfReinforcements() + d_numReinforcements);
-            countryFrom.setNumberOfReinforcements(countryFrom.getNumberOfReinforcements() - d_numReinforcements);
+            defenderCountry.setNumberOfReinforcements(defenderCountry.getNumberOfReinforcements() + d_numReinforcements);
+            attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() - d_numReinforcements);
         }
         else {
             int l_numDefendingReinforcement = d_gameState.getCountries().get(d_countryDefenderId).getNumberOfReinforcements();
@@ -56,31 +56,36 @@ public class AdvanceOrder extends Order{
                 l_numDefendingReinforcement = l_numAttackingReinforcement;
             }
 
-            int l_remainInAttackingCountry = countryFrom.getNumberOfReinforcements() - d_numReinforcements;
-            int l_remainInDefendingCountry = countryTo.getNumberOfReinforcements() - l_numDefendingReinforcement;
+            int l_remainInAttackingCountry = attackerCountry.getNumberOfReinforcements() - d_numReinforcements;
+            int l_remainInDefendingCountry = defenderCountry.getNumberOfReinforcements() - l_numDefendingReinforcement;
 
             Random random = new Random();
+            int l_defenderKilled = 0;
             for (int i = 0; i < l_numDefendingReinforcement; i++) {
                 if (random.nextDouble() <= DEFENDER_BEING_KILLED) {
-                    l_numDefendingReinforcement--;
+                    l_defenderKilled++;
                 }
             }
 
+            int l_attackerKilled = 0;
             for (int i = 0; i < l_numAttackingReinforcement; i++) {
                 if (random.nextDouble() <= ATTACKER_BEING_KILLED) {
-                    l_numAttackingReinforcement--;
+                    l_attackerKilled++;
                 }
             }
 
-            countryTo.setNumberOfReinforcements(l_numDefendingReinforcement + l_remainInDefendingCountry);
+            defenderCountry.setNumberOfReinforcements(l_numDefendingReinforcement + l_remainInDefendingCountry - l_defenderKilled);
 
-            if(countryTo.getNumberOfReinforcements() == 0 && l_numAttackingReinforcement != 0){
-                 countryTo.setNumberOfReinforcements(l_numAttackingReinforcement);
-                 d_owner.addCountry(countryTo);
+            if(defenderCountry.getNumberOfReinforcements() == 0 && l_numAttackingReinforcement != 0){
+                 defenderCountry.setNumberOfReinforcements(l_numAttackingReinforcement - l_attackerKilled);
+                 Player l_defender = d_gameState.getCountryOwner(d_countryDefenderId);
+                 l_defender.removeCountry(defenderCountry);
+                 d_owner.addCountry(defenderCountry);
+
                  //add card
             }
             else {
-                countryFrom.setNumberOfReinforcements(l_numAttackingReinforcement + l_remainInAttackingCountry);
+                attackerCountry.setNumberOfReinforcements(l_numAttackingReinforcement + l_remainInAttackingCountry);
             }
         }
     }
@@ -104,7 +109,7 @@ public class AdvanceOrder extends Order{
             throw new IllegalArgumentException("Second country does not exist");
 
         if (d_owner.getCountries().get(d_countryAttackerId).getNumberOfReinforcements() < d_numReinforcements)
-            throw new IllegalArgumentException("Not enough reinforcements");
+            throw new IllegalArgumentException("Not enough reinforcements in country "+ d_countryAttackerId);
     }
 
     @Override
