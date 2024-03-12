@@ -133,6 +133,11 @@ public class Player {
         this.d_countries.put(p_country.getCountryId(), p_country);
     }
 
+    public void removeCountry(Country p_country) {
+        d_countries.remove(p_country.getCountryId());
+    }
+
+
     /**
      * removes all countries from the list of countries owned by the player
      */
