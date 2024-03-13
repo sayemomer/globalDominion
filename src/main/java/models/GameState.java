@@ -143,7 +143,7 @@ public class GameState {
 
                 // shows all countries and continents, armies on each country, ownership, and connectivity in a way that enables efficient game play
                 //random different colors for each player
-                System.out.println("Player: " + l_player.getName() + " (Reinforcements: " + l_player.getReinforcement() + ")");
+                System.out.println("Player: " + l_player.getName() + " (Reinforcements: " + l_player.getReinforcementPoll() + ")" + " (Cards: " + l_player.getcards() + ")");
                 for (int l_countryID : l_player.getCountryIds()) {
                     Country l_country = d_countries.get(l_countryID);
                     System.out.print("CountryID: " + l_countryID + " is connected to: ");

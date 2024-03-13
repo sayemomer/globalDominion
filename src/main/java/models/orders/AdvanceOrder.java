@@ -39,6 +39,7 @@ public class AdvanceOrder extends Order{
     /**
      * This method does not have any parameters or return any value.
      */
+
     @Override
     public void execute() {
         Country attackerCountry = d_gameState.getCountries().get(d_countryAttackerId);
@@ -81,8 +82,8 @@ public class AdvanceOrder extends Order{
                  Player l_defender = d_gameState.getCountryOwner(d_countryDefenderId);
                  l_defender.removeCountry(defenderCountry);
                  d_owner.addCountry(defenderCountry);
-
                  //add card
+                 d_owner.addCard();
             }
             else {
                 attackerCountry.setNumberOfReinforcements(l_numAttackingReinforcement + l_remainInAttackingCountry);
