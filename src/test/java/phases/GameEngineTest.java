@@ -6,15 +6,15 @@ import controllers.PlayerController;
 import models.GameState;
 import models.Player;
 import models.orders.Order;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameEngineTest {
 
@@ -26,8 +26,8 @@ public class GameEngineTest {
 
     GameEngine gameEngine;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         gameState = new GameState();
         playerController = new PlayerController(gameState);
         mapController = new MapController(gameState);
@@ -64,8 +64,8 @@ public class GameEngineTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         gameState = null;
         playerController = null;
         mapController = null;
