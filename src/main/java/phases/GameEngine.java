@@ -49,6 +49,24 @@ public class GameEngine {
     }
 
     /**
+     * This is the constructor for the GameEngine class.
+     *
+     * @param p_gameState       The game state.
+     * @param p_playerController The player controller.
+     * @param p_mapController   The map controller.
+     * @param p_countryController The country controller.
+     * @param p_orderController The order controller.
+     */
+    public GameEngine(GameState p_gameState, PlayerController p_playerController, MapController p_mapController, CountryController p_countryController, OrderController p_orderController) {
+        d_gamePhase = new StartupPhase(this);
+        gameState = p_gameState;
+        playerController = p_playerController;
+        mapController = p_mapController;
+        countryController = p_countryController;
+        orderController = p_orderController;
+    }
+
+    /**
      * This method is the main game loop.
      * It calls the startUpPhase, issueOrdersPhase, and executeOrdersPhase methods.
      */
