@@ -150,4 +150,11 @@ public class Country {
                 '}';
     }
 
+    /**
+     * @return the number of armies in the country
+     */
+
+    public int getArmies() {
+        return d_numberOfReinforcements;
+    }
 }

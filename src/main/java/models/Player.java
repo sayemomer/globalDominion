@@ -46,6 +46,16 @@ public class Player {
         }
     }
 
+    /**
+     * adds an order to the list of orders
+     *
+     * @param p_order
+     */
+
+    public void setOrder(Order p_order) {
+        d_orders.add(p_order);
+    }
+
 
     /**
      * this method should not have any parameters

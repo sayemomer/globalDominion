@@ -235,5 +235,48 @@ public class GameState {
         return null;
     }
 
+    /**
+     * This method returns the details of the players and their countries.
+     *
+     * @param gameState
+     * @return playersDetails
+     * such as the number of reinforcements, the number of cards, and the countries they own.
+     */
+
+    public HashMap<String, Object> getPlayerDetails(GameState gameState) {
+        HashMap<String, Object> playersDetails = new HashMap<>();
+
+        for (Player player : gameState.getPlayers().values()) {
+
+            HashMap<Integer, HashMap<String, Object>> countriesDetails = new HashMap<>();
+
+            for (int countryId : player.getCountryIds()) {
+                Country country = gameState.getCountries().get(countryId);
+                Continent continent = gameState.getContinents().get(country.getContinentId());
+
+                HashMap<String, Object> countryDetails = new HashMap<>();
+                countryDetails.put("ConnectedTo", country.getAdjacentCountries());
+                countryDetails.put("Reinforcements", country.getNumberOfReinforcements());
+                countryDetails.put("ContinentID", country.getContinentId());
+                countryDetails.put("ContinentName", continent.getContinentName()); // Assuming you have a method to get continent name
+
+                countriesDetails.put(countryId, countryDetails);
+            }
+
+            HashMap<String, Object> playerDetails = new HashMap<>();
+            playerDetails.put("Reinforcements", player.getReinforcement());
+            playerDetails.put("Card", 0); // Assuming a method to get player's card
+            playerDetails.put("Countries", countriesDetails);
+
+            playersDetails.put(player.getName(), playerDetails);
+        }
+
+        return playersDetails;
+    }
+
+
+
+
+
 }
 
