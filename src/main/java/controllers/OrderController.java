@@ -1,6 +1,7 @@
 package controllers;
 
 import models.GameState;
+import models.orders.AdvanceOrder;
 import models.orders.DeployOrder;
 import models.orders.Order;
 import models.Player;
@@ -39,6 +40,9 @@ public class OrderController {
             } else if (command.equals(Command.DEPLOY)) {
                 l_order = handleDeployOrderCommand(args, p_ownerPlayer);
                 break;
+            } else if (command.equals(Command.ADVANCE)) {
+                l_order = handleAdvanceOrderCommand(args, p_ownerPlayer);
+                break;
             } else {
                 System.out.println("Invalid command. Please try again.");
             }
@@ -72,5 +76,31 @@ public class OrderController {
         }
         return order;
     }
+
+    public static AdvanceOrder handleAdvanceOrderCommand(String[] args, Player p_ownerPlayer){
+        AdvanceOrder order = null;
+
+        try {
+            if (args.length != 3) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.ADVANCE_SYNTAX);
+            }
+
+
+            int l_countryFromId = Integer.parseInt(args[0]);
+            int l_countryToId = Integer.parseInt(args[1]);
+            int l_numReinforcements = Integer.parseInt(args[2]);
+
+            order = new AdvanceOrder(d_gameState, p_ownerPlayer, l_countryFromId, l_countryToId, l_numReinforcements);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid country ID or number of reinforcements.");
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return order;
+    }
+
 
 }
