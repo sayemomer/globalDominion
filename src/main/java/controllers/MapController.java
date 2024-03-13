@@ -265,8 +265,6 @@ public class MapController {
             if (d_gameMapReader.parse(l_fileLocation)) {
                 System.out.println("Map is valid and loaded.");
                 d_gameState.setCurrentFileName(p_args[0]);
-                d_gameState.setMapLoaded(true);
-                d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
             } else {
                 throw new Exception("Map is invalid.");
             }

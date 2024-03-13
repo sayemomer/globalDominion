@@ -150,7 +150,4 @@ public class Country {
                 '}';
     }
 
-    public int getArmies() {
-        return d_numberOfReinforcements;
-    }
 }

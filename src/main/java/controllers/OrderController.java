@@ -28,10 +28,9 @@ public class OrderController {
      * @param p_ownerPlayer can be any instance of player
      */
     public static Order takeOrderCommands(Player p_ownerPlayer) {
-
+        System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
         Order l_order = null;
         while (l_order == null) {
-            System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
             String[] inputString = d_scanner.nextLine().toLowerCase().split("\\s+");
             String command = inputString[0];
             String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
@@ -44,10 +43,7 @@ public class OrderController {
             } else if (command.equals(Command.ADVANCE)) {
                 l_order = handleAdvanceOrderCommand(args, p_ownerPlayer);
                 break;
-            } else if (command.equals(Command.SHOW_MAP)){
-                d_gameState.printMap();
-            }
-            else {
+            } else {
                 System.out.println("Invalid command. Please try again.");
             }
         }
