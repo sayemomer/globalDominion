@@ -1,4 +1,5 @@
 package phases;
+
 import controllers.CountryController;
 import controllers.MapController;
 import controllers.OrderController;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,8 +56,8 @@ public class GameEngineTest {
         Player player1 = gameState.getPlayers().get("player1");
         Player player2 = gameState.getPlayers().get("player2");
         //5.issue orders
-        Order order = orderController.handleDeployOrderCommand(new String[]{ String.valueOf(player1.getCountryIds().get(0)), "2"}, gameState.getPlayers().get("player1"));
-        Order order2 = orderController.handleDeployOrderCommand(new String[]{ String.valueOf(player2.getCountryIds().get(0)), "2"}, gameState.getPlayers().get("player2"));
+        Order order = OrderController.handleDeployOrderCommand(new String[]{String.valueOf(player1.getCountryIds().get(0)), "2"}, gameState.getPlayers().get("player1")).get(0);
+        Order order2 = OrderController.handleDeployOrderCommand(new String[]{String.valueOf(player2.getCountryIds().get(0)), "2"}, gameState.getPlayers().get("player2")).get(0);
         player1.setOrder(order);
         player2.setOrder(order2);
         //6.Execute orders
@@ -64,15 +66,15 @@ public class GameEngineTest {
         Order nextOrder2 = player2.nextOrder();
         nextOrder2.execute();
         //7. check if the order is executed
-        assertTrue (gameState.getCountries().get(player1.getCountryIds().get(0)).getArmies() == 2);
-        assertTrue (gameState.getCountries().get(player2.getCountryIds().get(0)).getArmies() == 2);
+        assertTrue(gameState.getCountries().get(player1.getCountryIds().get(0)).getArmies() == 2);
+        assertTrue(gameState.getCountries().get(player2.getCountryIds().get(0)).getArmies() == 2);
 
         gameState.printMap();
 
         //8. issue an advance order
 
         Order order3 = orderController.handleAdvanceOrderCommand(
-                new String[]{ String.valueOf(player1.getCountryIds().get(0)),
+                new String[]{String.valueOf(player1.getCountryIds().get(0)),
                         String.valueOf(player2.getCountryIds().get(1)),
                         "1"}, gameState.getPlayers().get("player1"));
         player1.setOrder(order3);
@@ -84,7 +86,7 @@ public class GameEngineTest {
         //9. issue another advance order
 
         Order order4 = orderController.handleAdvanceOrderCommand(
-                new String[]{ String.valueOf(player2.getCountryIds().get(0)),
+                new String[]{String.valueOf(player2.getCountryIds().get(0)),
                         String.valueOf(player1.getCountryIds().get(2)),
                         "1"}, gameState.getPlayers().get("player2"));
         player2.setOrder(order4);
@@ -95,7 +97,7 @@ public class GameEngineTest {
 
         //11. handle the bomb order
         Order order5 = orderController.handleBombOrderCommand(
-                new String[]{ String.valueOf(player1.getCountryIds().get(0))},
+                new String[]{String.valueOf(player1.getCountryIds().get(0))},
                 gameState.getPlayers().get("player2")
         );
         player2.setOrder(order5);

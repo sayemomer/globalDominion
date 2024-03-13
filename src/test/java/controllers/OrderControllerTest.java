@@ -74,12 +74,11 @@ public class OrderControllerTest {
     }
 
 
-
     @Test
     @DisplayName("Checks if the deploy order is handled correctly")
     void shouldDeployReinforcementsCorrectly() {
         String[] args = {"1", "3"};
-        Order o = OrderController.handleDeployOrderCommand(args, players.get("farid"));
+        Order o = OrderController.handleDeployOrderCommand(args, players.get("farid")).get(0);
         assertNotNull(o);
         o.execute();
         assertEquals(3, countries.get(1).getNumberOfReinforcements());
@@ -89,24 +88,23 @@ public class OrderControllerTest {
     @DisplayName("Checks handling of deploy order when player tries to deploy to a country not owned by them.")
     void shouldNotDeployReinforcementsToCountriesNotOwnedByPlayer() {
         String[] args = {"1", "2"};
-        Order o = OrderController.handleDeployOrderCommand(args, players.get("parsa"));
-        assertNull(o);
+        assertTrue(OrderController.handleDeployOrderCommand(args, players.get("farid")).isEmpty());
+
     }
 
     @Test
     @DisplayName("Checks handling of deploy order when player has not enough reinforcements.")
     void shouldNotDeployReinforcementsWhenPlayerHasNotEnough() {
         String[] args = {"1", "5"};
-        Order o = OrderController.handleDeployOrderCommand(args, players.get("farid"));
-        assertNull(o);
+        assertTrue(OrderController.handleDeployOrderCommand(args, players.get("farid")).isEmpty());
     }
 
 
     @Test
     @DisplayName("Checks if in advance order the number of reinforcement correctly changes")
-    void shouldAdvanceReinforcementsCorrectly(){
+    void shouldAdvanceReinforcementsCorrectly() {
 
-        String[] args = { "2", "3", "3"} ;
+        String[] args = {"2", "3", "3"};
 
         Order o = OrderController.handleAdvanceOrderCommand(args, players.get("mahdieh"));
         assertNotNull(o);
@@ -118,7 +116,7 @@ public class OrderControllerTest {
 
     @Test
     @DisplayName("checks whether it advance to a country that is not adjacent")
-    void ShouldNotAdvanceToNotAdjacentCountry(){
+    void ShouldNotAdvanceToNotAdjacentCountry() {
         String[] args = {"2", "4", "4"};
 
         Order o = OrderController.handleAdvanceOrderCommand(args, players.get("mahdieh"));

@@ -43,11 +43,12 @@ public class Player {
      * adds an order to the list of orders when the game engine calls it during the issue orders phase.
      */
     public void issueOrder() {
-        while (true) {
-            Order l_order = OrderController.takeOrderCommands(this);
+        ArrayList<Order> l_orders = OrderController.takeOrderCommands(this);
+        System.out.println("Orders added for " + this + ":");
+        for (Order l_order : l_orders) {
             if (l_order != null) {
                 d_orders.add(l_order);
-                break;
+                System.out.println(l_order);
             }
         }
     }
@@ -183,9 +184,9 @@ public class Player {
     /**
      * void method to add a card to the player
      */
-    public void addCard(){
+    public void addCard() {
         //check if the one card per turn is already taken
-        if(!d_cardFlag){
+        if (!d_cardFlag) {
             //randomly select a card from the deck
             Card l_card = Card.getRandomCard();
             d_cards.add(l_card);
@@ -222,8 +223,7 @@ public class Player {
     }
 
     /**
-     * @param bomb
-     * remove the card from the player
+     * @param bomb remove the card from the player
      */
 
     public void removeCard(String bomb) {

@@ -7,7 +7,9 @@ import models.orders.DeployOrder;
 import models.orders.Order;
 import models.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -28,9 +30,9 @@ public class OrderController {
      *
      * @param p_ownerPlayer can be any instance of player
      */
-    public static Order takeOrderCommands(Player p_ownerPlayer) {
-        Order l_order = null;
-        while (l_order == null) {
+    public static ArrayList<Order> takeOrderCommands(Player p_ownerPlayer) {
+        ArrayList<Order> l_orders = new ArrayList<>();
+        while (l_orders.isEmpty()) {
             System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
             String[] inputString = d_scanner.nextLine().toLowerCase().split("\\s+");
             String command = inputString[0];
@@ -39,13 +41,13 @@ public class OrderController {
                 System.out.println("Exiting the game...");
                 System.exit(0);
             } else if (command.equals(Command.DEPLOY)) {
-                l_order = handleDeployOrderCommand(args, p_ownerPlayer);
+                l_orders.addAll(handleDeployOrderCommand(args, p_ownerPlayer));
                 break;
             } else if (command.equals(Command.ADVANCE)) {
-                l_order = handleAdvanceOrderCommand(args, p_ownerPlayer);
+                l_orders.add(handleAdvanceOrderCommand(args, p_ownerPlayer));
                 break;
             } else if (command.equals(Command.BOMB)) {
-                l_order = handleBombOrderCommand(args, p_ownerPlayer);
+                l_orders.add(handleBombOrderCommand(args, p_ownerPlayer));
                 break;
             } else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
@@ -54,7 +56,7 @@ public class OrderController {
             }
         }
 
-        return l_order;
+        return l_orders;
     }
 
     /**
@@ -63,27 +65,36 @@ public class OrderController {
      * @param p_ownerPlayer can be any instance of player
      * @param args          the command arguments
      */
-    public static DeployOrder handleDeployOrderCommand(String[] args, Player p_ownerPlayer) {
-        DeployOrder order = null;
+    public static ArrayList<DeployOrder> handleDeployOrderCommand(String[] args, Player p_ownerPlayer) {
+        ArrayList<DeployOrder> orders = new ArrayList<>();
         try {
 
-            if (args.length != 2)
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.DEPLOY_SYNTAX);
+            if (args.length % 2 != 0) {
+                throw new Exception("Invalid number of arguments. Correct Syntax: \n\t" + Command.DEPLOY_SYNTAX);
+            }
 
-            int l_countryId = Integer.parseInt(args[0]);
-            int l_numReinforcements = Integer.parseInt(args[1]);
+            for (int i = 0; i < args.length; i += 2) {
+                DeployOrder order = null;
+                try {
+                    int l_countryId = Integer.parseInt(args[i]);
+                    int l_numReinforcements = Integer.parseInt(args[i + 1]);
+                    order = new DeployOrder(d_gameState, p_ownerPlayer, l_countryId, l_numReinforcements);
+                    orders.add(order);
 
-            order = new DeployOrder(d_gameState, p_ownerPlayer, l_countryId, l_numReinforcements);
+                } catch (NumberFormatException e) {
+                    System.out.println("Error with DeployOrder creation at index " + i / 2 + " : " + "Invalid country ID " + args[i] + " or number of reinforcements " + args[i + 1]);
+                } catch (Exception e) {
+                    System.out.println("Error with DeployOrder creation at index " + i / 2 + " : " + e.getMessage());
+                }
+            }
 
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID or number of reinforcements.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return order;
+        return orders;
     }
 
-    public static AdvanceOrder handleAdvanceOrderCommand(String[] args, Player p_ownerPlayer){
+    public static AdvanceOrder handleAdvanceOrderCommand(String[] args, Player p_ownerPlayer) {
         AdvanceOrder order = null;
 
         try {
@@ -120,7 +131,7 @@ public class OrderController {
     public static Bomb handleBombOrderCommand(String[] strings, Player p_ownerPlayer) {
         Bomb l_order = null;
         try {
-            if (strings.length!=1) {
+            if (strings.length != 1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.BOMB_SYNTAX);
             }
             int l_countryId = Integer.parseInt(strings[0]);
