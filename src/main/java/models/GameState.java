@@ -38,7 +38,7 @@ public class GameState {
     /**
      * adds the action to the set of actions that are done.
      *
-     * @param p_action
+     * @param p_action the action to add
      */
     public void setActionDone(GameAction p_action) {
         d_gameStateFlags.add(p_action);
@@ -47,8 +47,8 @@ public class GameState {
     /**
      * checks if the action is done.
      *
-     * @param p_action
-     * @return
+     * @param p_action the action to check
+     * @return true if the action is done, false otherwise
      */
     public boolean isActionDone(GameAction p_action) {
         return d_gameStateFlags.contains(p_action);
@@ -57,13 +57,14 @@ public class GameState {
     /**
      * removes the action from the set of actions that are done.
      *
-     * @param p_action
+     * @param p_action the action to removes
      */
     public void removeAction(GameAction p_action) {
         d_gameStateFlags.remove(p_action);
     }
 
     /**
+     *  get the current filename
      * @return current filename
      */
     public String getCurrentFileName() {
@@ -71,6 +72,7 @@ public class GameState {
     }
 
     /**
+     * set the current filename
      * @param p_currentFileName
      */
     public void setCurrentFileName(String p_currentFileName) {
@@ -78,6 +80,7 @@ public class GameState {
     }
 
     /**
+     * set the map loaded
      * @param p_mapLoaded
      */
     public void setMapLoaded(boolean p_mapLoaded) {
@@ -85,6 +88,7 @@ public class GameState {
     }
 
     /**
+     * get continents
      * @return all continents
      */
     public Map<Integer, Continent> getContinents() {
@@ -94,13 +98,14 @@ public class GameState {
     /**
      * sets the continents
      *
-     * @param p_continents
+     * @param p_continents the continents to set
      */
     public void setContinents(Map<Integer, Continent> p_continents) {
         d_continents = p_continents;
     }
 
     /**
+     * gets the countries
      * @return all countries
      */
     public Map<Integer, Country> getCountries() {
@@ -110,13 +115,14 @@ public class GameState {
     /**
      * sets the countries
      *
-     * @param p_countries
+     * @param p_countries the countries to set
      */
     public void setCountries(Map<Integer, Country> p_countries) {
         d_countries = p_countries;
     }
 
     /**
+     * returns the current turn
      * @return players
      */
     public Map<String, Player> getPlayers() {

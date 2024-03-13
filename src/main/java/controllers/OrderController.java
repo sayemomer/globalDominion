@@ -114,7 +114,6 @@ public class OrderController {
      * @param p_ownerPlayer can be any instance of player
      * @param strings       the command arguments
      * @return the bomb order
-     * @throws Exception if the bomb order cannot be executed
      */
 
 
