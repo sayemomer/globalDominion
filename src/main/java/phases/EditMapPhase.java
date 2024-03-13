@@ -40,6 +40,7 @@ public class EditMapPhase extends Phase {
             switch (l_command) {
                 case "proceed":
                     System.out.println("Proceeding to the next phase...");
+                    goToStartUpPhase();
                     break label;
                 case "exit":
                     System.out.println("Exiting the game...");

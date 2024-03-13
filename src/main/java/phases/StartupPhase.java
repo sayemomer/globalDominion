@@ -95,11 +95,10 @@ public class StartupPhase extends Phase {
     public void goToEditMapPhase() {
         d_gameEngine.setGamePhase(new EditMapPhase(d_gameEngine));
     }
-
     public boolean goToIssueOrdersPhase() {
         try {
-            playersAddedOrThrow();
             mapLoadedOrThrow();
+            playersAddedOrThrow();
             countriesAssignedOrThrow();
             d_gameEngine.setGamePhase(new IssueOrdersPhase(d_gameEngine));
             return true;
