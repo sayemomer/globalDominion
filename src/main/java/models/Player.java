@@ -16,6 +16,12 @@ public class Player {
     private Queue<Order> d_orders;
     private Map<Integer, Country> d_countries;
 
+    //save the cards
+    private ArrayList<Card> d_cards = new ArrayList<>();
+
+    //only one card per turn
+    private boolean d_cardFlag = false;
+
     public Player() {
 
     }
@@ -174,4 +180,58 @@ public class Player {
         d_reinforcementPoll -= p_reinforcement;
     }
 
+    /**
+     * void method to add a card to the player
+     */
+    public void addCard(){
+        //check if the one card per turn is already taken
+        if(!d_cardFlag){
+            //randomly select a card from the deck
+            Card l_card = Card.getRandomCard();
+            d_cards.add(l_card);
+            System.out.println("You have received a card: " + l_card);
+            //set the flag to true
+            d_cardFlag = true;
+        }
+    }
+
+    /**
+     * @return the cards
+     */
+
+    public String getcards() {
+        StringBuilder l_cards = new StringBuilder();
+        for (Card l_card : d_cards) {
+            l_cards.append(l_card).append(", ");
+        }
+        return l_cards.toString();
+    }
+
+    /**
+     * @param card
+     * @return true if the player has the card
+     */
+
+    public boolean hasCard(String card) {
+        for (Card l_card : d_cards) {
+            if (l_card.toString().equals(card)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param bomb
+     * remove the card from the player
+     */
+
+    public void removeCard(String bomb) {
+        for (Card l_card : d_cards) {
+            if (l_card.toString().equals(bomb)) {
+                d_cards.remove(l_card);
+                break;
+            }
+        }
+    }
 }

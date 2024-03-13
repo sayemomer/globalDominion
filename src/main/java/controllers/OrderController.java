@@ -2,6 +2,7 @@ package controllers;
 
 import models.GameState;
 import models.orders.AdvanceOrder;
+import models.orders.Bomb;
 import models.orders.DeployOrder;
 import models.orders.Order;
 import models.Player;
@@ -42,6 +43,9 @@ public class OrderController {
                 break;
             } else if (command.equals(Command.ADVANCE)) {
                 l_order = handleAdvanceOrderCommand(args, p_ownerPlayer);
+                break;
+            } else if (command.equals(Command.BOMB)) {
+                l_order = handleBombOrderCommand(args, p_ownerPlayer);
                 break;
             } else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
@@ -104,5 +108,30 @@ public class OrderController {
         return order;
     }
 
+    /**
+     * handle bomb order command
+     *
+     * @param p_ownerPlayer can be any instance of player
+     * @param strings       the command arguments
+     * @return the bomb order
+     */
 
+
+    public static Bomb handleBombOrderCommand(String[] strings, Player p_ownerPlayer) {
+        Bomb l_order = null;
+        try {
+            if (strings.length!=1) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.BOMB_SYNTAX);
+            }
+            int l_countryId = Integer.parseInt(strings[0]);
+            l_order = new Bomb(d_gameState, p_ownerPlayer, l_countryId);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid country ID.");
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return l_order;
+    }
 }
