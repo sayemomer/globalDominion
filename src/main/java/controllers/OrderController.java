@@ -46,20 +46,16 @@ public class OrderController {
             } else if (command.equals(Command.BOMB)) {
                 l_orders.add(handleBombOrderCommand(args, p_ownerPlayer));
                 break;
-            }
-            else if (command.equals(Command.BLOCKADE)) {
-                l_order = handleBlockadeOrderCommand(args, p_ownerPlayer);
+            } else if (command.equals(Command.BLOCKADE)) {
+                l_orders.add(handleBlockadeOrderCommand(args, p_ownerPlayer));
                 break;
-            }
-            else if (command.equals(Command.AIRLIFT)) {
-                l_order = handleAirliftOrderCommand(args, p_ownerPlayer);
+            } else if (command.equals(Command.AIRLIFT)) {
+                l_orders.add(handleAirliftOrderCommand(args, p_ownerPlayer));
                 break;
-            }
-            else if (command.equals(Command.NEGOTIATE)) {
-                l_order = handleNegotiateOrderCommand(args, p_ownerPlayer);
+            } else if (command.equals(Command.NEGOTIATE)) {
+                l_orders.add(handleNegotiateOrderCommand(args, p_ownerPlayer));
                 break;
-            }
-            else if (command.equals(Command.SHOW_MAP)) {
+            } else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
             } else {
                 System.out.println("Invalid command. Please try again.");
@@ -159,7 +155,7 @@ public class OrderController {
     public static Order handleBlockadeOrderCommand(String[] strings, Player p_ownerPlayer) {
         Blockade l_order = null;
         try {
-            if (strings.length!=1) {
+            if (strings.length != 1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.BLOCKADE_SYNTAX);
             }
             int l_countryId = Integer.parseInt(strings[0]);
@@ -177,7 +173,7 @@ public class OrderController {
     public static Order handleAirliftOrderCommand(String[] strings, Player p_ownerPlayer) {
         Airlift l_order = null;
         try {
-            if (strings.length!=3) {
+            if (strings.length != 3) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.AIRLIFT_SYNTAX);
             }
             int l_countryFromId = Integer.parseInt(strings[0]);
@@ -194,10 +190,10 @@ public class OrderController {
         return l_order;
     }
 
-    public static Order handleNegotiateOrderCommand(String[] strings, Player p_ownerPlayer){
+    public static Order handleNegotiateOrderCommand(String[] strings, Player p_ownerPlayer) {
         Deplomacy l_order = null;
         try {
-            if (strings.length!=1) {
+            if (strings.length != 1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.NEGOTIATE_SYNTAX);
             }
             String l_playerName = strings[0];
