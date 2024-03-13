@@ -44,6 +44,15 @@ public class GameEngine {
 
     }
 
+    //constructor for testing without the scanner
+    public GameEngine(GameState p_gameState,PlayerController p_playerController, MapController p_mapController, CountryController p_countryController, OrderController p_orderController) {
+        gameState =  p_gameState;
+        playerController = p_playerController;
+        mapController = p_mapController;
+        countryController = p_countryController;
+        orderController = p_orderController;
+    }
+
     /**
      * This method is the main game loop.
      * It calls the startUpPhase, issueOrdersPhase, and executeOrdersPhase methods.
@@ -117,8 +126,7 @@ public class GameEngine {
                     countryController.handleAssignCountriesCommand(l_args);
                     break;
                 default:
-                    System.err.println("Invalid input. Please try again.");
-                    break;
+                    System.out.println("Invalid input. Please try again.");
             }
         }
     }
@@ -196,10 +204,13 @@ public class GameEngine {
         System.out.println("*-*-* ISSUE ORDERS PHASE *-*-*");
         System.out.println("Available commands: ");
         System.out.println("  " + Command.DEPLOY_SYNTAX);
+        System.out.println("  " + Command.ADVANCE_SYNTAX);
+        System.out.println("  " + Command.SHOW_MAP_SYNTAX);
         System.out.println("Type 'exit' to exit the game.");
 
         boolean aPlayerOrdered = true;
         // as long as a player has not finished ordering
+
         while (aPlayerOrdered) {
             aPlayerOrdered = false;
             for (Player player : gameState.getPlayers().values()) {
@@ -209,15 +220,18 @@ public class GameEngine {
                 aPlayerOrdered = true;
                 player.issueOrder();
                 // only for build 1: player finishes ordering when all reinforcement is deployed.
+                //TODO: for build 2: when all the players have finished issuing orders.
+                executeOrdersPhase();
                 playerFinishedOrders.replace(player.getName(), player.getReinforcementPoll() == 0);
             }
         }
     }
 
+
     /**
      * This method is responsible for the executeOrders phase of the game.
      */
-    void executeOrdersPhase() {
+     void executeOrdersPhase() {
         System.out.println("Executing orders...");
         boolean anOrderExecuted = true;
         // continues until no orders are left to execute

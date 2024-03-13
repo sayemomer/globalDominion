@@ -46,6 +46,16 @@ public class Player {
         }
     }
 
+    /**
+     * adds an order to the list of orders
+     * @param p_order
+     */
+    public void setOrder(Order p_order) {
+        d_orders.add(p_order);
+    }
+
+
+
 
     /**
      * this method should not have any parameters
@@ -162,6 +172,13 @@ public class Player {
      */
     public void reduceReinforcementPoll(int p_reinforcement) {
         d_reinforcementPoll -= p_reinforcement;
+    }
+
+    /**
+     * @return the number of reinforcements the player has
+     */
+    public int getPlayerReinforcement() {
+        return d_reinforcement;
     }
 
 }
