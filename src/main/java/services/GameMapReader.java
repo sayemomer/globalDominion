@@ -57,7 +57,7 @@ public class GameMapReader {
         int l_continentCount = 0;
         int l_countryCount = 0;
 
-        while ((l_line = l_reader.readLine())!=null) {
+        while ((l_line = l_reader.readLine()) != null) {
             l_line = l_line.trim();
             if (l_line.isEmpty() || l_line.startsWith(";")) continue;
 
@@ -93,9 +93,10 @@ public class GameMapReader {
 
         // validate the map after parsing
         if (!validateMap()) {
+            d_gameState.removeAction(GameState.GameAction.VALID_MAP_LOADED);
             return false;
         } else {
-            d_gameState.setMapLoaded(true);
+            d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
             d_gameState.setContinents(d_continents);
             d_gameState.setCountries(d_countries);
             return true;
@@ -169,7 +170,7 @@ public class GameMapReader {
         try {
             int countryId = Integer.parseInt(l_parts[0]);
             Country l_country = d_countries.get(countryId);
-            if (l_country==null) {
+            if (l_country == null) {
                 System.err.println("Skipping line, country ID not found: " + p_line);
                 return;
             }
