@@ -69,7 +69,7 @@ public class GameEngineTest {
 
         gameState.printMap();
 
-        //8. issue an advance order
+//        8. issue an advance order
 
         Order order3 = orderController.handleAdvanceOrderCommand(
                 new String[]{ String.valueOf(player1.getCountryIds().get(0)),
@@ -81,7 +81,22 @@ public class GameEngineTest {
         nextOrder3.execute();
         gameState.printMap();
 
-        //9. issue another advance order
+//        //8. issue an advance order
+//
+//        Order order3 = orderController.handleAdvanceOrderCommand(
+//                new String[]{ String.valueOf(player1.getCountryIds().get(0)),
+//                        String.valueOf(player2.getCountryIds().get(1)),
+//                        "1"}, gameState.getPlayers().get("player1"));
+//
+//
+//        player1.setOrder(order3);
+//        //9. execute the advance order
+//        Order nextOrder3 = player1.nextOrder();
+//        nextOrder3.execute();
+//        gameState.printMap();
+
+
+       // 9. issue another advance order
 
         Order order4 = orderController.handleAdvanceOrderCommand(
                 new String[]{ String.valueOf(player2.getCountryIds().get(0)),
@@ -105,17 +120,33 @@ public class GameEngineTest {
 //        nextOrder5.execute();
 //        gameState.printMap();
 
-        //13. handle the blockade order
-        Order order6 = orderController.handleBlockadeOrderCommand(
-                new String[]{ String.valueOf(player1.getCountryIds().get(0))},
-                gameState.getPlayers().get("player1")
-        );
-        player2.setOrder(order6);
+//        //13. handle the blockade order
+//        Order order6 = orderController.handleBlockadeOrderCommand(
+//                new String[]{ String.valueOf(player1.getCountryIds().get(0))},
+//                gameState.getPlayers().get("player1")
+//        );
+//        player2.setOrder(order6);
+//
+//        //14. execute the blockade order
+//        Order nextOrder6 = player2.nextOrder();
+//        nextOrder6.execute();
+//        gameState.printMap();
 
-        //14. execute the blockade order
-        Order nextOrder6 = player2.nextOrder();
-        nextOrder6.execute();
-        gameState.printMap();
+//        //15. handle the airlift order
+//        Order order7 = orderController.handleAirliftOrderCommand(
+//                new String[]{ String.valueOf(player1.getCountryIds().get(0)),
+//                        String.valueOf(player1.getCountryIds().get(1)),
+//                        "1"},
+//                gameState.getPlayers().get("player1")
+//        );
+//        player1.setOrder(order7);
+//
+//        //16. execute the airlift order
+//        Order nextOrder7 = player1.nextOrder();
+//        nextOrder7.execute();
+//        gameState.printMap();
+
+
     }
 
     @After

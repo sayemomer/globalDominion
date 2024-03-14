@@ -13,7 +13,7 @@ public enum Card {
     //"bomb", "blockade", "airlift", "negotiate"
     // TODO: change it to work for all the card later
     //BOMB, BLOCKADE, AIRLIFT, NEGOTIATE;
-    BLOCKADE;
+    AIRLIFT;
 
     /**
      * Get a random card type

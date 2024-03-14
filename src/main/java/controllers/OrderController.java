@@ -49,6 +49,10 @@ public class OrderController {
                 l_order = handleBlockadeOrderCommand(args, p_ownerPlayer);
                 break;
             }
+            else if (command.equals(Command.AIRLIFT)) {
+                l_order = handleAirliftOrderCommand(args, p_ownerPlayer);
+                break;
+            }
             else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
             } else {
@@ -147,6 +151,26 @@ public class OrderController {
             l_order = new Blockade(d_gameState, p_ownerPlayer, l_countryId);
         } catch (NumberFormatException e) {
             System.out.println("Invalid country ID.");
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return l_order;
+    }
+
+    public static Order handleAirliftOrderCommand(String[] strings, Player p_ownerPlayer) {
+        Airlift l_order = null;
+        try {
+            if (strings.length!=3) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.AIRLIFT_SYNTAX);
+            }
+            int l_countryFromId = Integer.parseInt(strings[0]);
+            int l_countryToId = Integer.parseInt(strings[1]);
+            int l_numReinforcements = Integer.parseInt(strings[2]);
+            l_order = new Airlift(d_gameState, p_ownerPlayer, l_countryFromId, l_countryToId, l_numReinforcements);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid country ID or number of reinforcements.");
             return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
