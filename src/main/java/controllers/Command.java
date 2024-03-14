@@ -25,6 +25,8 @@ public class Command {
 
     public static final String ADVANCE = "advance";
 
+    public static final String AIRLIFT = "airlift";
+
     // options
     public static final String ADD = "-add";
     public static final String REMOVE = "-remove";
@@ -35,6 +37,7 @@ public class Command {
     public static final String DEPLOY_SYNTAX = "deploy countryID num";
 
     public static final String ADVANCE_SYNTAX = "advance countrynamefrom countynameto numarmies";
+    public static final String AIRLIFT_SYNTAX = "airlift sourcecountryID targetcountryID numarmies";
     public static final String EDIT_CONTINENT_SYNTAX = "editcontinent -add continentID controlvalue -remove continentID";
     public static final String EDIT_COUNTRY_SYNTAX = "editcountry -add countryID continentID -remove countryID";
     public static final String EDIT_NEIGHBOR_SYNTAX = "editneighbor -add countryID neighborcountyID -remove countryID neighborcountryID";

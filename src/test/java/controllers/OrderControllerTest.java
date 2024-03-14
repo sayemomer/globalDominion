@@ -124,4 +124,26 @@ public class OrderControllerTest {
         Order o = OrderController.handleAdvanceOrderCommand(args, players.get("mahdieh"));
 
     }
+
+    @Test
+    @DisplayName("Checks if in airlift order the number of reinforcement correctly changes")
+    void shouldAirliftReinforcementsCorrectly(){
+        String[] args = {"2","3","3"};
+
+        Order o = OrderController.handleAirLiftOrderCommand(args, players.get("mahdieh"));
+        assertNotNull(o);
+        o.execute();
+        assertEquals(7, countries.get(2).getNumberOfReinforcements());
+        assertEquals(9, countries.get(3).getNumberOfReinforcements());
+
+    }
+
+    @Test
+    @DisplayName("Checks handling of airlift order when player has not enough reinforcements.")
+    void shouldNotAirliftReinforcementsWhenPlayerHasNotEnough() {
+        String[] args = {"2", "3", "11"};
+        Order o = OrderController.handleAirLiftOrderCommand(args, players.get("mahdieh"));
+        assertNull(o);
+    }
+
 }

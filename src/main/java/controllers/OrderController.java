@@ -2,6 +2,7 @@ package controllers;
 
 import models.GameState;
 import models.orders.AdvanceOrder;
+import models.orders.AirLiftOrder;
 import models.orders.DeployOrder;
 import models.orders.Order;
 import models.Player;
@@ -103,4 +104,28 @@ public class OrderController {
     }
 
 
+    public static AirLiftOrder handleAirLiftOrderCommand(String[] args, Player p_ownerPlayer){
+        AirLiftOrder order = null;
+
+        try {
+            if (args.length != 3) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.AIRLIFT_SYNTAX);
+            }
+
+
+            int l_sourceCountryId = Integer.parseInt(args[0]);
+            int l_targetCountryId = Integer.parseInt(args[1]);
+            int l_numReinforcements = Integer.parseInt(args[2]);
+
+            order = new AirLiftOrder(d_gameState, p_ownerPlayer, l_sourceCountryId, l_targetCountryId, l_numReinforcements);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid country ID or number of reinforcements.");
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return order;
+    }
 }
