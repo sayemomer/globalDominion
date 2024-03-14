@@ -45,4 +45,6 @@ public class Command {
     public static final String LOAD_MAP_SYNTAX = "loadmap filename";
     public static final String BOMB_SYNTAX = "bomb countryID";
     public static final String BOMB = "bomb";
+    public static final String BLOCKADE_SYNTAX = "blockade countryID";
+    public static final String BLOCKADE = "blockade";
 }

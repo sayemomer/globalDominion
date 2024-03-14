@@ -1,10 +1,7 @@
 package controllers;
 
 import models.GameState;
-import models.orders.AdvanceOrder;
-import models.orders.Bomb;
-import models.orders.DeployOrder;
-import models.orders.Order;
+import models.orders.*;
 import models.Player;
 
 import java.util.Arrays;
@@ -47,7 +44,12 @@ public class OrderController {
             } else if (command.equals(Command.BOMB)) {
                 l_order = handleBombOrderCommand(args, p_ownerPlayer);
                 break;
-            } else if (command.equals(Command.SHOW_MAP)) {
+            }
+            else if (command.equals(Command.BLOCKADE)) {
+                l_order = handleBlockadeOrderCommand(args, p_ownerPlayer);
+                break;
+            }
+            else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
             } else {
                 System.out.println("Invalid command. Please try again.");
@@ -125,6 +127,24 @@ public class OrderController {
             }
             int l_countryId = Integer.parseInt(strings[0]);
             l_order = new Bomb(d_gameState, p_ownerPlayer, l_countryId);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid country ID.");
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return l_order;
+    }
+
+    public static Order handleBlockadeOrderCommand(String[] strings, Player p_ownerPlayer) {
+        Blockade l_order = null;
+        try {
+            if (strings.length!=1) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.BLOCKADE_SYNTAX);
+            }
+            int l_countryId = Integer.parseInt(strings[0]);
+            l_order = new Blockade(d_gameState, p_ownerPlayer, l_countryId);
         } catch (NumberFormatException e) {
             System.out.println("Invalid country ID.");
             return null;
