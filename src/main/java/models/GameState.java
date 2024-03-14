@@ -17,6 +17,15 @@ public class GameState {
     private String d_currentFileName;
 
     /**
+     * adds a player to the game.
+     * @param p_name
+     */
+
+    public void addPlayer(String p_name) {
+        d_players.put(p_name, new Player(p_name));
+    }
+
+    /**
      * This enum represents the game actions. used as flags to keep track of the game state.
      */
     public enum GameAction {

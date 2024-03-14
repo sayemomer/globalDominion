@@ -11,7 +11,9 @@ package models;
 public enum Card {
 
     //"bomb", "blockade", "airlift", "negotiate"
-    BOMB;
+    // TODO: change it to work for all the card later
+    //BOMB, BLOCKADE, AIRLIFT, NEGOTIATE;
+    BLOCKADE;
 
     /**
      * Get a random card type
