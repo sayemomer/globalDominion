@@ -146,6 +146,31 @@ public class GameEngineTest {
 //        nextOrder7.execute();
 //        gameState.printMap();
 
+        //17. handle the negotiate order
+        Order order8 = orderController.handleNegotiateOrderCommand(
+                new String[]{ "player2"},
+                gameState.getPlayers().get("player1")
+        );
+        player1.setOrder(order8);
+
+        //18. execute the negotiate order
+        Order nextOrder8 = player1.nextOrder();
+        nextOrder8.execute();
+        gameState.printMap();
+
+//        //19. test the negoritate order with an advance order from player 2
+//        Order order9 = orderController.handleAdvanceOrderCommand(
+//                new String[]{ String.valueOf(player2.getCountryIds().get(0)),
+//                        String.valueOf(player1.getCountryIds().get(0)),
+//                        "2"}, gameState.getPlayers().get("player2"));
+//
+//        player2.setOrder(order9);
+//        //20. execute the advance order
+//        Order nextOrder9 = player2.nextOrder();
+//        nextOrder9.execute();
+//        gameState.printMap();
+
+
 
     }
 

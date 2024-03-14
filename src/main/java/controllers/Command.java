@@ -49,4 +49,6 @@ public class Command {
     public static final String BLOCKADE = "blockade";
     public static final String AIRLIFT_SYNTAX = "airlift countrynamefrom countynameto numarmies";
     public static final String AIRLIFT = "airlift";
+    public static final String NEGOTIATE_SYNTAX = "negotiate playername";
+    public static final String NEGOTIATE = "negotiate";
 }
