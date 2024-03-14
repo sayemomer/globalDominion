@@ -53,6 +53,10 @@ public class OrderController {
                 l_order = handleAirliftOrderCommand(args, p_ownerPlayer);
                 break;
             }
+            else if (command.equals(Command.NEGOTIATE)) {
+                l_order = handleNegotiateOrderCommand(args, p_ownerPlayer);
+                break;
+            }
             else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
             } else {
@@ -176,6 +180,22 @@ public class OrderController {
             System.out.println(e.getMessage());
             return null;
         }
+        return l_order;
+    }
+
+    public static Order handleNegotiateOrderCommand(String[] strings, Player p_ownerPlayer){
+        Deplomacy l_order = null;
+        try {
+            if (strings.length!=1) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.NEGOTIATE_SYNTAX);
+            }
+            String l_playerName = strings[0];
+            l_order = new Deplomacy(d_gameState, p_ownerPlayer, l_playerName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
         return l_order;
     }
 }

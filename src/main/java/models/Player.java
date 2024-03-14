@@ -16,6 +16,9 @@ public class Player {
     private Queue<Order> d_orders;
     private Map<Integer, Country> d_countries;
 
+    //negotiated players
+    private List<String> d_negotiatedPlayers = new ArrayList<>();
+
     //save the cards
     private ArrayList<Card> d_cards = new ArrayList<>();
 
@@ -242,5 +245,21 @@ public class Player {
 
     public boolean hasCountry(int p_CountryFromId) {
         return d_countries.containsKey(p_CountryFromId);
+    }
+
+
+    /**
+     * @param p_PlayerToNegotiateWith
+     * add the player to the list of negotiated players
+     */
+    public void addNegotiatedPlayer(String p_PlayerToNegotiateWith) {
+        d_negotiatedPlayers.add(p_PlayerToNegotiateWith);
+    }
+
+    /**
+     * @return the list of negotiated players
+     */
+    public List<String> getNegotiatedPlayers() {
+        return d_negotiatedPlayers;
     }
 }
