@@ -234,4 +234,13 @@ public class Player {
             }
         }
     }
+
+    /**
+     * @param p_CountryFromId
+     * @return true if the player has the country
+     */
+
+    public boolean hasCountry(int p_CountryFromId) {
+        return d_countries.containsKey(p_CountryFromId);
+    }
 }
