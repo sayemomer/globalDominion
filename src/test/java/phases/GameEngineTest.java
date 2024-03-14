@@ -93,16 +93,28 @@ public class GameEngineTest {
         nextOrder4.execute();
         gameState.printMap();
 
-        //11. handle the bomb order
-        Order order5 = orderController.handleBombOrderCommand(
-                new String[]{ String.valueOf(player1.getCountryIds().get(0))},
-                gameState.getPlayers().get("player2")
-        );
-        player2.setOrder(order5);
+//        //11. handle the bomb order
+//        Order order5 = orderController.handleBombOrderCommand(
+//                new String[]{ String.valueOf(player1.getCountryIds().get(0))},
+//                gameState.getPlayers().get("player2")
+//        );
+//        player2.setOrder(order5);
+//
+//        //12. execute the bomb order
+//        Order nextOrder5 = player2.nextOrder();
+//        nextOrder5.execute();
+//        gameState.printMap();
 
-        //12. execute the bomb order
-        Order nextOrder5 = player2.nextOrder();
-        nextOrder5.execute();
+        //13. handle the blockade order
+        Order order6 = orderController.handleBlockadeOrderCommand(
+                new String[]{ String.valueOf(player1.getCountryIds().get(0))},
+                gameState.getPlayers().get("player1")
+        );
+        player2.setOrder(order6);
+
+        //14. execute the blockade order
+        Order nextOrder6 = player2.nextOrder();
+        nextOrder6.execute();
         gameState.printMap();
     }
 
