@@ -300,8 +300,7 @@ public class GameState {
 
         return playersDetails;
     }
-
-
+    
     public void removeCountry(int p_countryId) throws Exception {
         if (d_countries.containsKey(p_countryId)) {
             d_countries.remove(p_countryId);
@@ -314,8 +313,15 @@ public class GameState {
         if (d_continents.containsKey(p_continentId)) {
             d_continents.remove(p_continentId);
         } else {
-            throw new Exception("Continent does not exist.");
+            throw new Exception("Continent" + p_continentId + "does not exist.");
         }
+    }
+
+    public void addContinent(Continent p_continent) throws Exception {
+        if (d_continents.containsKey(p_continent.getContinentId())) {
+            throw new Exception("Continent" + p_continent.getContinentId() + "already exists.");
+        }
+        d_continents.put(p_continent.getContinentId(), p_continent);
     }
 
 }
