@@ -7,9 +7,12 @@ import controllers.PlayerController;
 import models.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import services.GameMapReader;
 
 import java.util.Map;
@@ -30,8 +33,8 @@ public class BlockadeTest {
 
     private static  Map<Integer, Country> d_countries ;
 
-    @BeforeClass
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
 
         gameState = new GameState();
         mapController = new MapController(gameState);
@@ -184,13 +187,17 @@ public class BlockadeTest {
         Order nextOrder4 = gameState.getPlayers().get("player1").nextOrder();
         nextOrder4.execute();
 
+        gameState.printMap();
+
+        Player player = gameState.getPlayers().get("neutral");
+
         //12. check if the blockade order is executed
-        assertTrue (gameState.getCountries().get(gameState.getPlayers().get("player1").getCountryIds().get(1)).getArmies() == initialArmies * 3);
+        assertTrue (gameState.getCountries().get(1).getArmies() == initialArmies * 3);
 
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
         gameState = null;
         mapController = null;
         gameMapReader = null;
