@@ -5,10 +5,11 @@ import controllers.MapController;
 import controllers.OrderController;
 import controllers.PlayerController;
 import models.*;
-import org.junit.*;
-import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import services.GameMapReader;
@@ -16,7 +17,7 @@ import services.GameMapReader;
 import java.util.Map;
 
 
-public class AirliftTest {
+public class BlockadeOrderTest {
 
     static GameState gameState;
     static MapController mapController;
@@ -162,34 +163,40 @@ public class AirliftTest {
         player1.removeAllCards();
 
         //9. Forcefully add the negotiate card
-        Card card = Card.AIRLIFT;
+        Card card = Card.BLOCKADE;
         player1.forecefullyAddCard(card);
     }
 
 
     @Test
-    @DisplayName("After successful airlift, the armies should be moved to the target country")
-    public void testAirlift() {
+    @DisplayName("After successful blockade order, the country should be neutral and the armies should be thrice the original armies")
+    public void testBlockadeOrder() {
 
-        //10. issue a airlift order
-        Order airliftOrder = orderController.handleAirliftOrderCommand(
-                new String[]{ String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(1)),
-                        String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(3)),
-                        "1"}, gameState.getPlayers().get("player1"));
+        //10. issue a blockade order
 
-        gameState.getPlayers().get("player1").setOrder(airliftOrder);
+        //get the initial armies
+        int initialArmies = gameState.getCountries().get(1).getArmies();
+        Order blockadeOrder = orderController.handleBlockadeOrderCommand(
+                new String[]{ String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(1))}, gameState.getPlayers().get("player1"));
+
+
+        gameState.getPlayers().get("player1").setOrder(blockadeOrder);
 
         //11. execute the airlift order
         Order nextOrder4 = gameState.getPlayers().get("player1").nextOrder();
         nextOrder4.execute();
 
-        //12. check if the airlift order is executed
-        assertTrue (gameState.getCountries().get(gameState.getPlayers().get("player1").getCountryIds().get(3)).getArmies() == 1);
+        gameState.printMap();
+
+        Player player = gameState.getPlayers().get("neutral");
+
+        //12. check if the blockade order is executed
+        assertTrue (gameState.getCountries().get(1).getArmies() == initialArmies * 3);
 
     }
 
     @AfterEach
-    public  void tearDown() {
+    public void tearDown() {
         gameState = null;
         mapController = null;
         gameMapReader = null;

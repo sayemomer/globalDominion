@@ -3,7 +3,7 @@ package models.orders;
 import models.GameState;
 import models.Player;
 
-public class Airlift extends Order{
+public class AirliftOrder extends Order{
 
     private int d_countryFromId;
     private int d_countryToId;
@@ -15,8 +15,8 @@ public class Airlift extends Order{
      * @param p_OwnerPlayer the player who owns the airlift card
      */
 
-    public Airlift(GameState p_GameState, Player p_OwnerPlayer,
-                   int p_CountryFromId, int p_CountryToId, int p_NumReinforcements) {
+    public AirliftOrder(GameState p_GameState, Player p_OwnerPlayer,
+                        int p_CountryFromId, int p_CountryToId, int p_NumReinforcements) {
         super(p_GameState, p_OwnerPlayer);
         d_countryFromId = p_CountryFromId;
         d_countryToId = p_CountryToId;

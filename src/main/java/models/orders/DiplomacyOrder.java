@@ -3,7 +3,7 @@ package models.orders;
 import models.GameState;
 import models.Player;
 
-public class Deplomacy extends Order {
+public class DiplomacyOrder extends Order {
 
     private String d_playerToNegotiateWith;
 
@@ -14,7 +14,7 @@ public class Deplomacy extends Order {
      * @param p_playerToNegotiateWith the player to deplomacy with
      */
 
-    public Deplomacy(GameState p_gameState, Player p_ownerPlayer, String p_playerToNegotiateWith) {
+    public DiplomacyOrder(GameState p_gameState, Player p_ownerPlayer, String p_playerToNegotiateWith) {
         super(p_gameState, p_ownerPlayer);
         d_playerToNegotiateWith = p_playerToNegotiateWith;
 

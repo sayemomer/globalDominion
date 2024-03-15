@@ -5,11 +5,9 @@ import controllers.MapController;
 import controllers.OrderController;
 import controllers.PlayerController;
 import models.*;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.*;
 
-import org.junit.AfterClass;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import services.GameMapReader;
@@ -17,7 +15,7 @@ import services.GameMapReader;
 import java.util.Map;
 
 
-public class BombTest {
+public class AirliftOrderTest {
 
     static GameState gameState;
     static MapController mapController;
@@ -33,7 +31,7 @@ public class BombTest {
     private static  Map<Integer, Country> d_countries ;
 
     @BeforeEach
-    public  void setUp() {
+    public void setUp() {
 
         gameState = new GameState();
         mapController = new MapController(gameState);
@@ -163,30 +161,30 @@ public class BombTest {
         player1.removeAllCards();
 
         //9. Forcefully add the negotiate card
-        Card card = Card.BOMB;
+        Card card = Card.AIRLIFT;
         player1.forecefullyAddCard(card);
     }
 
 
     @Test
-    @DisplayName("After successful bomb order, the armies of the country should be reduced by half")
-    public void testBombOrder() {
-        //10. issue a bomb order
+    @DisplayName("After successful airlift, the armies should be moved to the target country")
+    public void testAirlift() {
 
-        //get the intial armies
-        int initialArmies = gameState.getCountries().get(2).getArmies();
+        //10. issue a airlift order
+        Order airliftOrder = orderController.handleAirliftOrderCommand(
+                new String[]{ String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(1)),
+                        String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(3)),
+                        "1"}, gameState.getPlayers().get("player1"));
 
-        Order bombOrder = orderController.handleBombOrderCommand(
-                new String[]{ String.valueOf(gameState.getPlayers().get("player2").getCountryIds().get(0))}, gameState.getPlayers().get("player1"));
+        gameState.getPlayers().get("player1").setOrder(airliftOrder);
 
-        gameState.getPlayers().get("player1").setOrder(bombOrder);
+        //11. execute the airlift order
+        Order nextOrder4 = gameState.getPlayers().get("player1").nextOrder();
+        nextOrder4.execute();
 
-        //11. execute the bomb order
-        Order nextOrder = gameState.getPlayers().get("player1").nextOrder();
-        nextOrder.execute();
+        //12. check if the airlift order is executed
+        assertTrue (gameState.getCountries().get(gameState.getPlayers().get("player1").getCountryIds().get(3)).getArmies() == 1);
 
-        //12. validate the result
-        assertEquals(initialArmies/2, gameState.getCountries().get(2).getArmies());
     }
 
     @AfterEach

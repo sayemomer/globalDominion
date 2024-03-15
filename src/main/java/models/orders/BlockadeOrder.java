@@ -11,7 +11,7 @@ import models.Player;
  * The blockade order can be validated
  */
 
-public class Blockade extends Order{
+public class BlockadeOrder extends Order{
 
     private int l_countryId;
 
@@ -23,7 +23,7 @@ public class Blockade extends Order{
      * @param p_countryId the country id
      */
 
-    public Blockade(GameState p_gameState, Player p_owner, int p_countryId) {
+    public BlockadeOrder(GameState p_gameState, Player p_owner, int p_countryId) {
         super(p_gameState, p_owner);
         l_countryId = p_countryId;
 

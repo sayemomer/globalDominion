@@ -127,14 +127,14 @@ public class OrderController {
      */
 
 
-    public static Bomb handleBombOrderCommand(String[] strings, Player p_ownerPlayer) {
-        Bomb l_order = null;
+    public static BombOrder handleBombOrderCommand(String[] strings, Player p_ownerPlayer) {
+        BombOrder l_order = null;
         try {
             if (strings.length!=1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.BOMB_SYNTAX);
             }
             int l_countryId = Integer.parseInt(strings[0]);
-            l_order = new Bomb(d_gameState, p_ownerPlayer, l_countryId);
+            l_order = new BombOrder(d_gameState, p_ownerPlayer, l_countryId);
         } catch (NumberFormatException e) {
             System.out.println("Invalid country ID.");
             return null;
@@ -146,13 +146,13 @@ public class OrderController {
     }
 
     public static Order handleBlockadeOrderCommand(String[] strings, Player p_ownerPlayer) {
-        Blockade l_order = null;
+        BlockadeOrder l_order = null;
         try {
             if (strings.length!=1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.BLOCKADE_SYNTAX);
             }
             int l_countryId = Integer.parseInt(strings[0]);
-            l_order = new Blockade(d_gameState, p_ownerPlayer, l_countryId);
+            l_order = new BlockadeOrder(d_gameState, p_ownerPlayer, l_countryId);
         } catch (NumberFormatException e) {
             System.out.println("Invalid country ID.");
             return null;
@@ -164,7 +164,7 @@ public class OrderController {
     }
 
     public static Order handleAirliftOrderCommand(String[] strings, Player p_ownerPlayer) {
-        Airlift l_order = null;
+        AirliftOrder l_order = null;
         try {
             if (strings.length!=3) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.AIRLIFT_SYNTAX);
@@ -172,7 +172,7 @@ public class OrderController {
             int l_countryFromId = Integer.parseInt(strings[0]);
             int l_countryToId = Integer.parseInt(strings[1]);
             int l_numReinforcements = Integer.parseInt(strings[2]);
-            l_order = new Airlift(d_gameState, p_ownerPlayer, l_countryFromId, l_countryToId, l_numReinforcements);
+            l_order = new AirliftOrder(d_gameState, p_ownerPlayer, l_countryFromId, l_countryToId, l_numReinforcements);
         } catch (NumberFormatException e) {
             System.out.println("Invalid country ID or number of reinforcements.");
             return null;
@@ -184,13 +184,13 @@ public class OrderController {
     }
 
     public static Order handleNegotiateOrderCommand(String[] strings, Player p_ownerPlayer){
-        Deplomacy l_order = null;
+        DiplomacyOrder l_order = null;
         try {
             if (strings.length!=1) {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.NEGOTIATE_SYNTAX);
             }
             String l_playerName = strings[0];
-            l_order = new Deplomacy(d_gameState, p_ownerPlayer, l_playerName);
+            l_order = new DiplomacyOrder(d_gameState, p_ownerPlayer, l_playerName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
