@@ -1,7 +1,8 @@
 import config.AppConfig;
 import config.Debug;
-import models.FileLogObserver;
+
 import models.LogEntryBuffer;
+import views.FileLogObserver;
 
 public class App {
     public static void main(String[] args) {
@@ -16,8 +17,8 @@ public class App {
 
         LogEntryBuffer logBuffer = new LogEntryBuffer();
         FileLogObserver observer = new FileLogObserver("log_file.txt");
-        logBuffer.addObserver(observer);
-        logBuffer.logAction("Game started.");
+        logBuffer.attach(observer);
+        logBuffer.log("Game started.");
 
 
         GameMenu gameMenu = new GameMenu();
