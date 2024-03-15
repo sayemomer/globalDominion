@@ -198,6 +198,10 @@ public class Player {
         }
     }
 
+    public void forecefullyAddCard(Card p_card){
+        d_cards.add(p_card);
+    }
+
     /**
      * @return the cards
      */
@@ -236,6 +240,11 @@ public class Player {
                 break;
             }
         }
+    }
+
+    // remove all cards from the player
+    public void removeAllCards() {
+        d_cards.clear();
     }
 
     /**
