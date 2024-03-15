@@ -45,9 +45,6 @@ public class DeployOrder extends Order {
 
     @Override
     protected void validate() {
-        if (d_numReinforcements > d_owner.getReinforcement())
-            throw new IllegalArgumentException("The player does not have enough reinforcements. Please try again.");
-
         if (!d_owner.getCountryIds().contains(d_countryId))
             throw new IllegalArgumentException("The given country is not owned by the player. Please try again.");
 
@@ -57,13 +54,13 @@ public class DeployOrder extends Order {
         if (d_gameState.getCountries().get(d_countryId) == null)
             throw new IllegalArgumentException("Country does not exist");
 
-        if (d_owner.getReinforcementPoll() < d_numReinforcements)
+        if (d_owner.getReinforcementPoll() == 0 || d_owner.getReinforcementPoll() < d_numReinforcements)
             throw new IllegalArgumentException("Not enough reinforcements");
     }
 
     @Override
     public String toString() {
-        return "DeployOrder{" + d_owner + " deployed + " + d_numReinforcements + " reinforcements to country " + d_countryId + "}";
+        return "DeployOrder{" + d_owner + " deployed " + d_numReinforcements + " reinforcements to country " + d_countryId + "}";
     }
-    
+
 }
