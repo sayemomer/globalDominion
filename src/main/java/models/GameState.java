@@ -239,7 +239,7 @@ public class GameState {
     /**
      * gets country's owner
      * @param p_countryId
-     * @return
+     * @return the player who owns the country
      */
     public Player getCountryOwner(int p_countryId) {
         for (Player player : d_players.values()) {

@@ -7,9 +7,12 @@ import controllers.PlayerController;
 import models.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import services.GameMapReader;
 
 import java.util.Map;
@@ -30,8 +33,8 @@ public class DeplomacyTest {
 
     private static  Map<Integer, Country> d_countries ;
 
-    @BeforeClass
-    public static void setUp() {
+    @BeforeEach
+    public  void setUp() {
 
         gameState = new GameState();
         mapController = new MapController(gameState);
@@ -168,8 +171,8 @@ public class DeplomacyTest {
                                         "1"}, gameState.getPlayers().get("player2")));
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
         gameState = null;
         mapController = null;
         gameMapReader = null;

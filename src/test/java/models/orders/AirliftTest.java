@@ -5,11 +5,12 @@ import controllers.MapController;
 import controllers.OrderController;
 import controllers.PlayerController;
 import models.*;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import services.GameMapReader;
 
 import java.util.Map;
@@ -30,8 +31,8 @@ public class AirliftTest {
 
     private static  Map<Integer, Country> d_countries ;
 
-    @BeforeClass
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
 
         gameState = new GameState();
         mapController = new MapController(gameState);
@@ -187,8 +188,8 @@ public class AirliftTest {
 
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @AfterEach
+    public  void tearDown() {
         gameState = null;
         mapController = null;
         gameMapReader = null;

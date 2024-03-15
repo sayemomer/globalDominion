@@ -5,11 +5,13 @@ import controllers.MapController;
 import controllers.OrderController;
 import controllers.PlayerController;
 import models.*;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import services.GameMapReader;
 
 import java.util.Map;
@@ -30,8 +32,8 @@ public class BombTest {
 
     private static  Map<Integer, Country> d_countries ;
 
-    @BeforeClass
-    public static void setUp() {
+    @BeforeEach
+    public  void setUp() {
 
         gameState = new GameState();
         mapController = new MapController(gameState);
@@ -187,8 +189,8 @@ public class BombTest {
         assertEquals(initialArmies/2, gameState.getCountries().get(2).getArmies());
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @AfterEach
+    public  void tearDown() {
         gameState = null;
         mapController = null;
         gameMapReader = null;
