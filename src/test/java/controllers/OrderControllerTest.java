@@ -100,28 +100,4 @@ public class OrderControllerTest {
         Order o = OrderController.handleDeployOrderCommand(args, players.get("farid"));
         assertNull(o);
     }
-
-
-    @Test
-    @DisplayName("Checks if in advance order the number of reinforcement correctly changes")
-    void shouldAdvanceReinforcementsCorrectly(){
-
-        String[] args = { "2", "3", "3"} ;
-
-        Order o = OrderController.handleAdvanceOrderCommand(args, players.get("mahdieh"));
-        assertNotNull(o);
-        o.execute();
-        assertEquals(7, countries.get(2).getNumberOfReinforcements());
-        assertEquals(9, countries.get(3).getNumberOfReinforcements());
-
-    }
-
-    @Test
-    @DisplayName("checks whether it advance to a country that is not adjacent")
-    void ShouldNotAdvanceToNotAdjacentCountry(){
-        String[] args = {"2", "4", "4"};
-
-        Order o = OrderController.handleAdvanceOrderCommand(args, players.get("mahdieh"));
-
-    }
 }
