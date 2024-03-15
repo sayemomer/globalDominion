@@ -182,10 +182,11 @@ public class CountryController {
                 System.out.println("Added continent: " + l_continentId + " with bonus: " + l_bonus);
                 //TODO: handle the savemap command
             } else if (l_option.equals(Command.REMOVE)) {
-                if (!d_gameState.getContinents().containsKey(l_continentId))
-                    throw new Exception("Continent does not exist.");
-                d_gameState.getContinents().remove(l_continentId);
+                d_gameState.removeContinent(l_continentId);
+                Debug.log("REMOVE: " + l_continentId);
+                Debug.log("continent keys: " + d_gameState.getContinents().keySet());
                 removeRelatedCountriesToContinent(l_continentId);
+                Debug.log("continent keys: " + d_gameState.getContinents().keySet());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -212,7 +213,7 @@ public class CountryController {
         coutriesToBeDeleted.forEach(countryId -> removeRelatedConnectionsToCountry(countryId));
         coutriesToBeDeleted.forEach(countryId -> d_gameState.getCountries().remove(countryId));
 
-        ArrayList<Continent> deletedContinents = new ArrayList<>();
+        ArrayList<Continent> emptiedContinents = new ArrayList<>();
 
         // remove empty countries
         for (Continent continent : d_gameState.getContinents().values()) {
@@ -224,18 +225,23 @@ public class CountryController {
                 }
             }
             if (!foundCountry) {
-                deletedContinents.add(continent);
-                d_gameState.getContinents().remove(continent.getContinentId());
+                emptiedContinents.add(continent);
             }
         }
 
         if (!coutriesToBeDeleted.isEmpty()) {
             outputString.append("Removed countries: ");
             coutriesToBeDeleted.forEach(countryId -> outputString.append(countryId).append(", "));
+            outputString.append("\n");
         }
-        outputString.append("\n");
 
-        if (coutriesToBeDeleted.isEmpty() && deletedContinents.isEmpty()) {
+        if (!emptiedContinents.isEmpty()) {
+            System.out.print("WARNING: the following continents are empty: ");
+            emptiedContinents.forEach(continent -> System.out.print(" " + continent.getContinentId()));
+            System.out.println();
+        }
+
+        if (coutriesToBeDeleted.isEmpty()) {
             return;
         }
 
