@@ -111,6 +111,11 @@ public class AdvanceOrder extends Order{
 
         if (d_owner.getCountries().get(d_countryAttackerId).getNumberOfReinforcements() < d_numReinforcements)
             throw new IllegalArgumentException("Not enough reinforcements in country "+ d_countryAttackerId);
+
+        //check if the player is negotiated with the player to attack
+        if(d_gameState.getPlayers().get(d_owner.getName()).getNegotiatedPlayers().contains(d_gameState.getCountryOwner(d_countryDefenderId).getName())){
+            throw new IllegalArgumentException("Player " + d_owner.getName() + " cannot attack " + d_gameState.getCountryOwner(d_countryDefenderId).getName() + " because they are negotiated.");
+        }
     }
 
     @Override

@@ -17,6 +17,16 @@ public class GameState {
     private String d_currentFileName;
 
     /**
+     * adds a player to the game.
+     *
+     * @param p_name
+     */
+
+    public void addPlayer(String p_name) {
+        d_players.put(p_name, new Player(p_name));
+    }
+
+    /**
      * This enum represents the game actions. used as flags to keep track of the game state.
      */
     public enum GameAction {
@@ -64,7 +74,8 @@ public class GameState {
     }
 
     /**
-     *  get the current filename
+     * get the current filename
+     *
      * @return current filename
      */
     public String getCurrentFileName() {
@@ -73,6 +84,7 @@ public class GameState {
 
     /**
      * set the current filename
+     *
      * @param p_currentFileName
      */
     public void setCurrentFileName(String p_currentFileName) {
@@ -81,6 +93,7 @@ public class GameState {
 
     /**
      * set the map loaded
+     *
      * @param p_mapLoaded
      */
     public void setMapLoaded(boolean p_mapLoaded) {
@@ -89,6 +102,7 @@ public class GameState {
 
     /**
      * get continents
+     *
      * @return all continents
      */
     public Map<Integer, Continent> getContinents() {
@@ -106,6 +120,7 @@ public class GameState {
 
     /**
      * gets the countries
+     *
      * @return all countries
      */
     public Map<Integer, Country> getCountries() {
@@ -123,6 +138,7 @@ public class GameState {
 
     /**
      * returns the current turn
+     *
      * @return players
      */
     public Map<String, Player> getPlayers() {
@@ -135,8 +151,12 @@ public class GameState {
      */
     public void printMap() {
         //check if the map is loaded based on the gameState action
-        if (!isActionDone(GameAction.VALID_MAP_LOADED)) {
-            System.out.println("No map is loaded.");
+//        if (!isActionDone(GameAction.VALID_MAP_LOADED)) {
+//            System.out.println("No map is loaded.");
+//            return;
+//        }
+        if (d_continents.isEmpty()) {
+            System.out.println("No continents are loaded.");
             return;
         }
 
@@ -229,8 +249,9 @@ public class GameState {
 
     /**
      * gets country's owner
+     *
      * @param p_countryId
-     * @return
+     * @return the player who owns the country
      */
     public Player getCountryOwner(int p_countryId) {
         for (Player player : d_players.values()) {
@@ -279,10 +300,29 @@ public class GameState {
 
         return playersDetails;
     }
+    
+    public void removeCountry(int p_countryId) throws Exception {
+        if (d_countries.containsKey(p_countryId)) {
+            d_countries.remove(p_countryId);
+        } else {
+            throw new Exception("Country does not exist.");
+        }
+    }
 
+    public void removeContinent(int p_continentId) throws Exception {
+        if (d_continents.containsKey(p_continentId)) {
+            d_continents.remove(p_continentId);
+        } else {
+            throw new Exception("Continent" + p_continentId + "does not exist.");
+        }
+    }
 
-
-
+    public void addContinent(Continent p_continent) throws Exception {
+        if (d_continents.containsKey(p_continent.getContinentId())) {
+            throw new Exception("Continent" + p_continent.getContinentId() + "already exists.");
+        }
+        d_continents.put(p_continent.getContinentId(), p_continent);
+    }
 
 }
 

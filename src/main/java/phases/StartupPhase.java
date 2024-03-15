@@ -64,6 +64,7 @@ public class StartupPhase extends Phase {
                 case Command.EDIT_MAP:
                     if (d_gameEngine.getMapController().handleEditMapCommand(l_args)) {
                         goToEditMapPhase();
+                        break label;
                     }
                     break;
                 case Command.ASSIGN_COUNTRIES:
@@ -95,6 +96,7 @@ public class StartupPhase extends Phase {
     public void goToEditMapPhase() {
         d_gameEngine.setGamePhase(new EditMapPhase(d_gameEngine));
     }
+
     public boolean goToIssueOrdersPhase() {
         try {
             mapLoadedOrThrow();

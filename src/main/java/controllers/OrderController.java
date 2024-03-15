@@ -1,10 +1,7 @@
 package controllers;
 
 import models.GameState;
-import models.orders.AdvanceOrder;
-import models.orders.Bomb;
-import models.orders.DeployOrder;
-import models.orders.Order;
+import models.orders.*;
 import models.Player;
 
 import java.util.ArrayList;
@@ -48,6 +45,15 @@ public class OrderController {
                 break;
             } else if (command.equals(Command.BOMB)) {
                 l_orders.add(handleBombOrderCommand(args, p_ownerPlayer));
+                break;
+            } else if (command.equals(Command.BLOCKADE)) {
+                l_orders.add(handleBlockadeOrderCommand(args, p_ownerPlayer));
+                break;
+            } else if (command.equals(Command.AIRLIFT)) {
+                l_orders.add(handleAirliftOrderCommand(args, p_ownerPlayer));
+                break;
+            } else if (command.equals(Command.NEGOTIATE)) {
+                l_orders.add(handleNegotiateOrderCommand(args, p_ownerPlayer));
                 break;
             } else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
@@ -143,6 +149,60 @@ public class OrderController {
             System.out.println(e.getMessage());
             return null;
         }
+        return l_order;
+    }
+
+    public static Order handleBlockadeOrderCommand(String[] strings, Player p_ownerPlayer) {
+        Blockade l_order = null;
+        try {
+            if (strings.length != 1) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.BLOCKADE_SYNTAX);
+            }
+            int l_countryId = Integer.parseInt(strings[0]);
+            l_order = new Blockade(d_gameState, p_ownerPlayer, l_countryId);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid country ID.");
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return l_order;
+    }
+
+    public static Order handleAirliftOrderCommand(String[] strings, Player p_ownerPlayer) {
+        Airlift l_order = null;
+        try {
+            if (strings.length != 3) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.AIRLIFT_SYNTAX);
+            }
+            int l_countryFromId = Integer.parseInt(strings[0]);
+            int l_countryToId = Integer.parseInt(strings[1]);
+            int l_numReinforcements = Integer.parseInt(strings[2]);
+            l_order = new Airlift(d_gameState, p_ownerPlayer, l_countryFromId, l_countryToId, l_numReinforcements);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid country ID or number of reinforcements.");
+            return null;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return l_order;
+    }
+
+    public static Order handleNegotiateOrderCommand(String[] strings, Player p_ownerPlayer) {
+        Deplomacy l_order = null;
+        try {
+            if (strings.length != 1) {
+                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.NEGOTIATE_SYNTAX);
+            }
+            String l_playerName = strings[0];
+            l_order = new Deplomacy(d_gameState, p_ownerPlayer, l_playerName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
         return l_order;
     }
 }
