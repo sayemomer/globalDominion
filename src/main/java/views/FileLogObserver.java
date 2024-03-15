@@ -10,7 +10,7 @@ public class FileLogObserver implements Observer {
 
     public FileLogObserver(String path) {
         try {
-            printWriter = new PrintWriter(new FileOutputStream(path));
+            printWriter = new PrintWriter(new FileOutputStream(path, true));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
