@@ -24,31 +24,40 @@ public class PlayerController {
     public void handleGamePlayerCommand(String[] p_args) {
         Map<String, Player> l_players = gameState.getPlayers();
         try {
-            if (p_args.length != 2)
+            if (p_args.length % 2 != 0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.GAME_PLAYER_SYNTAX);
 
-            String l_option = p_args[0].toLowerCase();
-            String l_name = p_args[1].toLowerCase();
+            for (int i = 0; i < p_args.length; i += 2) {
 
-            if (l_option.equals(Command.ADD)) {
-                if (l_players.containsKey(l_name))
-                    throw new Exception("Player already exists.");
+                try {
+                    String l_option = p_args[i].toLowerCase();
+                    String l_name = p_args[i + 1].toLowerCase();
 
-                Player l_newPlayer = new Player(l_name);
-                l_players.put(l_newPlayer.getName(), l_newPlayer);
-                System.out.println("Player " + l_name + " added.");
-                gameState.setActionDone(GameState.GameAction.PlAYERS_ADDED);
-            } else if (l_option.equals(Command.REMOVE)) {
-                if (!l_players.containsKey(l_name))
-                    throw new Exception("Player not found.");
+                    if (l_option.equals(Command.ADD)) {
+                        if (l_players.containsKey(l_name))
+                            throw new Exception("Player already exists.");
 
-                System.out.println(("Player " + l_name + " removed."));
-                if (gameState.getPlayers().isEmpty())
-                    gameState.removeAction(GameState.GameAction.PlAYERS_ADDED);
-                l_players.remove(l_name);
-            } else {
-                throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.GAME_PLAYER_SYNTAX);
+                        Player l_newPlayer = new Player(l_name);
+                        l_players.put(l_newPlayer.getName(), l_newPlayer);
+                        System.out.println("Player " + l_name + " added.");
+                        gameState.setActionDone(GameState.GameAction.PlAYERS_ADDED);
+                    } else if (l_option.equals(Command.REMOVE)) {
+                        if (!l_players.containsKey(l_name))
+                            throw new Exception("Player not found.");
+
+                        System.out.println(("Player " + l_name + " removed."));
+                        if (gameState.getPlayers().isEmpty())
+                            gameState.removeAction(GameState.GameAction.PlAYERS_ADDED);
+                        l_players.remove(l_name);
+                    } else {
+                        throw new Exception("Error with GamePlayer at index " + i / 2 + " : " + "Invalid option.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error with GamePlayer at index " + i / 2 + " : " + e.getMessage());
+                }
+
             }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import config.Debug;
 import models.Country;
@@ -51,7 +52,6 @@ public class CountryController {
                 player.removeAllCountries();
             }
             Debug.log("Removed all countries from players.");
-
             List<Integer> countryIndices = new ArrayList<>(countries.keySet());
             Collections.shuffle(countryIndices);
 
@@ -85,39 +85,51 @@ public class CountryController {
      * @param p_args command arguments
      */
     public void handleEditNeighborCommand(String[] p_args) {
+
         try {
-            if (p_args.length != 3)
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
-
-            String l_option = p_args[0].toLowerCase();
-            int l_countryID = Integer.parseInt(p_args[1].toLowerCase());
-            int l_neighborID = Integer.parseInt(p_args[2].toLowerCase());
-
-            Country l_country = d_gameState.getCountries().get(l_countryID);
-            Country l_neighbor = d_gameState.getCountries().get(l_neighborID);
-
-            if (l_country == null)
-                throw new Exception("Country does not exist.");
-            if (l_neighbor == null)
-                throw new Exception("Neighbor does not exist.");
-
-            if (l_option.equals(Command.ADD)) {
-                if (l_country.getAdjacentCountries().contains(l_neighborID))
-                    throw new Exception("Connection already exists.");
-                l_country.addAdjacentCountry(l_neighborID);
-                System.out.println("Added connection: " + l_country.getName() + " -> " + l_neighbor.getName());
-            } else if (l_option.equals(Command.REMOVE)) {
-                if (l_country.removeAdjacentCountry(l_neighborID))
-                    System.out.println("Removed connection: " + l_country.getName() + " -> " + l_neighbor.getName());
-                else
-                    throw new Exception("Connection does not exist.");
-            } else {
-                throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID or neighbor ID.");
+            assert p_args.length % 3 == 0;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
+            return;
+        }
+
+        int argumentCount = 0;
+        for (int i = 0; i < p_args.length; i++, argumentCount++) {
+            Debug.log(String.valueOf(argumentCount));
+            try {
+
+                String l_option = p_args[i].toLowerCase();
+                int l_countryID = Integer.parseInt(p_args[i + 1].toLowerCase());
+                int l_neighborID = Integer.parseInt(p_args[i + 2].toLowerCase());
+                i += 2;
+                Country l_country = d_gameState.getCountries().get(l_countryID);
+                Country l_neighbor = d_gameState.getCountries().get(l_neighborID);
+
+                if (l_country == null)
+                    throw new Exception("Country does not exist.");
+                if (l_neighbor == null)
+                    throw new Exception("Neighbor does not exist.");
+
+                if (l_option.equals(Command.ADD)) {
+
+                    if (l_country.getAdjacentCountries().contains(l_neighborID))
+                        throw new Exception("Connection already exists.");
+                    l_country.addAdjacentCountry(l_neighborID);
+                    System.out.println("Added connection: " + l_country.getName() + " -> " + l_neighbor.getName());
+                } else if (l_option.equals(Command.REMOVE)) {
+
+                    if (l_country.removeAdjacentCountry(l_neighborID))
+                        System.out.println("Removed connection: " + l_country.getName() + " -> " + l_neighbor.getName());
+                    else
+                        throw new Exception("Connection does not exist.");
+                } else {
+                    throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error with EditNeighbor at index " + argumentCount + " : " + "Invalid country ID or neighbor ID.");
+            } catch (Exception e) {
+                System.out.println("Error with EditNeighbor at index " + argumentCount + " : " + e.getMessage());
+            }
         }
     }
 
@@ -127,34 +139,53 @@ public class CountryController {
      * @param p_args command arguments
      */
     public void handleEditCountryCommand(String[] p_args) {
-        try {
-            if (!(p_args.length == 3 || p_args.length == 2))
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
-            String l_option = p_args[0].toLowerCase();
-            int l_countryId = Integer.parseInt(p_args[1]);
-            int l_continentID = 0;
-            if (p_args.length == 3)
-                l_continentID = Integer.parseInt(p_args[2]);
-            if (l_option.equals(Command.ADD)) {
-                if (!(p_args.length == 3))
-                    throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
-                if (d_gameState.getCountries().containsKey(l_countryId))
-                    throw new Exception("Country already exists.");
-                if (!d_gameState.getContinents().containsKey(l_continentID))
-                    throw new Exception("Continent does not exist.");
 
-                d_gameState.getCountries().put(l_countryId, new Country(l_countryId, l_continentID));
-                System.out.println("Added country: " + l_countryId + " to continent: " + l_continentID);
-            } else if (l_option.equals(Command.REMOVE)) {
-                if (!(p_args.length == 2))
-                    throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
-                if (!d_gameState.getCountries().containsKey(l_countryId))
-                    throw new Exception("Country does not exist.");
-                removeRelatedConnectionsToCountry(l_countryId);
-                d_gameState.getCountries().remove(l_countryId);
+        try {
+            for (int i = 0; i < p_args.length; i++) {
+                Debug.log("p_args[" + i + "]: " + p_args[i]);
+                if (p_args[i].equalsIgnoreCase("-add")) {
+                    assert i + 3 <= p_args.length;
+
+                    i += 2;
+                } else if (p_args[i].equalsIgnoreCase("-remove")) {
+                    assert i + 2 <= p_args.length;
+                    i += 1;
+                } else {
+                    Debug.log("errrr");
+                    throw new Exception();
+                }
             }
+            Debug.log("handleEditCountryCommand: passed number of arguments check.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
+            return;
+        }
+        int argumentCount = 0;
+        for (int i = 0; i < p_args.length; i++, argumentCount++) {
+            try {
+                String l_option = p_args[i].toLowerCase();
+                int l_countryId = Integer.parseInt(p_args[i + 1]);
+
+                if (l_option.equals(Command.ADD)) {
+                    int l_continentId = Integer.parseInt(p_args[i + 2]);
+                    i += 2;
+                    Country newCountry = new Country(l_countryId, l_continentId);
+                    d_gameState.getCountries().put(l_countryId, new Country(l_countryId, l_continentId));
+                    System.out.println("Added country: " + l_countryId + " to continent: " + l_continentId);
+                }
+
+                if (p_args[i].equalsIgnoreCase(Command.REMOVE)) {
+                    removeRelatedConnectionsToCountry(l_countryId);
+                    d_gameState.getCountries().remove(l_countryId);
+                    i += 1;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Error with EditCountry at index " + argumentCount + " : " + "Invalid country ID.");
+            } catch (Exception e) {
+                System.out.println("Error with EditCountry at index " + argumentCount + " : " + e.getMessage());
+            }
+
         }
     }
 
@@ -166,29 +197,55 @@ public class CountryController {
 
 
     public void handleEditContinentCommand(String[] p_args) {
-        try {
-            if (!(p_args.length == 3 || p_args.length == 2))
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
-            String l_option = p_args[0].toLowerCase();
-            int l_continentId = Integer.parseInt(p_args[1]);
 
-            if (l_option.equals(Command.ADD)) {
-                if (p_args.length != 3)
-                    throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
-                int l_bonus = Integer.parseInt(p_args[2]);
-                if (d_gameState.getContinents().containsKey(l_continentId))
-                    throw new Exception("Continent already exists.");
-                d_gameState.getContinents().put(l_continentId, new Continent(l_continentId, l_bonus));
-                System.out.println("Added continent: " + l_continentId + " with bonus: " + l_bonus);
-                //TODO: handle the savemap command
-            } else if (l_option.equals(Command.REMOVE)) {
-                if (!d_gameState.getContinents().containsKey(l_continentId))
-                    throw new Exception("Continent does not exist.");
-                d_gameState.getContinents().remove(l_continentId);
-                removeRelatedCountriesToContinent(l_continentId);
+        try {
+            for (int i = 0; i < p_args.length; i++) {
+                Debug.log("p_args[" + i + "]: " + p_args[i]);
+                if (p_args[i].equalsIgnoreCase("-add")) {
+                    assert i + 3 <= p_args.length;
+
+                    i += 2;
+                } else if (p_args[i].equalsIgnoreCase("-remove")) {
+                    assert i + 2 <= p_args.length;
+                    i += 1;
+                } else {
+                    Debug.log("errrr");
+                    throw new Exception();
+                }
             }
+            Debug.log("handleEditContinentCommand: passed number of arguments check.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
+            return;
+        }
+
+        int argumentCount = 0;
+        for (int i = 0; i < p_args.length; i++, argumentCount++) {
+            try {
+
+                String l_option = p_args[i].toLowerCase();
+
+                if (l_option.equals(Command.ADD)) {
+                    int l_continentId = Integer.parseInt(p_args[i + 1]);
+                    int l_bonus = Integer.parseInt(p_args[i + 2]);
+                    i += 2;
+                    Continent newContinent = new Continent(l_continentId, l_bonus);
+                    d_gameState.addContinent(newContinent);
+                    System.out.println("Added continent: " + newContinent);
+                }
+
+                if (p_args[i].equalsIgnoreCase(Command.REMOVE)) {
+                    int l_continentId = Integer.parseInt(p_args[i + 1]);
+                    i += 1;
+                    d_gameState.removeContinent(l_continentId);
+                    removeRelatedCountriesToContinent(l_continentId);
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Error with EditContinent at index " + argumentCount + " : " + "Invalid continent ID or bonus value.");
+            } catch (Exception e) {
+                System.out.println("Error with EditContinent at index " + argumentCount + " : " + e.getMessage());
+            }
         }
     }
 
@@ -199,6 +256,7 @@ public class CountryController {
      *
      * @param continentID continent ID
      */
+
     private void removeRelatedCountriesToContinent(int continentID) {
         StringBuilder outputString = new StringBuilder("As an effect to previous action, the following countries are removed:\n");
         ArrayList<Integer> coutriesToBeDeleted = new ArrayList<>();
@@ -212,7 +270,7 @@ public class CountryController {
         coutriesToBeDeleted.forEach(countryId -> removeRelatedConnectionsToCountry(countryId));
         coutriesToBeDeleted.forEach(countryId -> d_gameState.getCountries().remove(countryId));
 
-        ArrayList<Continent> deletedContinents = new ArrayList<>();
+        ArrayList<Continent> emptiedContinents = new ArrayList<>();
 
         // remove empty countries
         for (Continent continent : d_gameState.getContinents().values()) {
@@ -224,18 +282,23 @@ public class CountryController {
                 }
             }
             if (!foundCountry) {
-                deletedContinents.add(continent);
-                d_gameState.getContinents().remove(continent.getContinentId());
+                emptiedContinents.add(continent);
             }
         }
 
         if (!coutriesToBeDeleted.isEmpty()) {
             outputString.append("Removed countries: ");
             coutriesToBeDeleted.forEach(countryId -> outputString.append(countryId).append(", "));
+            outputString.append("\n");
         }
-        outputString.append("\n");
 
-        if (coutriesToBeDeleted.isEmpty() && deletedContinents.isEmpty()) {
+        if (!emptiedContinents.isEmpty()) {
+            System.out.print("WARNING: the following continents are empty: ");
+            emptiedContinents.forEach(continent -> System.out.print(" " + continent.getContinentId()));
+            System.out.println();
+        }
+
+        if (coutriesToBeDeleted.isEmpty()) {
             return;
         }
 
