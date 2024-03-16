@@ -96,19 +96,19 @@ public class MapController {
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_MAP_SYNTAX);
             }
 
-            File l_file = new File(p_args[0]);
+            String l_fileLocation = "src/main/resources/" + p_args[0];
+
+            File l_file = new File(l_fileLocation);
             if (l_file.exists()) {
                 d_filePath = p_args[0];
                 d_gameState.setMapLoaded(loadMap());
             } else {
-                String l_fileLocation = "src/main/resources/" + p_args[0];
                 System.out.println("File does not exist. Creating a new map...");
                 createNewMap(l_fileLocation);
                 d_gameState.setCurrentFileName(l_fileLocation);
                 d_gameState.setMapLoaded(true);
             }
-
-
+            
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
             return false;

@@ -8,7 +8,7 @@ import views.FileLogObserver;
 public class App {
     public static void main(String[] args) {
 
-        AppConfig.setDebugMode(false);
+        AppConfig.setDebugMode(true);
         AppConfig.setVerboseMode(false);
 
         Debug.log("Game started.");
