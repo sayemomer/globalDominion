@@ -39,9 +39,24 @@ public class GameEngineTest {
     }
 
     @Test
-    @DisplayName("Test to check if the issue order phase is working properly")
-    public void testExecuteOrdersAfterIssuing() throws IOException {
+    @DisplayName("Test to check conditions for entering issue order phase (when map us loaded)")
+    public void shouldNotGoToIssueOrderWhenNoPlayersAreAdded() {
+        StartupPhase startup = new StartupPhase(gameEngine);
+        gameEngine.setGamePhase(startup);
+        mapController.handleloadMapCommand(new String[]{"canada.map"});
+        mapController.handleSaveMapCommand(new String[]{"canada.map"});
+        startup.goToIssueOrdersPhase();
+        assertEquals(startup, gameEngine.getGamePhase());
+    }
 
+    @Test
+    @DisplayName("Test to check conditions for entering issue order phase (when players are added.)")
+    public void shouldNotGoToIssueOrderWhenMapIsNotValid() {
+        StartupPhase startup = new StartupPhase(gameEngine);
+        playerController.handleGamePlayerCommand(new String[]{"-add", "player1"});
+        gameEngine.setGamePhase(startup);
+        startup.goToIssueOrdersPhase();
+        assertEquals(startup, gameEngine.getGamePhase());
     }
 
     @AfterEach
