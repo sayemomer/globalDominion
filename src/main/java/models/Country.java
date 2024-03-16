@@ -131,7 +131,7 @@ public class Country {
      * @return true if removed successfully
      */
     public boolean removeAdjacentCountry(int p_adjacentCountryId) {
-        return this.d_adjacentCountries.remove(p_adjacentCountryId) != null;
+        return this.d_adjacentCountries.remove(new Integer(p_adjacentCountryId));
     }
 
     /**
@@ -157,5 +157,5 @@ public class Country {
     public int getArmies() {
         return d_numberOfReinforcements;
     }
-    
+
 }
