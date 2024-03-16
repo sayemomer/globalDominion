@@ -151,7 +151,6 @@ public class CountryController {
                     assert i + 2 <= p_args.length;
                     i += 1;
                 } else {
-                    Debug.log("errrr");
                     throw new Exception();
                 }
             }
@@ -170,14 +169,17 @@ public class CountryController {
                     int l_continentId = Integer.parseInt(p_args[i + 2]);
                     i += 2;
                     Country newCountry = new Country(l_countryId, l_continentId);
-                    d_gameState.getCountries().put(l_countryId, new Country(l_countryId, l_continentId));
+                    d_gameState.addCountry(newCountry);
                     System.out.println("Added country: " + l_countryId + " to continent: " + l_continentId);
                 }
 
-                if (p_args[i].equalsIgnoreCase(Command.REMOVE)) {
+                if (l_option.equalsIgnoreCase(Command.REMOVE)) {
+                    i += 1;
+                    if (!d_gameState.getCountries().containsKey(l_countryId))
+                        throw new Exception("Country does not exist.");
                     removeRelatedConnectionsToCountry(l_countryId);
                     d_gameState.getCountries().remove(l_countryId);
-                    i += 1;
+
                 }
 
             } catch (NumberFormatException e) {
