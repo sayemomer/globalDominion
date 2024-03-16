@@ -46,12 +46,11 @@ public class Player {
      * adds an order to the list of orders when the game engine calls it during the issue orders phase.
      */
     public void issueOrder() {
-        ArrayList<Order> l_orders = OrderController.takeOrderCommands(this);
-        System.out.println("Orders added for " + this + ":");
-        for (Order l_order : l_orders) {
+        while (true) {
+            Order l_order = OrderController.takeOrderCommands(this);
             if (l_order != null) {
                 d_orders.add(l_order);
-                System.out.println(l_order);
+                break;
             }
         }
     }
@@ -199,7 +198,7 @@ public class Player {
         }
     }
 
-    public void forecefullyAddCard(Card p_card){
+    public void forecefullyAddCard(Card p_card) {
         d_cards.add(p_card);
     }
 
@@ -258,8 +257,7 @@ public class Player {
 
 
     /**
-     * @param p_PlayerToNegotiateWith
-     * add the player to the list of negotiated players
+     * @param p_PlayerToNegotiateWith add the player to the list of negotiated players
      */
     public void addNegotiatedPlayer(String p_PlayerToNegotiateWith) {
         d_negotiatedPlayers.add(p_PlayerToNegotiateWith);

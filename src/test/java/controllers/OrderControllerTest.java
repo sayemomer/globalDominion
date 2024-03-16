@@ -78,7 +78,7 @@ public class OrderControllerTest {
     @DisplayName("Checks if the deploy order is handled correctly")
     void shouldDeployReinforcementsCorrectly() {
         String[] args = {"1", "3"};
-        Order o = OrderController.handleDeployOrderCommand(args, players.get("farid")).get(0);
+        Order o = OrderController.handleDeployOrderCommand(args, players.get("farid"));
         assertNotNull(o);
         o.execute();
         assertEquals(3, countries.get(1).getNumberOfReinforcements());
@@ -88,15 +88,16 @@ public class OrderControllerTest {
     @DisplayName("Checks handling of deploy order when player tries to deploy to a country not owned by them.")
     void shouldNotDeployReinforcementsToCountriesNotOwnedByPlayer() {
         String[] args = {"1", "2"};
-        assertTrue(OrderController.handleDeployOrderCommand(args, players.get("farid")).isEmpty());
-
+        Order o = OrderController.handleDeployOrderCommand(args, players.get("parsa"));
+        assertNull(o);
     }
 
     @Test
     @DisplayName("Checks handling of deploy order when player has not enough reinforcements.")
     void shouldNotDeployReinforcementsWhenPlayerHasNotEnough() {
         String[] args = {"1", "5"};
-        assertTrue(OrderController.handleDeployOrderCommand(args, players.get("farid")).isEmpty());
+        Order o = OrderController.handleDeployOrderCommand(args, players.get("farid"));
+        assertNull(o);
     }
 
 
