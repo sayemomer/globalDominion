@@ -1,4 +1,4 @@
-# Project Title: Advanced Programming Practices - Build 1
+# Project Title: Advanced Programming Practices - Build 2
 
 ## Description
 
@@ -66,10 +66,27 @@ mvn build
     6. map edit- checks that the disparity in the number of assigned countries per player does not exceed one
     7. map edit- checks if the continent exist before adding a country to it
     8. map edit- checks if the continent is removed correctly from game state
+ - Order tests:
+   1. AirLift order- After successful airlift, the armies should be moved to the target country
+   2. Blockade order- After successful blockade, the target country should be neutral and the armies should be tripled
+   3. Bomb order- After successful bomb, the target country should be neutral and the armies should be halved
+   4. Deploy order- After successful deploy, the armies should be added to the target country
+   5. Negotiate order- After successful negotiate, the players should not attack each other
+   6. Advance order- After successful advance, the armies should be moved to the target country
 
 ```bash
+#Removes the target directory with all the build data before starting a new build.
+mvn clean
+#: Compiles the source code of the project.
+mvn compile
 # command to run test
 mvn test
+
+# To generate test coverage report
+
+mvn jacoco:report
+
+# find the report in target/site/jacoco/index.html
 ```
 
 ## Coding Conventions

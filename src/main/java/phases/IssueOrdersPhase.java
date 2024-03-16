@@ -17,7 +17,6 @@ public class IssueOrdersPhase extends Phase {
         System.out.println("Available commands: ");
         System.out.println("  " + Command.DEPLOY_SYNTAX);
         System.out.println("Type 'exit' to exit the game.");
-
     }
 
     @Override
@@ -28,8 +27,6 @@ public class IssueOrdersPhase extends Phase {
         for (Player player : d_gameEngine.getGameState().getPlayers().values()) {
             playerFinishedOrders.put(player.getName(), false);
         }
-
-
         boolean aPlayerOrdered = true;
         // as long as a player has not finished ordering
         while (aPlayerOrdered) {
@@ -40,8 +37,22 @@ public class IssueOrdersPhase extends Phase {
                 }
                 aPlayerOrdered = true;
                 player.issueOrder();
-                // only for build 1: player finishes ordering when all reinforcement is deployed.
-                playerFinishedOrders.replace(player.getName(), player.getReinforcementPoll() == 0);
+
+                // check if player is done ordering
+                System.out.println("Want to continue? Type 'y' or 'n'");
+                String l_inputString = d_gameEngine.getScanner().nextLine().trim().toLowerCase();
+
+                if (l_inputString.equals("y")) {
+                    playerFinishedOrders.replace(player.getName(), false);
+                } else if (l_inputString.equals("n")) {
+                    if (player.getReinforcementPoll() != 0) {
+                        System.out.println("You still have " + player.getReinforcementPoll() + " reinforcements left. Please deploy them.");
+                    } else {
+                        playerFinishedOrders.replace(player.getName(), true);
+                    }
+                } else {
+                    System.out.println("Invalid input. Please type 'y' or 'n'");
+                }
             }
         }
         goToExecuteOrdersPhase();
