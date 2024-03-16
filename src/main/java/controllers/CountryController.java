@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import config.Debug;
 import models.Country;
@@ -84,39 +85,51 @@ public class CountryController {
      * @param p_args command arguments
      */
     public void handleEditNeighborCommand(String[] p_args) {
+
         try {
-            if (p_args.length != 3)
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
-
-            String l_option = p_args[0].toLowerCase();
-            int l_countryID = Integer.parseInt(p_args[1].toLowerCase());
-            int l_neighborID = Integer.parseInt(p_args[2].toLowerCase());
-
-            Country l_country = d_gameState.getCountries().get(l_countryID);
-            Country l_neighbor = d_gameState.getCountries().get(l_neighborID);
-
-            if (l_country == null)
-                throw new Exception("Country does not exist.");
-            if (l_neighbor == null)
-                throw new Exception("Neighbor does not exist.");
-
-            if (l_option.equals(Command.ADD)) {
-                if (l_country.getAdjacentCountries().contains(l_neighborID))
-                    throw new Exception("Connection already exists.");
-                l_country.addAdjacentCountry(l_neighborID);
-                System.out.println("Added connection: " + l_country.getName() + " -> " + l_neighbor.getName());
-            } else if (l_option.equals(Command.REMOVE)) {
-                if (l_country.removeAdjacentCountry(l_neighborID))
-                    System.out.println("Removed connection: " + l_country.getName() + " -> " + l_neighbor.getName());
-                else
-                    throw new Exception("Connection does not exist.");
-            } else {
-                throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID or neighbor ID.");
+            assert p_args.length % 3 == 0;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
+            return;
+        }
+
+        int argumentCount = 0;
+        for (int i = 0; i < p_args.length; i++, argumentCount++) {
+            Debug.log(String.valueOf(argumentCount));
+            try {
+
+                String l_option = p_args[i].toLowerCase();
+                int l_countryID = Integer.parseInt(p_args[i + 1].toLowerCase());
+                int l_neighborID = Integer.parseInt(p_args[i + 2].toLowerCase());
+                i += 2;
+                Country l_country = d_gameState.getCountries().get(l_countryID);
+                Country l_neighbor = d_gameState.getCountries().get(l_neighborID);
+
+                if (l_country == null)
+                    throw new Exception("Country does not exist.");
+                if (l_neighbor == null)
+                    throw new Exception("Neighbor does not exist.");
+
+                if (l_option.equals(Command.ADD)) {
+
+                    if (l_country.getAdjacentCountries().contains(l_neighborID))
+                        throw new Exception("Connection already exists.");
+                    l_country.addAdjacentCountry(l_neighborID);
+                    System.out.println("Added connection: " + l_country.getName() + " -> " + l_neighbor.getName());
+                } else if (l_option.equals(Command.REMOVE)) {
+
+                    if (l_country.removeAdjacentCountry(l_neighborID))
+                        System.out.println("Removed connection: " + l_country.getName() + " -> " + l_neighbor.getName());
+                    else
+                        throw new Exception("Connection does not exist.");
+                } else {
+                    throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error with EditNeighbor at index " + argumentCount + " : " + "Invalid country ID or neighbor ID.");
+            } catch (Exception e) {
+                System.out.println("Error with EditNeighbor at index " + argumentCount + " : " + e.getMessage());
+            }
         }
     }
 
@@ -192,20 +205,21 @@ public class CountryController {
             try {
 
                 String l_option = p_args[i].toLowerCase();
-                int l_continentId = Integer.parseInt(p_args[i + 1]);
 
                 if (l_option.equals(Command.ADD)) {
-                    int l_bonus = Integer.parseInt(p_args[2]);
+                    int l_continentId = Integer.parseInt(p_args[i + 1]);
+                    int l_bonus = Integer.parseInt(p_args[i + 2]);
+                    i += 2;
                     Continent newContinent = new Continent(l_continentId, l_bonus);
                     d_gameState.addContinent(newContinent);
                     System.out.println("Added continent: " + newContinent);
-                    i += 2;
                 }
 
                 if (p_args[i].equalsIgnoreCase(Command.REMOVE)) {
+                    int l_continentId = Integer.parseInt(p_args[i + 1]);
+                    i += 1;
                     d_gameState.removeContinent(l_continentId);
                     removeRelatedCountriesToContinent(l_continentId);
-                    i += 1;
                 }
 
             } catch (NumberFormatException e) {
