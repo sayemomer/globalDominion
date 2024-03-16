@@ -155,7 +155,7 @@ public class CountryController {
                 }
             }
             Debug.log("handleEditCountryCommand: passed number of arguments check.");
-        } catch (Exception e) {
+        } catch (Exception | AssertionError e) {
             System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
             return;
         }
@@ -216,7 +216,7 @@ public class CountryController {
                 }
             }
             Debug.log("handleEditContinentCommand: passed number of arguments check.");
-        } catch (Exception e) {
+        } catch (Exception | AssertionError e) {
             System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
             return;
         }
