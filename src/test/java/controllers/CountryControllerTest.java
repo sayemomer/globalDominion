@@ -77,10 +77,24 @@ class CountryControllerTest {
     }
 
     @Test
+    @DisplayName("map validation- checks if the add command countries work correctly")
+    void shouldWriteAddCountryCorrectly() {
+        countryController.handleEditCountryCommand(new String[]{"-add", "7"});
+        assertFalse(gameState.getCountries().containsKey(7));
+    }
+
+    @Test
     @DisplayName("map validation- checks if the continent is removed correctly from game state")
     void removeContinentTest() {
         countryController.handleEditContinentCommand(new String[]{"-remove", "1"});
         assertFalse(gameState.getContinents().containsKey(1));
+    }
+
+    @Test
+    @DisplayName("map validation- checks if the commands for remove does not write correctly")
+    void removeContinentCommand() {
+        countryController.handleEditContinentCommand(new String[]{"-remove"});
+        assertTrue(gameState.getContinents().containsKey(1));
     }
 
     @Test
@@ -91,6 +105,13 @@ class CountryControllerTest {
     }
 
     @Test
+    @DisplayName("map validation- checks if the command for the related countries are also removed after removing a continent")
+    void shouldCommandWorkCorrectlyForRemoveRelatedCountriesWhenContinentRemoved() {
+        countryController.handleEditContinentCommand(new String[]{"-remove"});
+        assertTrue(gameState.getCountries().containsKey(1));
+    }
+
+    @Test
     @DisplayName("map validation- checks if the related connections are also removed after removing a country")
     void shouldRemoveRelatedConnectionsWhenCountryRemoved() {
         String[] args = {"-remove", "1"};
@@ -98,6 +119,18 @@ class CountryControllerTest {
         String[] args2 = {"-remove", "2"};
         countryController.handleEditCountryCommand(args2);
         assertFalse(gameState.getCountries().get(3).getAdjacentCountries().contains(1));
+        assertFalse(gameState.getCountries().get(3).getAdjacentCountries().contains(2));
+    }
+
+
+    @Test
+    @DisplayName("map validation- checks the commands if the related connections are also removed after removing a country")
+    void shouldCommandWorksCorrectlyForRemoveRelatedConnectionsWhenCountryRemoved() {
+        String[] args = {"-remove"};
+        countryController.handleEditCountryCommand(args);
+        String[] args2 = {"-remove", "2"};
+        countryController.handleEditCountryCommand(args2);
+        assertTrue(gameState.getCountries().get(3).getAdjacentCountries().contains(1));
         assertFalse(gameState.getCountries().get(3).getAdjacentCountries().contains(2));
     }
 
