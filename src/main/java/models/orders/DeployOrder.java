@@ -54,7 +54,7 @@ public class DeployOrder extends Order {
         if (d_gameState.getCountries().get(d_countryId) == null)
             throw new IllegalArgumentException("Country does not exist");
 
-        if (d_owner.getReinforcementPoll() == 0 || d_owner.getReinforcementPoll() < d_numReinforcements)
+        if (d_owner.getReinforcementPoll() < d_numReinforcements)
             throw new IllegalArgumentException("Not enough reinforcements");
     }
 
