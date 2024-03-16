@@ -1,5 +1,6 @@
 package phases;
 
+import models.Country;
 import models.Player;
 import models.orders.Order;
 
@@ -41,8 +42,10 @@ public class ExecuteOrdersPhase extends Phase {
     }
 
     public void resumeOrThrow() throws Exception {
-        // TODO: must check if the game is finished; if so, throw an exception.
-        throw new Exception("Game is finished.");
+        for (Player player : d_gameEngine.getGameState().getPlayers().values()) {
+            if (player.getCountryIds().size() == d_gameEngine.getGameState().getCountries().size())
+                throw new Exception("Player " + player + " has won.");
+        }
     }
 
     public void goToFinishPhase() {
@@ -54,6 +57,7 @@ public class ExecuteOrdersPhase extends Phase {
             resumeOrThrow();
             d_gameEngine.setGamePhase(new IssueOrdersPhase(d_gameEngine));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             goToFinishPhase();
         }
     }
