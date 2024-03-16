@@ -126,34 +126,53 @@ public class CountryController {
      * @param p_args command arguments
      */
     public void handleEditCountryCommand(String[] p_args) {
-        try {
-            if (!(p_args.length == 3 || p_args.length == 2))
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
-            String l_option = p_args[0].toLowerCase();
-            int l_countryId = Integer.parseInt(p_args[1]);
-            int l_continentID = 0;
-            if (p_args.length == 3)
-                l_continentID = Integer.parseInt(p_args[2]);
-            if (l_option.equals(Command.ADD)) {
-                if (!(p_args.length == 3))
-                    throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
-                if (d_gameState.getCountries().containsKey(l_countryId))
-                    throw new Exception("Country already exists.");
-                if (!d_gameState.getContinents().containsKey(l_continentID))
-                    throw new Exception("Continent does not exist.");
 
-                d_gameState.getCountries().put(l_countryId, new Country(l_countryId, l_continentID));
-                System.out.println("Added country: " + l_countryId + " to continent: " + l_continentID);
-            } else if (l_option.equals(Command.REMOVE)) {
-                if (!(p_args.length == 2))
-                    throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
-                if (!d_gameState.getCountries().containsKey(l_countryId))
-                    throw new Exception("Country does not exist.");
-                removeRelatedConnectionsToCountry(l_countryId);
-                d_gameState.getCountries().remove(l_countryId);
+        try {
+            for (int i = 0; i < p_args.length; i++) {
+                Debug.log("p_args[" + i + "]: " + p_args[i]);
+                if (p_args[i].equalsIgnoreCase("-add")) {
+                    assert i + 3 <= p_args.length;
+
+                    i += 2;
+                } else if (p_args[i].equalsIgnoreCase("-remove")) {
+                    assert i + 2 <= p_args.length;
+                    i += 1;
+                } else {
+                    Debug.log("errrr");
+                    throw new Exception();
+                }
             }
+            Debug.log("handleEditCountryCommand: passed number of arguments check.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
+            return;
+        }
+        int argumentCount = 0;
+        for (int i = 0; i < p_args.length; i++, argumentCount++) {
+            try {
+                String l_option = p_args[i].toLowerCase();
+                int l_countryId = Integer.parseInt(p_args[i + 1]);
+
+                if (l_option.equals(Command.ADD)) {
+                    int l_continentId = Integer.parseInt(p_args[i + 2]);
+                    i += 2;
+                    Country newCountry = new Country(l_countryId, l_continentId);
+                    d_gameState.getCountries().put(l_countryId, new Country(l_countryId, l_continentId));
+                    System.out.println("Added country: " + l_countryId + " to continent: " + l_continentId);
+                }
+
+                if (p_args[i].equalsIgnoreCase(Command.REMOVE)) {
+                    removeRelatedConnectionsToCountry(l_countryId);
+                    d_gameState.getCountries().remove(l_countryId);
+                    i += 1;
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Error with EditCountry at index " + argumentCount + " : " + "Invalid country ID.");
+            } catch (Exception e) {
+                System.out.println("Error with EditCountry at index " + argumentCount + " : " + e.getMessage());
+            }
+
         }
     }
 
@@ -223,6 +242,7 @@ public class CountryController {
      *
      * @param continentID continent ID
      */
+
     private void removeRelatedCountriesToContinent(int continentID) {
         StringBuilder outputString = new StringBuilder("As an effect to previous action, the following countries are removed:\n");
         ArrayList<Integer> coutriesToBeDeleted = new ArrayList<>();
