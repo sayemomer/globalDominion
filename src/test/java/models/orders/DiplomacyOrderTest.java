@@ -5,8 +5,7 @@ import controllers.MapController;
 import controllers.OrderController;
 import controllers.PlayerController;
 import models.*;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+
 import static org.junit.Assert.*;
 
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +17,7 @@ import services.GameMapReader;
 import java.util.Map;
 
 
-public class DeplomacyTest {
+public class DiplomacyOrderTest {
 
     static GameState gameState;
     static MapController mapController;
@@ -162,7 +161,7 @@ public class DeplomacyTest {
 
     @Test
     @DisplayName("After negotiation, enemy country should not create an attack on the player's country")
-    public void testDeplomacy() {
+    public void testDiplomacy() {
 
 
         assertNull(orderController.handleAdvanceOrderCommand(

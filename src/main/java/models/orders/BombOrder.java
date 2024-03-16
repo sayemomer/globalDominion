@@ -10,7 +10,7 @@ import models.Player;
  * The bomb order can be validated
  */
 
-public class Bomb extends Order{
+public class BombOrder extends Order{
 
 
     /**
@@ -25,7 +25,7 @@ public class Bomb extends Order{
      * @param p_countryId the country id
      */
 
-    public Bomb(GameState p_gameState, Player p_owner, int p_countryId) {
+    public BombOrder(GameState p_gameState, Player p_owner, int p_countryId) {
         super(p_gameState, p_owner);
         l_countryId = p_countryId;
 
