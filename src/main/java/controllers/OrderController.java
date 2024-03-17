@@ -3,6 +3,8 @@ package controllers;
 import models.GameState;
 import models.orders.*;
 import models.Player;
+import phases.GameEngine;
+import phases.IssueDeployOrder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +18,7 @@ import java.util.Scanner;
 public class OrderController {
     private static GameState d_gameState;
     private static Scanner d_scanner;
+    private static GameEngine d_gameEngine;
 
     /**
      * Constructor for the OrderController class.
@@ -28,6 +31,12 @@ public class OrderController {
         d_scanner = p_scanner;
     }
 
+    public OrderController(GameEngine p_gameEngine) {
+        d_gameEngine = p_gameEngine;
+        d_gameState = p_gameEngine.getGameState();
+        d_scanner = p_gameEngine.getScanner();
+    }
+
     /**
      * take order commands
      *
@@ -36,6 +45,29 @@ public class OrderController {
      * @return the order
      */
     public static Order takeOrderCommands(Player p_ownerPlayer) {
+        if (d_gameEngine != null && d_gameEngine.getGamePhase() instanceof IssueDeployOrder) {
+            Order l_order = null;
+            while (l_order == null) {
+                System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
+                String[] inputString = d_scanner.nextLine().toLowerCase().split("\\s+");
+                String command = inputString[0];
+                String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
+                if (command.equals("exit")) {
+                    System.out.println("Exiting the game...");
+                    System.exit(0);
+                } else if (command.equals(Command.DEPLOY)) {
+                    l_order = handleDeployOrderCommand(args, p_ownerPlayer);
+                    break;
+                } else if (command.equals(Command.SHOW_MAP)) {
+                    d_gameState.printMap();
+                } else {
+                    System.out.println("Invalid command. Please try again. \nplayers can only deploy in this phase.");
+                }
+            }
+
+            return l_order;
+        }
+
         Order l_order = null;
         while (l_order == null) {
             System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
@@ -140,8 +172,6 @@ public class OrderController {
      * @param strings       the command arguments
      * @return the bomb order
      */
-
-
     public static BombOrder handleBombOrderCommand(String[] strings, Player p_ownerPlayer) {
         BombOrder l_order = null;
         try {
@@ -222,7 +252,7 @@ public class OrderController {
      * @return to negotiate order
      */
 
-    public static Order handleNegotiateOrderCommand(String[] strings, Player p_ownerPlayer){
+    public static Order handleNegotiateOrderCommand(String[] strings, Player p_ownerPlayer) {
         DiplomacyOrder l_order = null;
 
         try {

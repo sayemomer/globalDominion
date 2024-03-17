@@ -37,8 +37,11 @@ public class AdvanceOrderTest {
         // add players
         Player p1 = new Player("mahdieh");
         p1.setReinforcement(3);
+        Player p2 = new Player("parsa");
+        p1.setReinforcement(3);
 
         players.put(p1.getName(), p1);
+        players.put(p2.getName(), p2);
 
         // add continents
         continents.put(1, new Continent(1, 3));
@@ -47,16 +50,20 @@ public class AdvanceOrderTest {
         countries.put(2, new Country(2, "CANADA", 1));
         countries.put(3, new Country(3, "USA", 1));
         countries.put(4, new Country(4, "Iraq", 1));
+        countries.put(5, new Country(5, "UAE", 1));
 
         // assign countries to players
         p1.addCountry(countries.get(4));
 
         p1.addCountry(countries.get(2));
         p1.addCountry(countries.get(3));
+        p2.addCountry(countries.get(5));
         countries.get(2).addAdjacentCountry(3);
+        countries.get(2).addAdjacentCountry(5);
 
         countries.get(2).setNumberOfReinforcements(10);
         countries.get(3).setNumberOfReinforcements(6);
+        countries.get(5).setNumberOfReinforcements(0);
         orderController = new OrderController(gameState, new Scanner(System.in));
     }
 
@@ -83,5 +90,17 @@ public class AdvanceOrderTest {
     void ShouldNotAdvanceToNotAdjacentCountry(){
         String[] args = {"2", "4", "4"};
         Order o = OrderController.handleAdvanceOrderCommand(args, players.get("mahdieh"));
+    }
+
+    @Test
+    @DisplayName("checks if the defender country has 0 army, the advance order works correctly")
+    void shouldAdvanceAllArmiesToCountryWithZeroArmy(){
+        String[] args = { "2", "5", "3"} ;
+
+        Order o = OrderController.handleAdvanceOrderCommand(args, players.get("mahdieh"));
+        assertNotNull(o);
+        o.execute();
+        assertEquals(7, countries.get(2).getNumberOfReinforcements());
+        assertEquals(3, countries.get(5).getNumberOfReinforcements());
     }
 }

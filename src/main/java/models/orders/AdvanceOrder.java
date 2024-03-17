@@ -41,7 +41,13 @@ public class AdvanceOrder extends Order{
         // fails the construction of the advance order and as a result, any
         // code below this line will not get executed.
         validate();
+        executePartially();
 
+    }
+
+    public void executePartially(){
+        Country attackerCountry = d_gameState.getCountries().get(d_countryAttackerId);
+        attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() - d_numReinforcements);
     }
 
     /**
@@ -55,46 +61,50 @@ public class AdvanceOrder extends Order{
 
         if(d_owner.getCountries().get(d_countryDefenderId) != null) {
             defenderCountry.setNumberOfReinforcements(defenderCountry.getNumberOfReinforcements() + d_numReinforcements);
-            attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() - d_numReinforcements);
         }
         else {
             int l_numDefendingReinforcement = d_gameState.getCountries().get(d_countryDefenderId).getNumberOfReinforcements();
             int l_numAttackingReinforcement = d_numReinforcements;
 
-            if(l_numDefendingReinforcement > l_numAttackingReinforcement){
-                l_numDefendingReinforcement = l_numAttackingReinforcement;
-            }
-
-            int l_remainInAttackingCountry = attackerCountry.getNumberOfReinforcements() - d_numReinforcements;
-            int l_remainInDefendingCountry = defenderCountry.getNumberOfReinforcements() - l_numDefendingReinforcement;
-
-            Random random = new Random();
-            int l_defenderKilled = 0;
-            for (int i = 0; i < l_numDefendingReinforcement; i++) {
-                if (random.nextDouble() <= DEFENDER_BEING_KILLED) {
-                    l_defenderKilled++;
-                }
-            }
-
-            int l_attackerKilled = 0;
-            for (int i = 0; i < l_numAttackingReinforcement; i++) {
-                if (random.nextDouble() <= ATTACKER_BEING_KILLED) {
-                    l_attackerKilled++;
-                }
-            }
-
-            defenderCountry.setNumberOfReinforcements(l_numDefendingReinforcement + l_remainInDefendingCountry - l_defenderKilled);
-
-            if(defenderCountry.getNumberOfReinforcements() == 0 && l_numAttackingReinforcement != 0){
-                 defenderCountry.setNumberOfReinforcements(l_numAttackingReinforcement - l_attackerKilled);
-                 Player l_defender = d_gameState.getCountryOwner(d_countryDefenderId);
-                 l_defender.removeCountry(defenderCountry);
-                 d_owner.addCountry(defenderCountry);
-                 //add card
-                 d_owner.addCard();
+            if(l_numDefendingReinforcement == 0){
+                defenderCountry.setNumberOfReinforcements(d_numReinforcements);
             }
             else {
-                attackerCountry.setNumberOfReinforcements(l_numAttackingReinforcement + l_remainInAttackingCountry);
+
+                if (l_numDefendingReinforcement > l_numAttackingReinforcement) {
+                    l_numDefendingReinforcement = l_numAttackingReinforcement;
+                }
+
+                int l_remainInAttackingCountry = attackerCountry.getNumberOfReinforcements();
+                int l_remainInDefendingCountry = defenderCountry.getNumberOfReinforcements() - l_numDefendingReinforcement;
+
+                Random random = new Random();
+                int l_defenderKilled = 0;
+                for (int i = 0; i < l_numDefendingReinforcement; i++) {
+                    if (random.nextDouble() <= DEFENDER_BEING_KILLED) {
+                        l_defenderKilled++;
+                    }
+                }
+
+                int l_attackerKilled = 0;
+                for (int i = 0; i < l_numAttackingReinforcement; i++) {
+                    if (random.nextDouble() <= ATTACKER_BEING_KILLED) {
+                        l_attackerKilled++;
+                    }
+                }
+
+                defenderCountry.setNumberOfReinforcements(l_numDefendingReinforcement + l_remainInDefendingCountry - l_defenderKilled);
+
+                if (defenderCountry.getNumberOfReinforcements() == 0 && l_numAttackingReinforcement != 0) {
+                    defenderCountry.setNumberOfReinforcements(l_numAttackingReinforcement - l_attackerKilled);
+                    Player l_defender = d_gameState.getCountryOwner(d_countryDefenderId);
+                    l_defender.removeCountry(defenderCountry);
+                    d_owner.addCountry(defenderCountry);
+                    //add card
+                    d_owner.addCard();
+                } else {
+                    attackerCountry.setNumberOfReinforcements(l_numAttackingReinforcement + l_remainInAttackingCountry);
+                }
             }
         }
     }

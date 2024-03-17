@@ -54,7 +54,7 @@ public class GameEngine {
         playerController = new PlayerController(gameState);
         mapController = new MapController(gameState);
         countryController = new CountryController(gameState);
-        orderController = new OrderController(gameState, scanner);
+        orderController = new OrderController(this);
 
         // print number of reinforcements for each player
         for (Player player : gameState.getPlayers().values()) {

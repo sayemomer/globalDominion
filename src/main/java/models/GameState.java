@@ -223,11 +223,6 @@ public class GameState {
             }
             l_player.setReinforcement(l_player.getBaseReinforcement() + l_additionalReinforcements);
         }
-
-        // print number of reinforcements for each player
-        for (Player l_player : getPlayers().values()) {
-            System.out.println(l_player.getName() + " has " + l_player.getReinforcement() + " reinforcements.");
-        }
     }
 
     /**

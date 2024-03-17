@@ -173,7 +173,7 @@ public class AirliftOrderTest {
         //10. issue a airlift order
         Order airliftOrder = orderController.handleAirliftOrderCommand(
                 new String[]{ String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(1)),
-                        String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(3)),
+                        String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(2)),
                         "1"}, gameState.getPlayers().get("player1"));
 
         gameState.getPlayers().get("player1").setOrder(airliftOrder);
@@ -183,7 +183,7 @@ public class AirliftOrderTest {
         nextOrder4.execute();
 
         //12. check if the airlift order is executed
-        assertTrue (gameState.getCountries().get(gameState.getPlayers().get("player1").getCountryIds().get(3)).getArmies() == 1);
+        assertTrue (gameState.getCountries().get(gameState.getPlayers().get("player1").getCountryIds().get(2)).getArmies() == 1);
 
     }
 
