@@ -3,6 +3,7 @@ package controllers;
 import models.Continent;
 import models.Country;
 import models.GameState;
+import services.CustomPrint;
 import services.GameMapReader;
 
 import java.io.BufferedWriter;
@@ -76,7 +77,7 @@ public class MapController {
             if (p_args.length != 0)
                 throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.VALIDATE_MAP_SYNTAX);
             if (d_gameMapReader.validateMap())
-                System.out.println("Map is valid.");
+                CustomPrint.println("Map is valid.");
             else {
                 d_gameState.removeAction(GameState.GameAction.VALID_MAP_LOADED);
                 throw new Exception("Map is invalid.");
@@ -107,7 +108,7 @@ public class MapController {
                 d_filePath = p_args[0];
                 d_gameState.setMapLoaded(loadMap());
             } else {
-                System.out.println("File does not exist. Creating a new map...");
+                CustomPrint.println("File does not exist. Creating a new map...");
                 createNewMap(l_fileLocation);
                 d_gameState.setCurrentFileName(l_fileLocation);
                 d_gameState.setMapLoaded(true);
@@ -140,7 +141,7 @@ public class MapController {
             // Save the continents and countries to the file
 
             if (d_gameState.getCurrentFileName().equals(p_args[0])) {
-                System.out.println("saving map ...");
+                CustomPrint.println("saving map ...");
                 if (d_gameMapReader.validateMap()) {
                     saveMap();
                     d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
@@ -207,7 +208,7 @@ public class MapController {
             }
 
             l_writer.close(); // Make sure to close the writer to flush and save data
-            System.out.println("Map saved to: " + l_file.getAbsolutePath());
+            CustomPrint.println("Map saved to: " + l_file.getAbsolutePath());
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -231,7 +232,7 @@ public class MapController {
         try {
             File l_file = new File(p_filePath);
             if (l_file.createNewFile()) {
-                System.out.println("File created: " + l_file.getName());
+                CustomPrint.println("File created: " + l_file.getName());
 
             } else {
                 System.err.println("File already exists.");
@@ -272,7 +273,7 @@ public class MapController {
             }
 
             if (d_gameMapReader.parse(l_fileLocation)) {
-                System.out.println("Map is valid and loaded.");
+                CustomPrint.println("Map is valid and loaded.");
                 d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
                 d_gameState.setCurrentFileName(p_args[0]);
             } else {
@@ -294,9 +295,9 @@ public class MapController {
      */
     public void printCountries() {
         d_gameMapReader.getCountries().forEach((id, country) -> {
-            System.out.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
-            country.getAdjacentCountries().forEach(connectedId -> System.out.print(d_gameMapReader.getCountries().get(connectedId).getName() + "->"));
-            System.out.println(" (Continent ID: " + country.getContinentId() + "])");
+            CustomPrint.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
+            country.getAdjacentCountries().forEach(connectedId -> CustomPrint.print(d_gameMapReader.getCountries().get(connectedId).getName() + "->"));
+            CustomPrint.println(" (Continent ID: " + country.getContinentId() + "])");
         });
     }
 

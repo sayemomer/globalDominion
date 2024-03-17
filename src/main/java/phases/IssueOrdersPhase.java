@@ -2,6 +2,7 @@ package phases;
 
 import controllers.Command;
 import models.Player;
+import services.CustomPrint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,10 +33,10 @@ public class IssueOrdersPhase extends Phase {
      */
     @Override
     public void printAvailableCommands() {
-        System.out.println("*-*-* ISSUE ORDERS PHASE *-*-*");
-        System.out.println("Available commands: ");
-        System.out.println("  " + Command.DEPLOY_SYNTAX);
-        System.out.println("Type 'exit' to exit the game.");
+        CustomPrint.println("*-*-* ISSUE ORDERS PHASE *-*-*");
+        CustomPrint.println("Available commands: ");
+        CustomPrint.println("  " + Command.DEPLOY_SYNTAX);
+        CustomPrint.println("Type 'exit' to exit the game.");
     }
 
     /**
@@ -63,19 +64,19 @@ public class IssueOrdersPhase extends Phase {
                 player.issueOrder();
 
                 // check if player is done ordering
-                System.out.println("Want to continue? Type 'y' or 'n'");
+                CustomPrint.println("Want to continue? Type 'y' or 'n'");
                 String l_inputString = d_gameEngine.getScanner().nextLine().trim().toLowerCase();
 
                 if (l_inputString.equals("y")) {
                     playerFinishedOrders.replace(player.getName(), false);
                 } else if (l_inputString.equals("n")) {
                     if (player.getReinforcementPoll() != 0) {
-                        System.out.println("You still have " + player.getReinforcementPoll() + " reinforcements left. Please deploy them.");
+                        CustomPrint.println("You still have " + player.getReinforcementPoll() + " reinforcements left. Please deploy them.");
                     } else {
                         playerFinishedOrders.replace(player.getName(), true);
                     }
                 } else {
-                    System.out.println("Invalid input. Please type 'y' or 'n'");
+                    CustomPrint.println("Invalid input. Please type 'y' or 'n'");
                 }
             }
         }

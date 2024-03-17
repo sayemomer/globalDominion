@@ -1,5 +1,7 @@
 package phases;
 
+import services.CustomPrint;
+
 /**
  * This class is responsible for the finish phase of the game.
  * It extends the Phase class.
@@ -35,7 +37,7 @@ public class FinishPhase extends Phase {
 
     @Override
     public void run() {
-        System.out.println("Game is finished.");
+        CustomPrint.println("Game is finished.");
         System.exit(0);
     }
 }

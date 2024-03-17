@@ -1,5 +1,7 @@
 package phases;
 
+import services.CustomPrint;
+
 /**
  * Execute deploy order phase e
  */
@@ -23,7 +25,7 @@ public class ExecuteDeployOrderPhase extends ExecuteOrdersPhase {
             resumeOrThrow();
             d_gameEngine.setGamePhase(new IssueOrdersPhase(d_gameEngine));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
             goToFinishPhase();
         }
     }

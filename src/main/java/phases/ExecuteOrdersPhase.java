@@ -4,6 +4,7 @@ import config.Debug;
 import models.Country;
 import models.Player;
 import models.orders.Order;
+import services.CustomPrint;
 
 /**
  * This class is responsible for to execute orders phase of the game.
@@ -33,8 +34,8 @@ public class ExecuteOrdersPhase extends Phase {
 
     @Override
     public void printAvailableCommands() {
-        System.out.println("*-*-* EXECUTE ORDERS PHASE *-*-*");
-        System.out.println("Executing orders...");
+        CustomPrint.println("*-*-* EXECUTE ORDERS PHASE *-*-*");
+        CustomPrint.println("Executing orders...");
     }
 
     /**
@@ -59,9 +60,9 @@ public class ExecuteOrdersPhase extends Phase {
         }
         //  print all the players and their countries and their armies
         for (Player player : d_gameEngine.getGameState().getPlayers().values()) {
-            System.out.println(player.getName() + " has the following countries: ");
+            CustomPrint.println(player.getName() + " has the following countries: ");
             for (int countryId : player.getCountryIds()) {
-                System.out.println(d_gameEngine.getGameState().getCountries().get(countryId).getName() + " with " + d_gameEngine.getGameState().getCountries().get(countryId).getNumberOfReinforcements() + " reinforcements.");
+                CustomPrint.println(d_gameEngine.getGameState().getCountries().get(countryId).getName() + " with " + d_gameEngine.getGameState().getCountries().get(countryId).getNumberOfReinforcements() + " reinforcements.");
             }
         }
 
@@ -98,7 +99,7 @@ public class ExecuteOrdersPhase extends Phase {
             d_gameEngine.getGameState().assignReinforcements();
             d_gameEngine.setGamePhase(new IssueDeployOrder(d_gameEngine));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
             goToFinishPhase();
         }
     }

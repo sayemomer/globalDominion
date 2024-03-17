@@ -5,6 +5,7 @@ import models.orders.*;
 import models.Player;
 import phases.GameEngine;
 import phases.IssueDeployOrder;
+import services.CustomPrint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,12 +56,12 @@ public class OrderController {
         if (d_gameEngine != null && d_gameEngine.getGamePhase() instanceof IssueDeployOrder) {
             Order l_order = null;
             while (l_order == null) {
-                System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
+                CustomPrint.print("issue-order-" + p_ownerPlayer.getName() + ">");
                 String[] inputString = d_scanner.nextLine().toLowerCase().split("\\s+");
                 String command = inputString[0];
                 String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
                 if (command.equals("exit")) {
-                    System.out.println("Exiting the game...");
+                    CustomPrint.println("Exiting the game...");
                     System.exit(0);
                 } else if (command.equals(Command.DEPLOY)) {
                     l_order = handleDeployOrderCommand(args, p_ownerPlayer);
@@ -68,7 +69,7 @@ public class OrderController {
                 } else if (command.equals(Command.SHOW_MAP)) {
                     d_gameState.printMap();
                 } else {
-                    System.out.println("Invalid command. Please try again. \nplayers can only deploy in this phase.");
+                    CustomPrint.println("Invalid command. Please try again. \nplayers can only deploy in this phase.");
                 }
             }
 
@@ -77,12 +78,12 @@ public class OrderController {
 
         Order l_order = null;
         while (l_order == null) {
-            System.out.print("issue-order-" + p_ownerPlayer.getName() + ">");
+            CustomPrint.print("issue-order-" + p_ownerPlayer.getName() + ">");
             String[] inputString = d_scanner.nextLine().toLowerCase().split("\\s+");
             String command = inputString[0];
             String[] args = Arrays.copyOfRange(inputString, 1, inputString.length);
             if (command.equals("exit")) {
-                System.out.println("Exiting the game...");
+                CustomPrint.println("Exiting the game...");
                 System.exit(0);
             } else if (command.equals(Command.DEPLOY)) {
                 l_order = handleDeployOrderCommand(args, p_ownerPlayer);
@@ -105,7 +106,7 @@ public class OrderController {
             } else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
             } else {
-                System.out.println("Invalid command. Please try again.");
+                CustomPrint.println("Invalid command. Please try again.");
             }
         }
 
@@ -132,9 +133,9 @@ public class OrderController {
             order = new DeployOrder(d_gameState, p_ownerPlayer, l_countryId, l_numReinforcements);
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID or number of reinforcements.");
+            CustomPrint.println("Invalid country ID or number of reinforcements.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
         }
         return order;
     }
@@ -163,10 +164,10 @@ public class OrderController {
             order = new AdvanceOrder(d_gameState, p_ownerPlayer, l_countryFromId, l_countryToId, l_numReinforcements);
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID or number of reinforcements.");
+            CustomPrint.println("Invalid country ID or number of reinforcements.");
             return null;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
             return null;
         }
         return order;
@@ -188,10 +189,10 @@ public class OrderController {
             int l_countryId = Integer.parseInt(strings[0]);
             l_order = new BombOrder(d_gameState, p_ownerPlayer, l_countryId);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID.");
+            CustomPrint.println("Invalid country ID.");
             return null;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
             return null;
         }
         return l_order;
@@ -214,10 +215,10 @@ public class OrderController {
             int l_countryId = Integer.parseInt(strings[0]);
             l_order = new BlockadeOrder(d_gameState, p_ownerPlayer, l_countryId);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID.");
+            CustomPrint.println("Invalid country ID.");
             return null;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
             return null;
         }
         return l_order;
@@ -242,10 +243,10 @@ public class OrderController {
             int l_numReinforcements = Integer.parseInt(strings[2]);
             l_order = new AirliftOrder(d_gameState, p_ownerPlayer, l_countryFromId, l_countryToId, l_numReinforcements);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid country ID or number of reinforcements.");
+            CustomPrint.println("Invalid country ID or number of reinforcements.");
             return null;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
             return null;
         }
         return l_order;
@@ -269,7 +270,7 @@ public class OrderController {
             String l_playerName = strings[0];
             l_order = new DiplomacyOrder(d_gameState, p_ownerPlayer, l_playerName);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
             return null;
         }
 

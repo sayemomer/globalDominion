@@ -210,13 +210,13 @@ public class GameMapReader {
      * Prints the map rules.
      */
     public void printMapRules() {
-        System.out.println("Map Rules: ");
-        System.out.println("1. The map must contain at least one continent.");
-        System.out.println("2. Each continent must contain at least one country.");
-        System.out.println("3. Each country must have at least one connection.");
-        System.out.println("4. The map must be a connected graph.");
-        System.out.println("5. Each continent must be a connected subgraph.");
-        System.out.println("6. The map must not contain any self-loops.");
+        CustomPrint.println("Map Rules: ");
+        CustomPrint.println("1. The map must contain at least one continent.");
+        CustomPrint.println("2. Each continent must contain at least one country.");
+        CustomPrint.println("3. Each country must have at least one connection.");
+        CustomPrint.println("4. The map must be a connected graph.");
+        CustomPrint.println("5. Each continent must be a connected subgraph.");
+        CustomPrint.println("6. The map must not contain any self-loops.");
     }
 
     /**
@@ -267,7 +267,7 @@ public class GameMapReader {
         // Check if each continent is a connected subgraph
         for (Continent continent : d_continents.values()) {
             if (!GameGraphUtils.isContinentConnected(d_countries, continent.getContinentId())) {
-                System.out.println(continent.getContinentId());
+                CustomPrint.println(String.valueOf(continent.getContinentId()));
                 System.err.println("The continent '" + continent.getContinentName() + "' is a disconnected subgraph.");
                 printMapRules();
                 return false;

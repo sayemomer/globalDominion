@@ -8,6 +8,7 @@ import models.Country;
 import models.GameState;
 import models.Player;
 import models.Continent;
+import services.CustomPrint;
 
 /**
  * The CountryController class is responsible for handling country related commands.
@@ -69,17 +70,17 @@ public class CountryController {
                 playerIndex = (playerIndex + 1) % playerKeySet.size();
             }
 
-            System.out.println("Countries assigned to players.");
+            CustomPrint.println("Countries assigned to players.");
             for (Player player : players.values()) {
-                System.out.println((player.getName() + " has " + player.getCountries().size() + " countries:"));
+                CustomPrint.println((player.getName() + " has " + player.getCountries().size() + " countries:"));
                 for (Country country : player.getCountries().values()) {
-                    System.out.println("  " + country.getName());
+                    CustomPrint.println("  " + country.getName());
                 }
             }
             d_gameState.setActionDone(GameState.GameAction.COUNTRIES_ASSIGNED);
             d_gameState.assignReinforcements();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            CustomPrint.println(e.getMessage());
         }
     }
 
@@ -94,7 +95,7 @@ public class CountryController {
         try {
             assert p_args.length % 3 == 0;
         } catch (Exception e) {
-            System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
+            CustomPrint.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
             return;
         }
 
@@ -120,20 +121,20 @@ public class CountryController {
                     if (l_country.getAdjacentCountries().contains(l_neighborID))
                         throw new Exception("Connection already exists.");
                     l_country.addAdjacentCountry(l_neighborID);
-                    System.out.println("Added connection: " + l_country.getName() + " -> " + l_neighbor.getName());
+                    CustomPrint.println("Added connection: " + l_country.getName() + " -> " + l_neighbor.getName());
                 } else if (l_option.equals(Command.REMOVE)) {
 
                     if (l_country.removeAdjacentCountry(l_neighborID))
-                        System.out.println("Removed connection: " + l_country.getName() + " -> " + l_neighbor.getName());
+                        CustomPrint.println("Removed connection: " + l_country.getName() + " -> " + l_neighbor.getName());
                     else
                         throw new Exception("Connection does not exist.");
                 } else {
                     throw new Exception("Invalid option. Correct Syntax: \n\t" + Command.EDIT_NEIGHBOR_SYNTAX);
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Error with EditNeighbor at index " + argumentCount + " : " + "Invalid country ID or neighbor ID.");
+                CustomPrint.println("Error with EditNeighbor at index " + argumentCount + " : " + "Invalid country ID or neighbor ID.");
             } catch (Exception e) {
-                System.out.println("Error with EditNeighbor at index " + argumentCount + " : " + e.getMessage());
+                CustomPrint.println("Error with EditNeighbor at index " + argumentCount + " : " + e.getMessage());
             }
         }
     }
@@ -161,7 +162,7 @@ public class CountryController {
             }
             Debug.log("handleEditCountryCommand: passed number of arguments check.");
         } catch (Exception | AssertionError e) {
-            System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
+            CustomPrint.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_COUNTRY_SYNTAX);
             return;
         }
         int argumentCount = 0;
@@ -175,7 +176,7 @@ public class CountryController {
                     i += 2;
                     Country newCountry = new Country(l_countryId, l_continentId);
                     d_gameState.addCountry(newCountry);
-                    System.out.println("Added country: " + l_countryId + " to continent: " + l_continentId);
+                    CustomPrint.println("Added country: " + l_countryId + " to continent: " + l_continentId);
                 }
 
                 if (l_option.equalsIgnoreCase(Command.REMOVE)) {
@@ -188,9 +189,9 @@ public class CountryController {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("Error with EditCountry at index " + argumentCount + " : " + " Invalid country ID.");
+                CustomPrint.println("Error with EditCountry at index " + argumentCount + " : " + " Invalid country ID.");
             } catch (Exception e) {
-                System.out.println("Error with EditCountry at index " + argumentCount + " : " + e.getMessage());
+                CustomPrint.println("Error with EditCountry at index " + argumentCount + " : " + e.getMessage());
             }
 
         }
@@ -222,7 +223,7 @@ public class CountryController {
             }
             Debug.log("handleEditContinentCommand: passed number of arguments check.");
         } catch (Exception | AssertionError e) {
-            System.out.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
+            CustomPrint.println("No command was executed. Invalid number of arguments. " + "Correct Syntax: \n\t" + Command.EDIT_CONTINENT_SYNTAX);
             return;
         }
 
@@ -238,7 +239,7 @@ public class CountryController {
                     i += 2;
                     Continent newContinent = new Continent(l_continentId, l_bonus);
                     d_gameState.addContinent(newContinent);
-                    System.out.println("Added continent: " + newContinent);
+                    CustomPrint.println("Added continent: " + newContinent);
                 }
 
                 if (p_args[i].equalsIgnoreCase(Command.REMOVE)) {
@@ -249,9 +250,9 @@ public class CountryController {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("Error with EditContinent at index " + argumentCount + " : " + "Invalid continent ID or bonus value.");
+                CustomPrint.println("Error with EditContinent at index " + argumentCount + " : " + "Invalid continent ID or bonus value.");
             } catch (Exception e) {
-                System.out.println("Error with EditContinent at index " + argumentCount + " : " + e.getMessage());
+                CustomPrint.println("Error with EditContinent at index " + argumentCount + " : " + e.getMessage());
             }
         }
     }
@@ -300,16 +301,16 @@ public class CountryController {
         }
 
         if (!emptiedContinents.isEmpty()) {
-            System.out.print("WARNING: the following continents are empty: ");
-            emptiedContinents.forEach(continent -> System.out.print(" " + continent.getContinentId()));
-            System.out.println();
+            CustomPrint.print("WARNING: the following continents are empty: ");
+            emptiedContinents.forEach(continent -> CustomPrint.print(" " + continent.getContinentId()));
+            CustomPrint.println();
         }
 
         if (coutriesToBeDeleted.isEmpty()) {
             return;
         }
 
-        System.out.println(outputString);
+        CustomPrint.println(outputString);
     }
 
     /**
@@ -328,7 +329,7 @@ public class CountryController {
             }
         });
 
-        System.out.println(outputString);
+        CustomPrint.println(outputString);
     }
 
 
