@@ -15,6 +15,11 @@ import models.Continent;
 public class CountryController {
     GameState d_gameState;
 
+    /**
+     * Constructor for CountryController
+     * @param p_gameState game state
+     */
+
     public CountryController(GameState p_gameState) {
         this.d_gameState = p_gameState;
     }

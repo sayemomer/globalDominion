@@ -12,6 +12,11 @@ import java.util.Map;
 public class PlayerController {
     private final GameState gameState;
 
+    /**
+     * Constructor for the PlayerController class
+     * @param p_gameState game state
+     */
+
     public PlayerController(GameState p_gameState) {
         gameState = p_gameState;
     }

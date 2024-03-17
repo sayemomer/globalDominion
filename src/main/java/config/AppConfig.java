@@ -17,25 +17,50 @@ public class AppConfig {
     private AppConfig() {
     }
 
+    /**
+     * This method is used to get the debug mode.
+     * @return  debug mode
+     */
+
     public static boolean isDebugMode() {
         return debugMode;
     }
+
+    /**
+     * This method is used to get the verbose mode.
+     * @return  verbose mode
+     */
 
     public static boolean isVerboseMode() {
         return verboseMode;
     }
 
+    /**
+     * This method is used to get the test mode.
+     * @return  test mode
+     */
+
     public static boolean isTestMode() {
         return testMode;
     }
 
-    public static void setVerboseMode(boolean verboseMode) {
-        AppConfig.verboseMode = verboseMode;
+    /**
+     * This method is used to set the Verbose mode.
+     * @param p_verboseMode test mode
+     */
+
+    public static void setVerboseMode(boolean p_verboseMode) {
+        AppConfig.verboseMode = p_verboseMode;
     }
 
+    /**
+     * This method is used to set the debug mode.
+     * @param p_debugMode test mode
+     */
 
-    public static void setDebugMode(boolean debugMode) {
-        AppConfig.debugMode = debugMode;
+
+    public static void setDebugMode(boolean p_debugMode) {
+        AppConfig.debugMode = p_debugMode;
     }
 
 }

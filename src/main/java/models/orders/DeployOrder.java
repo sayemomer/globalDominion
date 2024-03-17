@@ -16,8 +16,8 @@ public class DeployOrder extends Order {
      *
      * @param p_gameState         cannot be null
      * @param p_owner             cannot be null
-     * @param p_countryId
-     * @param p_numReinforcements
+     * @param p_countryId        cannot be null
+     * @param p_numReinforcements cannot be null
      */
     public DeployOrder(GameState p_gameState, Player p_owner, int p_countryId, int p_numReinforcements) {
         super(p_gameState, p_owner);

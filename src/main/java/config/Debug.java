@@ -9,8 +9,20 @@ import java.util.Date;
  * The Debug class is responsible for logging messages to the console and a log file.
  */
 public class Debug {
+
+    /**
+     * Constructor for the Debug class.
+     */
+
+    Debug() {
+    }
     private static final String logFile = "log.txt";
 
+    /**
+     * Logs a message to the console and a log file.
+     *
+     * @param message The message to log.
+     */
     public static void log(String message) {
         if (AppConfig.isDebugMode()) {
             // TODO: Add color to the log messages in Windows

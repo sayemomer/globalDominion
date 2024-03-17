@@ -15,6 +15,12 @@ import java.util.Stack;
 public class GameGraphUtils {
 
     /**
+     * Constructor for the GameGraphUtils class.
+     */
+    GameGraphUtils() {
+    }
+
+    /**
      * Checks if the graph is connected.
      *
      * @param p_countries The countries in the graph.
@@ -87,7 +93,7 @@ public class GameGraphUtils {
      * @param p_countryId The country ID to start the DFS.
      * @param p_countries The countries in the graph.
      * @param p_visited   The set of visited countries.
-     * @return
+     * @return True if the graph is connected, false otherwise.
      */
 
     public static boolean dfs(Integer p_countryId, Map<Integer, Country> p_countries, Set<Integer> p_visited) {

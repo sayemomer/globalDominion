@@ -6,11 +6,30 @@ import models.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is responsible for the issue orders phase of the game.
+ * It extends the Phase class.
+ * It has the run method which is responsible for the issue orders phase of the game.
+ * It has the printAvailableCommands method which is responsible for printing the available commands in the issue orders phase.
+ * It has the goToExecuteOrdersPhase method which is responsible for changing the game phase to the execute orders phase.
+ * It has the IssueOrdersPhase constructor which is responsible for creating an IssueOrdersPhase object.
+ * It has the d_gameEngine attribute which is a GameEngine object.
+ * It has the run method which is responsible for the issue orders phase of the game.
+ */
+
 public class IssueOrdersPhase extends Phase {
+
+    /**
+     * Constructor for the IssueOrdersPhase class
+     * @param p_gameEngine game engine
+     */
     public IssueOrdersPhase(GameEngine p_gameEngine) {
         super(p_gameEngine);
     }
 
+    /**
+     * Print available commands
+     */
     @Override
     public void printAvailableCommands() {
         System.out.println("*-*-* ISSUE ORDERS PHASE *-*-*");
@@ -18,6 +37,11 @@ public class IssueOrdersPhase extends Phase {
         System.out.println("  " + Command.DEPLOY_SYNTAX);
         System.out.println("Type 'exit' to exit the game.");
     }
+
+    /**
+     * This method is responsible for the issue orders phase of the game.
+     * gets user input and calls the appropriate method in the controllers.
+     */
 
     @Override
     public void run() {
@@ -57,6 +81,10 @@ public class IssueOrdersPhase extends Phase {
         }
         goToExecuteOrdersPhase();
     }
+
+    /**
+     * This method is responsible for changing the game phase to the execute orders phase.
+     */
 
     public void goToExecuteOrdersPhase() {
         d_gameEngine.setGamePhase(new ExecuteOrdersPhase(d_gameEngine));

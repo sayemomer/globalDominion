@@ -8,6 +8,17 @@ import java.util.Scanner;
  */
 
 public class GameMenu {
+
+    /**
+     * Constructor for the GameMenu class
+     */
+
+    GameMenu() {
+    }
+
+    /**
+     * Scanner to read user input
+     */
     private final Scanner l_scanner = new Scanner(System.in);
 
     /**

@@ -3,6 +3,15 @@ package models.orders;
 import models.GameState;
 import models.Player;
 
+/**
+ * The DiplomacyOrder class is responsible for the diplomacy order
+ * It extends the Order class
+ * It has the execute method which is responsible for executing the diplomacy order
+ * It has the validate method which is responsible for validating the diplomacy order
+ * It has the DiplomacyOrder constructor which is responsible for creating a DiplomacyOrder object
+ * It has the d_playerToNegotiateWith attribute which is a string
+ */
+
 public class DiplomacyOrder extends Order {
 
     private String d_playerToNegotiateWith;

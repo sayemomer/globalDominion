@@ -3,6 +3,13 @@ package models.orders;
 import models.GameState;
 import models.Player;
 
+/**
+ * This class is used to create an Airlift order. It is a subclass of Order class.
+ * It is used to airlift the number of reinforcements from one country to another.
+ * It has a method execute which is used to execute the order.
+ * It has a method validate which is used to validate the order.
+ * It has a method toString which is used to print the order.
+ */
 public class AirliftOrder extends Order{
 
     private int d_countryFromId;
@@ -13,6 +20,9 @@ public class AirliftOrder extends Order{
      * Constructor for the Airlift class
      * @param p_GameState the game state
      * @param p_OwnerPlayer the player who owns the airlift card
+     * @param p_CountryFromId the country from which the player wants to airlift
+     * @param p_CountryToId the country to which the player wants to airlift
+     * @param p_NumReinforcements the number of reinforcements the player wants to airlift
      */
 
     public AirliftOrder(GameState p_GameState, Player p_OwnerPlayer,

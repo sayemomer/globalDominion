@@ -58,6 +58,10 @@ public class MapController {
     }
 
 
+    /**
+     * gets the file path of the map file.
+     * @return the file path of the map file.
+     */
     public String getFilePath() {
         return d_filePath;
     }
@@ -65,7 +69,7 @@ public class MapController {
     /**
      * Handles the validate command.
      *
-     * @param p_args
+     * @param p_args The command arguments.
      */
     public void handleValidateMapCommand(String[] p_args) {
         try {
@@ -125,6 +129,7 @@ public class MapController {
      * Handles the save map command.
      *
      * @param p_args The command arguments.
+     * @return True if the map is valid, false otherwise.
      */
     public boolean handleSaveMapCommand(String[] p_args) {
         try {
