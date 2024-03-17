@@ -23,6 +23,6 @@ jobs:
       - name: Run Junit Tests
         run: mvn test
       - name: Check JavaDoc
-        run: mvn checkstyle:checkstyle
+        run: mvn checkstyle:checkstyle -D maven.javadoc.failOnError=true
       - name: Generate JavaDoc
         run: mvn javadoc:javadoc
