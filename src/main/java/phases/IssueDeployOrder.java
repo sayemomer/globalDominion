@@ -18,6 +18,7 @@ public class IssueDeployOrder extends Phase {
         System.out.println("Available commands: ");
         System.out.println("  " + Command.DEPLOY_SYNTAX);
         System.out.println("Type 'exit' to exit the game.");
+        System.out.println("Players have the following reinforcements: " + d_gameEngine.getGameState().getPlayers().values().stream().map(player -> player.getName() + ": " + player.getReinforcementPoll()).reduce((a, b) -> a + ", " + b).orElse(""));
     }
 
     @Override

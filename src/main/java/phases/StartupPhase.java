@@ -101,8 +101,8 @@ public class StartupPhase extends Phase {
         try {
             mapLoadedOrThrow();
             playersAddedOrThrow();
-            d_gameEngine.getGameState().assignReinforcements();
             countriesAssignedOrThrow();
+            d_gameEngine.getGameState().assignReinforcements();
             d_gameEngine.setGamePhase(new IssueDeployOrder(d_gameEngine));
             return true;
         } catch (Exception e) {
