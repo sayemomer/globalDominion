@@ -26,3 +26,11 @@ jobs:
         run: mvn checkstyle:checkstyle
       - name: Generate JavaDoc
         run: mvn javadoc:javadoc
+      - name: Check for Javadoc warnings
+        run: |
+          if mvn javadoc:javadoc | grep -i "warning"; then
+            echo "Javadoc warnings found, failing the build."
+            exit 1
+          else
+            echo "No Javadoc warnings found."
+          fi
