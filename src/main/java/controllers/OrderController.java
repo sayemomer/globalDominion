@@ -31,6 +31,13 @@ public class OrderController {
         d_scanner = p_scanner;
     }
 
+    
+    /**
+     * Constructor for the OrderController class.
+     *
+     * @param p_gameEngine The game engine.
+     */
+
     public OrderController(GameEngine p_gameEngine) {
         d_gameEngine = p_gameEngine;
         d_gameState = p_gameEngine.getGameState();
