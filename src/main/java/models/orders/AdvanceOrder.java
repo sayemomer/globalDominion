@@ -33,7 +33,13 @@ public class AdvanceOrder extends Order{
         // fails the construction of the advance order and as a result, any
         // code below this line will not get executed.
         validate();
+        executePartially();
 
+    }
+
+    public void executePartially(){
+        Country attackerCountry = d_gameState.getCountries().get(d_countryAttackerId);
+        attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() - d_numReinforcements);
     }
 
     /**
@@ -47,7 +53,6 @@ public class AdvanceOrder extends Order{
 
         if(d_owner.getCountries().get(d_countryDefenderId) != null) {
             defenderCountry.setNumberOfReinforcements(defenderCountry.getNumberOfReinforcements() + d_numReinforcements);
-            attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() - d_numReinforcements);
         }
         else {
             int l_numDefendingReinforcement = d_gameState.getCountries().get(d_countryDefenderId).getNumberOfReinforcements();
@@ -57,7 +62,7 @@ public class AdvanceOrder extends Order{
                 l_numDefendingReinforcement = l_numAttackingReinforcement;
             }
 
-            int l_remainInAttackingCountry = attackerCountry.getNumberOfReinforcements() - d_numReinforcements;
+            int l_remainInAttackingCountry = attackerCountry.getNumberOfReinforcements();
             int l_remainInDefendingCountry = defenderCountry.getNumberOfReinforcements() - l_numDefendingReinforcement;
 
             Random random = new Random();
