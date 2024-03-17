@@ -4,7 +4,16 @@ import controllers.Command;
 
 import java.util.Arrays;
 
+/**
+ * The EditMapPhase class is responsible for handling the map edit phase of the game.
+ */
+
 public class EditMapPhase extends Phase {
+
+    /**
+     * Constructor for the EditMapPhase class.
+     * @param p_gameEngine The game engine.
+     */
     public EditMapPhase(GameEngine p_gameEngine) {
         super(p_gameEngine);
     }
@@ -74,6 +83,10 @@ public class EditMapPhase extends Phase {
         }
 
     }
+
+    /**
+     * This method is responsible for changing the game phase to the start up phase.
+     */
 
     public void goToStartUpPhase() {
         d_gameEngine.setGamePhase(new StartupPhase(d_gameEngine));

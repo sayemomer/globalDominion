@@ -25,6 +25,9 @@ public class Player {
     //only one card per turn
     private boolean d_cardFlag = false;
 
+    /**
+     * Constructor for the Player class
+     */
     public Player() {
 
     }
@@ -32,7 +35,7 @@ public class Player {
     /**
      * Constructor for the Player class
      *
-     * @param p_name
+     * @param p_name the name of the player
      */
     public Player(String p_name) {
         d_name = p_name.toLowerCase();
@@ -58,7 +61,7 @@ public class Player {
     /**
      * adds an order to the list of orders
      *
-     * @param p_order
+     * @param p_order the order to be added
      */
 
     public void setOrder(Order p_order) {
@@ -77,6 +80,7 @@ public class Player {
     }
 
     /**
+     * gets the name of the player
      * @return the name of the player
      */
     public String getName() {
@@ -86,13 +90,14 @@ public class Player {
     /**
      * sets the name of the player
      *
-     * @param p_name
+     * @param p_name the name of the player
      */
     public void setName(String p_name) {
         this.d_name = p_name;
     }
 
     /**
+     * GEt the reinforcement for the player
      * @return number of reinforcements the player has
      */
     public int getReinforcement() {
@@ -112,13 +117,14 @@ public class Player {
      * sets the reinforcement for the player
      * updates reinforcementPoll as well
      *
-     * @param p_reinforcement
+     * @param p_reinforcement the reinforcement number
      */
     public void setReinforcement(int p_reinforcement) {
         this.d_reinforcement = this.d_reinforcementPoll = p_reinforcement;
     }
 
     /**
+     * Get the list of all the orders the player has
      * @return the list of all the orders the player has
      */
     public Queue<Order> getOrders() {
@@ -126,6 +132,7 @@ public class Player {
     }
 
     /**
+     * Get the list of all the countries the player owns
      * @return the list of all the countries the player owns
      */
     public Map<Integer, Country> getCountries() {
@@ -133,6 +140,7 @@ public class Player {
     }
 
     /**
+     * Get the country ID's
      * @return country ids of all the countries owned by the player
      */
     public ArrayList<Integer> getCountryIds() {
@@ -146,12 +154,17 @@ public class Player {
     /**
      * adds a country to the list of countries owned by the player
      *
-     * @param p_country
+     * @param p_country the country to be added
      */
     public void addCountry(Country p_country) {
         this.d_countries.put(p_country.getCountryId(), p_country);
     }
 
+    /**
+     * removes a country from the list of countries owned by the player
+     *
+     * @param p_country the country to be removed
+     */
     public void removeCountry(Country p_country) {
         d_countries.remove(p_country.getCountryId());
     }
@@ -170,6 +183,7 @@ public class Player {
     }
 
     /**
+     * get the reinforcement poll
      * @return reinforcementPoll
      */
     public int getReinforcementPoll() {
@@ -177,7 +191,8 @@ public class Player {
     }
 
     /**
-     * @param p_reinforcement
+     * Reduce the reinforcement poll
+     * @param p_reinforcement the reinforcement to be reduced
      */
     public void reduceReinforcementPoll(int p_reinforcement) {
         d_reinforcementPoll -= p_reinforcement;
@@ -198,11 +213,17 @@ public class Player {
         }
     }
 
+    /**
+     * void method to add a card to the player
+     * @param p_card the card to be added
+     */
+
     public void forecefullyAddCard(Card p_card) {
         d_cards.add(p_card);
     }
 
     /**
+     * Get a random card from the player
      * @return the cards
      */
 
@@ -215,7 +236,8 @@ public class Player {
     }
 
     /**
-     * @param card
+     * Check if the player has the card
+     * @param card the card
      * @return true if the player has the card
      */
 
@@ -229,6 +251,7 @@ public class Player {
     }
 
     /**
+     * remove the card from the player
      * @param bomb remove the card from the player
      */
 
@@ -241,13 +264,19 @@ public class Player {
         }
     }
 
+    /**
+     * remove the card from the player
+     *
+     */
+
     // remove all cards from the player
     public void removeAllCards() {
         d_cards.clear();
     }
 
     /**
-     * @param p_CountryFromId
+     * Check if the player has the country
+     * @param p_CountryFromId the country id
      * @return true if the player has the country
      */
 
@@ -257,6 +286,7 @@ public class Player {
 
 
     /**
+     * Add the player to the list of negotiated players
      * @param p_PlayerToNegotiateWith add the player to the list of negotiated players
      */
     public void addNegotiatedPlayer(String p_PlayerToNegotiateWith) {
@@ -264,6 +294,7 @@ public class Player {
     }
 
     /**
+     * get the list of negotiated players
      * @return the list of negotiated players
      */
     public List<String> getNegotiatedPlayers() {

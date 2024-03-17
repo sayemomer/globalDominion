@@ -61,6 +61,7 @@ public class Country {
     }
 
     /**
+     * gets the number of reinforcements for current round.
      * @return total number of reinforcements for current round.
      */
     public int getNumberOfReinforcements() {
@@ -70,13 +71,14 @@ public class Country {
     /**
      * Set the number of reinforcements for current round.
      *
-     * @param p_reinforcements
+     * @param p_reinforcements number of reinforcements
      */
     public void setNumberOfReinforcements(int p_reinforcements) {
         d_numberOfReinforcements = p_reinforcements;
     }
 
     /**
+     * get the country id
      * @return country id of the country
      */
     public int getCountryId() {
@@ -86,13 +88,15 @@ public class Country {
     /**
      * Set the country id
      *
-     * @param p_countryId
+     * @param p_countryId country id
      */
     public void setCountryId(int p_countryId) {
         this.d_countryId = p_countryId;
     }
 
     /**
+     * get the country name
+     * get the country name
      * @return country name
      */
     public String getName() {
@@ -102,13 +106,14 @@ public class Country {
     /**
      * Set the country name
      *
-     * @param p_countryName
+     * @param p_countryName country name
      */
     public void setName(String p_countryName) {
         this.d_countryName = p_countryName;
     }
 
     /**
+     * get the list of adjacent countries
      * @return list of adjacent country ids
      */
     public List<Integer> getAdjacentCountries() {
@@ -118,7 +123,7 @@ public class Country {
     /**
      * adds adjacent country
      *
-     * @param p_adjacentCountryId
+     * @param p_adjacentCountryId id of the adjacent country
      */
     public void addAdjacentCountry(int p_adjacentCountryId) {
         this.d_adjacentCountries.add(p_adjacentCountryId);
@@ -127,7 +132,7 @@ public class Country {
     /**
      * Remove adjacent country
      *
-     * @param p_adjacentCountryId
+     * @param p_adjacentCountryId id of the adjacent country
      * @return true if removed successfully
      */
     public boolean removeAdjacentCountry(int p_adjacentCountryId) {
@@ -135,6 +140,7 @@ public class Country {
     }
 
     /**
+     * get the continent id
      * @return continent id of the country
      */
     public int getContinentId() {
@@ -151,6 +157,7 @@ public class Country {
     }
 
     /**
+     * get the number of armies in the country
      * @return the number of armies in the country
      */
 

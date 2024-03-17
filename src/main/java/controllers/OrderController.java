@@ -17,6 +17,12 @@ public class OrderController {
     private static GameState d_gameState;
     private static Scanner d_scanner;
 
+    /**
+     * Constructor for the OrderController class.
+     *
+     * @param p_gameState The game state.
+     * @param p_scanner   The scanner object.
+     */
     public OrderController(GameState p_gameState, Scanner p_scanner) {
         d_gameState = p_gameState;
         d_scanner = p_scanner;
@@ -26,6 +32,8 @@ public class OrderController {
      * take order commands
      *
      * @param p_ownerPlayer can be any instance of player
+     *
+     * @return the order
      */
     public static Order takeOrderCommands(Player p_ownerPlayer) {
         Order l_order = null;
@@ -70,6 +78,7 @@ public class OrderController {
      *
      * @param p_ownerPlayer can be any instance of player
      * @param args          the command arguments
+     * @return the deploy order
      */
     public static DeployOrder handleDeployOrderCommand(String[] args, Player p_ownerPlayer) {
         DeployOrder order = null;
@@ -90,6 +99,14 @@ public class OrderController {
         }
         return order;
     }
+
+    /**
+     * handle advance order command
+     *
+     * @param p_ownerPlayer can be any instance of player
+     * @param args          the command arguments
+     * @return the advance order
+     */
 
     public static AdvanceOrder handleAdvanceOrderCommand(String[] args, Player p_ownerPlayer) {
         AdvanceOrder order = null;
@@ -143,6 +160,14 @@ public class OrderController {
         return l_order;
     }
 
+    /**
+     * handle blockade order command
+     *
+     * @param p_ownerPlayer can be any instance of player
+     * @param strings       the command arguments
+     * @return the blockade order
+     */
+
     public static Order handleBlockadeOrderCommand(String[] strings, Player p_ownerPlayer) {
         BlockadeOrder l_order = null;
         try {
@@ -160,6 +185,14 @@ public class OrderController {
         }
         return l_order;
     }
+
+    /**
+     * handle airlift order command
+     *
+     * @param p_ownerPlayer can be any instance of player
+     * @param strings       the command arguments
+     * @return the airlift order
+     */
 
     public static Order handleAirliftOrderCommand(String[] strings, Player p_ownerPlayer) {
         AirliftOrder l_order = null;
@@ -181,6 +214,13 @@ public class OrderController {
         return l_order;
     }
 
+    /**
+     * handle negotiate order command
+     *
+     * @param p_ownerPlayer can be any instance of player
+     * @param strings       the command arguments
+     * @return to negotiate order
+     */
 
     public static Order handleNegotiateOrderCommand(String[] strings, Player p_ownerPlayer){
         DiplomacyOrder l_order = null;

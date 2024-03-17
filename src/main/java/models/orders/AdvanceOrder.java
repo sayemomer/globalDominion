@@ -6,6 +6,14 @@ import models.Player;
 
 import java.util.Random;
 
+
+/**
+ * This class is used to create an Advance order. It is a subclass of Order class.
+ * It is used to advance the number of reinforcements from one country to another.
+ * It has a method execute which is used to execute the order.
+ * It has a method validate which is used to validate the order.
+ * It has a method toString which is used to print the order.
+ */
 public class AdvanceOrder extends Order{
     private final int d_countryAttackerId;
     private final int d_countryDefenderId;
@@ -17,11 +25,11 @@ public class AdvanceOrder extends Order{
     /**
      * Constructor for AdvanceOrder
      *
-     * @param p_gameState         cannot be null
-     * @param p_owner             cannot be null
-     * @param p_countryFromId
-     * @param p_countryToId
-     * @param p_numReinforcements
+     * @param p_gameState         game state in which the order is being created
+     * @param p_owner             player who is creating the order
+     * @param p_countryFromId    From which country the player wants to advance
+     * @param p_countryToId     To which country the player wants to advance
+     * @param p_numReinforcements Number of reinforcements the player wants to advance
      */
     public AdvanceOrder(GameState p_gameState, Player p_owner, int p_countryFromId, int p_countryToId, int p_numReinforcements) {
         super(p_gameState, p_owner);

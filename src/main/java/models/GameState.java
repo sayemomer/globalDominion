@@ -19,7 +19,7 @@ public class GameState {
     /**
      * adds a player to the game.
      *
-     * @param p_name
+     * @param p_name the name of the player
      */
 
     public void addPlayer(String p_name) {
@@ -28,10 +28,28 @@ public class GameState {
 
     /**
      * This enum represents the game actions. used as flags to keep track of the game state.
+     * VALID_MAP_LOADED: the map is loaded
+     * PlAYERS_ADDED: players are added
+     * COUnTRIES_ASSIGNED: countries are assigned to players
      */
     public enum GameAction {
-        VALID_MAP_LOADED, PlAYERS_ADDED, COUNTRIES_ASSIGNED,
+        /**
+         * Valid map loaded game action.
+         */
+        VALID_MAP_LOADED,
+        /**
+         * Players added game action.
+         */
+        PlAYERS_ADDED,
+        /**
+         * Countries assigned game action.
+         */
+        COUNTRIES_ASSIGNED,
     }
+
+    /**
+     * The set of actions that are done.
+     */
 
     private EnumSet<GameAction> d_gameStateFlags = EnumSet.noneOf(GameAction.class);
 
@@ -85,7 +103,7 @@ public class GameState {
     /**
      * set the current filename
      *
-     * @param p_currentFileName
+     * @param p_currentFileName the current filename
      */
     public void setCurrentFileName(String p_currentFileName) {
         d_currentFileName = p_currentFileName;
@@ -94,7 +112,7 @@ public class GameState {
     /**
      * set the map loaded
      *
-     * @param p_mapLoaded
+     * @param p_mapLoaded the map loaded
      */
     public void setMapLoaded(boolean p_mapLoaded) {
         d_mapLoaded = p_mapLoaded;
@@ -213,7 +231,8 @@ public class GameState {
     }
 
     /**
-     * @param p_player
+     * This method can be used at anytime after the countries are assigned to players.
+     * @param p_player the player
      * @return the list of all continent ids that are owned by the given player.
      */
     public ArrayList<Integer> getPlayerOwnedContinents(Player p_player) {
@@ -234,7 +253,8 @@ public class GameState {
     }
 
     /**
-     * @param p_continentID
+     * This method can be used at anytime after the countries are assigned to players.
+     * @param p_continentID the continent
      * @return the list of all country ids that are inside the given continent.
      */
     public ArrayList<Integer> getCountryIDsInsideContinent(int p_continentID) {
@@ -250,7 +270,7 @@ public class GameState {
     /**
      * gets country's owner
      *
-     * @param p_countryId
+     * @param p_countryId the country id
      * @return the player who owns the country
      */
     public Player getCountryOwner(int p_countryId) {
@@ -265,7 +285,7 @@ public class GameState {
     /**
      * This method returns the details of the players and their countries.
      *
-     * @param gameState
+     * @param gameState the game state
      * @return playersDetails
      * such as the number of reinforcements, the number of cards, and the countries they own.
      */
@@ -289,17 +309,21 @@ public class GameState {
 
                 countriesDetails.put(countryId, countryDetails);
             }
-
             HashMap<String, Object> playerDetails = new HashMap<>();
             playerDetails.put("Reinforcements", player.getReinforcement());
             playerDetails.put("Card", 0); // Assuming a method to get player's card
             playerDetails.put("Countries", countriesDetails);
-
             playersDetails.put(player.getName(), playerDetails);
         }
 
         return playersDetails;
     }
+
+    /**
+     * removes a country from the game.
+     * @param p_countryId the country
+     * @throws Exception if the country does not exist
+     */
 
     public void removeCountry(int p_countryId) throws Exception {
         if (d_countries.containsKey(p_countryId)) {
@@ -309,6 +333,12 @@ public class GameState {
         }
     }
 
+    /**
+     * removes a continent from the game.
+     * @param p_continentId the continent to remove
+     * @throws Exception if the continent does not exist
+     */
+
     public void removeContinent(int p_continentId) throws Exception {
         if (d_continents.containsKey(p_continentId)) {
             d_continents.remove(p_continentId);
@@ -317,12 +347,24 @@ public class GameState {
         }
     }
 
+    /**
+     * adds a continent to the game.
+     * @param p_continent the continent to add
+     * @throws Exception if the continent already exists
+     */
+
     public void addContinent(Continent p_continent) throws Exception {
         if (d_continents.containsKey(p_continent.getContinentId())) {
             throw new Exception("Continent ID " + p_continent.getContinentId() + " already exists.");
         }
         d_continents.put(p_continent.getContinentId(), p_continent);
     }
+
+    /**
+     * adds a country to the game.
+     * @param p_country the country to add
+     * @throws Exception if the country already exists
+     */
 
     public void addCountry(Country p_country) throws Exception {
         if (d_countries.containsKey(p_country.getCountryId()))

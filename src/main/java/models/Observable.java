@@ -5,7 +5,21 @@ import views.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is responsible for the observable object.
+ */
 public class Observable {
+
+    /**
+     * Constructor for the observable object.
+     */
+
+    Observable() {
+    }
+
+    /**
+     * List of observers to be notified.
+     */
     private List<Observer> observers = new ArrayList<Observer>();
     /**
      * attach a view to the model.

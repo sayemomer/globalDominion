@@ -30,8 +30,8 @@ public class Continent {
      * sets the color to "N/A"
      * automatically sets the name to the id
      *
-     * @param p_continentId
-     * @param p_continentValue
+     * @param p_continentId   Id of the continent
+     * @param p_continentValue Value of the continent
      */
     public Continent(int p_continentId, int p_continentValue) {
         this.d_id = p_continentId;
@@ -41,6 +41,7 @@ public class Continent {
     }
 
     /**
+     * gets the continent id
      * @return continent id
      */
     public int getContinentId() {
@@ -48,6 +49,7 @@ public class Continent {
     }
 
     /**
+     * gets the continent name
      * @return the name of the continent
      */
     public String getContinentName() {
@@ -55,6 +57,7 @@ public class Continent {
     }
 
     /**
+     * gets the continent value
      * @return the bonus value of the continent
      */
     public int getContinentValue() {
@@ -62,6 +65,7 @@ public class Continent {
     }
 
     /**
+     * sets the continent color
      * @return the color of the continent
      */
     public String getColor() {
@@ -71,7 +75,7 @@ public class Continent {
     /**
      * sets the color of the continent
      *
-     * @param p_color
+     * @param p_color the color of the continent
      */
     public void setColor(String p_color) {
         this.d_color = p_color;

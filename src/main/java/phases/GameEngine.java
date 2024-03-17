@@ -12,6 +12,23 @@ import java.util.*;
 /**
  * The GameEngine class is responsible for handling the game loop and the game phases.
  * It utilizes the PlayerController and MapController classes to handle the game phases.
+ * It also utilizes the OrderController class to handle the orders.
+ * It also utilizes the GameState class to keep track of the game state.
+ * It also utilizes the Scanner class to get user input.
+ * It also utilizes the Phase class to store the phase details.
+ * It also utilizes the StartupPhase class to handle the startup phase of the game.
+ * It also utilizes the IssueOrdersPhase class to handle the issue orders phase of the game.
+ * It also utilizes the ExecuteOrdersPhase class to handle the execute orders phase of the game.
+ * It also utilizes the Player class to keep track of the player's state.
+ * It also utilizes the Map class to keep track of the map state.
+ * It also utilizes the Country class to keep track of the country's state.
+ * It also utilizes the Order class to keep track of the order's state.
+ * It also utilizes the GameState class to keep track of the game state.
+ * It also utilizes the AppConfig class to keep track of the application configuration.
+ * It also utilizes the Debug class to print debug messages.
+ * It also utilizes the Command class to store the command details.
+ * It also utilizes the Phase class to store the phase details.
+ *
  */
 
 public class GameEngine {
@@ -74,34 +91,78 @@ public class GameEngine {
             d_gamePhase.run();
     }
 
+    /**
+     * This method sets the game phase to the startup phase.
+     * @return The startup phase.
+     */
 
     public GameState getGameState() {
         return gameState;
     }
 
+    /**
+     * This method sets the game phase.
+     *
+     * @param p_gamePhase The game phase.
+     */
     public void setGamePhase(Phase p_gamePhase) {
         d_gamePhase = p_gamePhase;
     }
 
+    /**
+     * This method gets the game phase.
+     *
+     * @return The game phase.
+     */
     public Phase getGamePhase() {
         return d_gamePhase;
     }
+
+    /**
+     * This method gets the scanner.
+     *
+     * @return The scanner.
+     */
 
     public Scanner getScanner() {
         return scanner;
     }
 
+    /**
+     * This method gets the player controller.
+     *
+     * @return The player controller.
+     */
+
     public PlayerController getPlayerController() {
         return playerController;
     }
+
+    /**
+     * This method gets the map controller.
+     *
+     * @return The map controller.
+     */
 
     public MapController getMapController() {
         return mapController;
     }
 
+    /**
+     * This method gets the country controller.
+     *
+     * @return The country controller.
+     */
+
     public CountryController getCountryController() {
         return countryController;
     }
+
+    /**
+     * This method gets the order controller.
+     *
+     * @return The order controller.
+     */
 
     public OrderController getOrderController() {
         return orderController;

@@ -5,7 +5,16 @@ import models.GameState;
 
 import java.util.Arrays;
 
+/**
+ * This class is responsible for the startup phase of the game.
+ */
+
 public class StartupPhase extends Phase {
+
+    /**
+     * Constructor for the StartupPhase class
+     * @param p_gameEngine game engine
+     */
     public StartupPhase(GameEngine p_gameEngine) {
         super(p_gameEngine);
     }
@@ -92,11 +101,22 @@ public class StartupPhase extends Phase {
             throw new Exception("Countries are not assigned.");
     }
 
+    /**
+     * This method is responsible for the transition from the startup phase to the edit map phase.
+     * It changes the game phase to the edit map phase.
+     */
 
     public void goToEditMapPhase() {
         d_gameEngine.setGamePhase(new EditMapPhase(d_gameEngine));
     }
 
+    /**
+     * This method is responsible for the transition from the startup phase to the issue orders phase.
+     * It checks if the map is loaded, players are added and countries are assigned.
+     * If all the conditions are met, it changes the game phase to the issue orders phase.
+     *
+     * @return true if the phase change is successful, false otherwise
+     */
     public boolean goToIssueOrdersPhase() {
         try {
             mapLoadedOrThrow();

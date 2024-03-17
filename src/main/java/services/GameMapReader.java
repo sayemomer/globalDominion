@@ -22,11 +22,21 @@ public class GameMapReader {
 //    private final Map<Integer, Continent> d_continents = new HashMap<>();
 //    private final Map<Integer, Country> d_countries = new HashMap<>();
 
+
+    /**
+     * Constructor for the GameMapReader class.
+     *
+     * @param p_gameState The game state.
+     */
     public GameMapReader(GameState p_gameState) {
         this.d_gameState = p_gameState;
         d_continents = d_gameState.getContinents();
         d_countries = d_gameState.getCountries();
     }
+
+    /**
+     * Constructor for the GameMapReader class.
+     */
 
     public GameMapReader() {
         this.d_gameState = new GameState();
@@ -34,9 +44,21 @@ public class GameMapReader {
         d_countries = new HashMap<>();
     }
 
+    /**
+     * Getter for the continents map.
+     *
+     * @return The continents map.
+     */
+
     public Map<Integer, Continent> getContinents() {
         return d_continents;
     }
+
+    /**
+     * Getter for the countries map.
+     *
+     * @return The countries map.
+     */
 
     public Map<Integer, Country> getCountries() {
         return d_countries;
@@ -47,6 +69,7 @@ public class GameMapReader {
      *
      * @param p_filePath The file path of the game map file.
      * @throws IOException If an I/O error occurs.
+     * @return True if the map is valid, false otherwise.
      */
     public boolean parse(String p_filePath) throws IOException {
         BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath));
@@ -183,7 +206,9 @@ public class GameMapReader {
         }
     }
 
-    //print map rules in a function
+    /**
+     * Prints the map rules.
+     */
     public void printMapRules() {
         System.out.println("Map Rules: ");
         System.out.println("1. The map must contain at least one continent.");
