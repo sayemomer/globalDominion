@@ -10,6 +10,10 @@ import java.util.Map;
  * issue deploy order
  */
 public class IssueDeployOrder extends Phase {
+    /**
+     * constructor of IssueDeployOrder
+     * @param p_gameEngine the game engine
+     */
     public IssueDeployOrder(GameEngine p_gameEngine) {
         super(p_gameEngine);
     }
