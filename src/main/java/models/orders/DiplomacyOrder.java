@@ -2,6 +2,7 @@ package models.orders;
 
 import models.GameState;
 import models.Player;
+import services.CustomPrint;
 
 /**
  * The DiplomacyOrder class is responsible for the diplomacy order
@@ -40,7 +41,7 @@ public class DiplomacyOrder extends Order {
 
     @Override
     public void execute() {
-        System.out.println("Player " + d_owner.getName() + " negotiated with " + d_playerToNegotiateWith + ".");
+        CustomPrint.println("Player " + d_owner.getName() + " negotiated with " + d_playerToNegotiateWith + ".");
         d_owner.removeCard("NEGOTIATE");
 
         // add the player to negotiate with to the negotiated players list

@@ -3,6 +3,7 @@ package models;
 import controllers.OrderController;
 import models.orders.DeployOrder;
 import models.orders.Order;
+import services.CustomPrint;
 
 import java.util.*;
 
@@ -207,7 +208,7 @@ public class Player {
             //randomly select a card from the deck
             Card l_card = Card.getRandomCard();
             d_cards.add(l_card);
-            System.out.println("You have received a card: " + l_card);
+            CustomPrint.println("You have received a card: " + l_card);
             //set the flag to true
             d_cardFlag = true;
         }

@@ -1,5 +1,7 @@
 package config;
 
+import services.CustomPrint;
+
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -27,9 +29,9 @@ public class Debug {
         if (AppConfig.isDebugMode()) {
             // TODO: Add color to the log messages in Windows
             if (System.getProperty("os.name").toLowerCase().contains("mac") || System.getProperty("os.name").toLowerCase().contains("linux")) {
-                System.out.println("\u001B[35m" + message + "\u001B[0m");
+                CustomPrint.println("\u001B[35m" + message + "\u001B[0m");
             } else {
-                System.out.println(message);
+                CustomPrint.println(message);
             }
         }
         if (AppConfig.isVerboseMode()) {
@@ -40,8 +42,8 @@ public class Debug {
                 // Print date, time, and message to the log file
                 logStream.println(dateTime + " - " + message);
             } catch (Exception e) {
-                System.out.println("An error occurred while writing to the log file. " + e.getMessage());
-                System.out.println("Try running the program with verboseMode=false .");
+                CustomPrint.println("An error occurred while writing to the log file. " + e.getMessage());
+                CustomPrint.println("Try running the program with verboseMode=false .");
             }
         }
     }

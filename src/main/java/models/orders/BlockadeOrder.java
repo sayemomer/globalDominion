@@ -3,6 +3,7 @@ package models.orders;
 import models.Country;
 import models.GameState;
 import models.Player;
+import services.CustomPrint;
 
 /**
  * Blockade class to represent the blockade order
@@ -41,7 +42,7 @@ public class BlockadeOrder extends Order{
     @Override
     public void execute() {
         //triples the number of armies on one of the player’s own territories and make it a neutral territory
-        System.out.println("Player " + d_owner.getName() + " blockaded country " + d_gameState.getCountries().get(l_countryId).getName() +
+        CustomPrint.println("Player " + d_owner.getName() + " blockaded country " + d_gameState.getCountries().get(l_countryId).getName() +
                 " and tripled the number of armies.");
         // check if the number of reinforcements is 0 and set it to 1
         d_gameState.getCountries().get(l_countryId).setNumberOfReinforcements(d_gameState.getCountries().get(l_countryId).getNumberOfReinforcements() == 0 ? 1

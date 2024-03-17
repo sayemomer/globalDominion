@@ -2,6 +2,7 @@ package models.orders;
 
 import models.GameState;
 import models.Player;
+import services.CustomPrint;
 
 /**
  * Bomb class to represent the bomb order
@@ -43,7 +44,7 @@ public class BombOrder extends Order{
     @Override
     public void execute() {
         //destroy half of the armies located on an opponent’s territory
-        System.out.println("Player " + d_owner.getName() + " bombed country " + d_gameState.getCountries().get(l_countryId).getName()
+        CustomPrint.println("Player " + d_owner.getName() + " bombed country " + d_gameState.getCountries().get(l_countryId).getName()
                 + " owned by " + d_gameState.getCountryOwner(l_countryId).getName() +
                 " and destroyed half of the armies.");
 

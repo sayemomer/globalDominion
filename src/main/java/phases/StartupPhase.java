@@ -2,6 +2,7 @@ package phases;
 
 import controllers.Command;
 import models.GameState;
+import services.CustomPrint;
 
 import java.util.Arrays;
 
@@ -24,14 +25,14 @@ public class StartupPhase extends Phase {
      */
     @Override
     public void printAvailableCommands() {
-        System.out.println("*-*-* STARTUP PHASE *-*-*");
-        System.out.println("Available commands: ");
-        System.out.println("  " + Command.GAME_PLAYER_SYNTAX);
-        System.out.println("  " + Command.LOAD_MAP_SYNTAX);
-        System.out.println("  " + Command.EDIT_MAP_SYNTAX);
-        System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
-        System.out.println("Type 'proceed' to proceed to the next phase.");
-        System.out.println("Type 'exit' to exit the game.");
+        CustomPrint.println("*-*-* STARTUP PHASE *-*-*");
+        CustomPrint.println("Available commands: ");
+        CustomPrint.println("  " + Command.GAME_PLAYER_SYNTAX);
+        CustomPrint.println("  " + Command.LOAD_MAP_SYNTAX);
+        CustomPrint.println("  " + Command.EDIT_MAP_SYNTAX);
+        CustomPrint.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
+        CustomPrint.println("Type 'proceed' to proceed to the next phase.");
+        CustomPrint.println("Type 'exit' to exit the game.");
     }
 
     /**
@@ -43,7 +44,7 @@ public class StartupPhase extends Phase {
         printAvailableCommands();
         label:
         while (true) {
-            System.out.print("startup-phase> ");
+            CustomPrint.print("startup-phase> ");
             String[] l_inputString = d_gameEngine.getScanner().nextLine().trim().toLowerCase().split("\\s+");
             String l_command = l_inputString[0];
             String[] l_args = Arrays.copyOfRange(l_inputString, 1, l_inputString.length);
@@ -54,12 +55,12 @@ public class StartupPhase extends Phase {
                         break label;
                     break;
                 case "exit":
-                    System.out.println("Exiting the game...");
+                    CustomPrint.println("Exiting the game...");
                     System.exit(0);
                 case Command.SHOW_MAP:
                     d_gameEngine.getGameState().printMap();
-                    System.out.println("  " + Command.EDIT_MAP_SYNTAX);
-                    System.out.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
+                    CustomPrint.println("  " + Command.EDIT_MAP_SYNTAX);
+                    CustomPrint.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
                     break;
                 case Command.GAME_PLAYER:
                     d_gameEngine.getPlayerController().handleGamePlayerCommand(l_args);

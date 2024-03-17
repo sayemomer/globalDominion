@@ -2,6 +2,7 @@ package models.orders;
 
 import models.GameState;
 import models.Player;
+import services.CustomPrint;
 
 /**
  * This class is used to create an Airlift order. It is a subclass of Order class.
@@ -46,7 +47,7 @@ public class AirliftOrder extends Order{
     @Override
     public void execute() {
 
-        System.out.println("Player " + d_owner.getName() + " airlifted " + d_numReinforcements + " armies from " +
+        CustomPrint.println("Player " + d_owner.getName() + " airlifted " + d_numReinforcements + " armies from " +
                 d_gameState.getCountries().get(d_countryFromId).getName() + " to " + d_gameState.getCountries().get(d_countryToId).getName() + ".");
         //move the armies from the countryFromId to the countryToId
         d_gameState.getCountries().get(d_countryFromId).setNumberOfReinforcements(d_gameState.getCountries().get(d_countryFromId).getNumberOfReinforcements() - d_numReinforcements);

@@ -1,6 +1,7 @@
 package phases;
 
 import controllers.Command;
+import services.CustomPrint;
 
 import java.util.Arrays;
 
@@ -20,15 +21,15 @@ public class EditMapPhase extends Phase {
 
     @Override
     public void printAvailableCommands() {
-        System.out.println("*-*-* MAP EDITOR *-*-*");
-        System.out.println("Available commands: ");
-        System.out.println("  " + Command.EDIT_CONTINENT_SYNTAX);
-        System.out.println("  " + Command.EDIT_COUNTRY_SYNTAX);
-        System.out.println("  " + Command.EDIT_NEIGHBOR_SYNTAX);
-        System.out.println("  " + Command.VALIDATE_MAP_SYNTAX);
-        System.out.println("  " + Command.SAVE_MAP_SYNTAX);
-        System.out.println("  " + Command.SHOW_MAP_SYNTAX);
-        System.out.println("Type 'exit' to exit the game.");
+        CustomPrint.println("*-*-* MAP EDITOR *-*-*");
+        CustomPrint.println("Available commands: ");
+        CustomPrint.println("  " + Command.EDIT_CONTINENT_SYNTAX);
+        CustomPrint.println("  " + Command.EDIT_COUNTRY_SYNTAX);
+        CustomPrint.println("  " + Command.EDIT_NEIGHBOR_SYNTAX);
+        CustomPrint.println("  " + Command.VALIDATE_MAP_SYNTAX);
+        CustomPrint.println("  " + Command.SAVE_MAP_SYNTAX);
+        CustomPrint.println("  " + Command.SHOW_MAP_SYNTAX);
+        CustomPrint.println("Type 'exit' to exit the game.");
     }
 
     
@@ -41,18 +42,18 @@ public class EditMapPhase extends Phase {
         printAvailableCommands();
         label:
         while (true) {
-            System.out.print("map-editor> ");
+            CustomPrint.print("map-editor> ");
             String[] l_inputString = d_gameEngine.getScanner().nextLine().trim().toLowerCase().split("\\s+");
             String l_command = l_inputString[0];
             String[] l_args = Arrays.copyOfRange(l_inputString, 1, l_inputString.length);
 
             switch (l_command) {
                 case "proceed":
-                    System.out.println("Proceeding to the next phase...");
+                    CustomPrint.println("Proceeding to the next phase...");
                     goToStartUpPhase();
                     break label;
                 case "exit":
-                    System.out.println("Exiting the game...");
+                    CustomPrint.println("Exiting the game...");
                     System.exit(0);
                     return;
                 case Command.EDIT_CONTINENT:
@@ -77,7 +78,7 @@ public class EditMapPhase extends Phase {
                     d_gameEngine.getGameState().printMap();
                     break;
                 default:
-                    System.out.println("Invalid input. Please try again.");
+                    CustomPrint.println("Invalid input. Please try again.");
                     break;
             }
         }

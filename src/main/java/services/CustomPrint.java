@@ -37,6 +37,14 @@ public class CustomPrint {
 
 
     /**
+     * Method to print the empty line to the console and log the empty string to a file
+     */
+    public static void println() {
+        System.out.println();
+        logBuffer.log("");
+    }
+
+    /**
      * Method to print the string to the console and log the string to a file
      * @param pString string to be printed
      */
