@@ -6,11 +6,17 @@ import models.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * issue deploy order
+ */
 public class IssueDeployOrder extends Phase {
     public IssueDeployOrder(GameEngine p_gameEngine) {
         super(p_gameEngine);
     }
 
+    /**
+     * print available commands
+     */
     @Override
     public void printAvailableCommands() {
         System.out.println("*-*-* ISSUE DEPLOY ORDERS PHASE *-*-*");
@@ -21,6 +27,12 @@ public class IssueDeployOrder extends Phase {
         System.out.println("Players have the following reinforcements: " + d_gameEngine.getGameState().getPlayers().values().stream().map(player -> player.getName() + ": " + player.getReinforcementPoll()).reduce((a, b) -> a + ", " + b).orElse(""));
     }
 
+    /**
+     * Runs the game loop, where each player takes turns issuing orders until all players have finished.
+     * This method prints available commands, initializes the players' order status, and iterates over
+     * players to allow them to issue orders. Once all players have finished ordering, it proceeds to
+     * the execute orders phase.
+     */
     @Override
     public void run() {
         printAvailableCommands();
@@ -48,6 +60,9 @@ public class IssueDeployOrder extends Phase {
         goToExecuteOrdersPhase();
     }
 
+    /**
+     * going to execute order phase.
+     */
     public void goToExecuteOrdersPhase() {
         d_gameEngine.setGamePhase(new ExecuteDeployOrderPhase(d_gameEngine));
     }

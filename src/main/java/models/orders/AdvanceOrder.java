@@ -45,6 +45,9 @@ public class AdvanceOrder extends Order{
 
     }
 
+    /**
+     * partially execute advance order
+     */
     public void executePartially(){
         Country attackerCountry = d_gameState.getCountries().get(d_countryAttackerId);
         attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() - d_numReinforcements);
