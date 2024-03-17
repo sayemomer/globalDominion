@@ -64,3 +64,302 @@ Invalid input. Please try again.
 
 map-editor> 
 
+Game started.
+
+Player player1 added.
+
+Player player2 added.
+
+player1 has 3 reinforcements left.
+
+player2 has 3 reinforcements left.
+
+Player player1 blockaded country 3 and tripled the number of armies.
+
+Player: neutral (Reinforcements: 0) (Cards: )
+
+CountryID: 3 is connected to: 
+
+1->
+
+2->
+
+4->
+
+ (Reinforcements: 3])
+
+ (Continent ID: 2])
+
+=====================================
+
+Player: player1 (Reinforcements: 3) (Cards: )
+
+CountryID: 1 is connected to: 
+
+2->
+
+3->
+
+4->
+
+5->
+
+ (Reinforcements: 0])
+
+ (Continent ID: 1])
+
+CountryID: 5 is connected to: 
+
+1->
+
+ (Reinforcements: 0])
+
+ (Continent ID: 1])
+
+=====================================
+
+Player: player2 (Reinforcements: 3) (Cards: )
+
+CountryID: 2 is connected to: 
+
+1->
+
+3->
+
+4->
+
+ (Reinforcements: 2])
+
+ (Continent ID: 1])
+
+CountryID: 4 is connected to: 
+
+1->
+
+2->
+
+3->
+
+ (Reinforcements: 1])
+
+ (Continent ID: 2])
+
+=====================================
+
+Player player1 added.
+
+Player player2 added.
+
+player1 has 3 reinforcements left.
+
+player2 has 3 reinforcements left.
+
+Player player1 bombed country 2 owned by player2 and destroyed half of the armies.
+
+Player player1 added.
+
+Player player2 added.
+
+player1 has 3 reinforcements left.
+
+player2 has 3 reinforcements left.
+
+Player player1 airlifted 1 armies from 3 to 5.
+
+Player player1 added.
+
+Player player2 added.
+
+Countries assigned to players.
+
+player1 has 2 countries:
+
+  1
+
+  4
+
+player2 has 2 countries:
+
+  2
+
+  3
+
+player1 has 1 reinforcements left.
+
+player2 has 1 reinforcements left.
+
+Player player1 negotiated with player2.
+
+Player player2 cannot attack player1 because they are negotiated.
+
+The countries are not adjacent. Please try again.
+
+Map is valid and loaded.
+
+saving map ...
+
+Map saved to: /Users/parsamre/Desktop/STUDY/SOEN 6441/globalDominion/src/main/resources/canada.map
+
+Player player1 added.
+
+Error with EditCountry at index 0 : Continent ID 7 does not exist.
+
+No command was executed. Invalid number of arguments. Correct Syntax: 
+	editcountry -add countryID continentID -remove countryID
+
+As an effect to previous action, the following connections are removed:
+ 3 -> 1
+
+
+As an effect to previous action, the following countries are removed:
+Removed countries: 1, 
+
+
+As an effect to previous action, the following connections are removed:
+ 3 -> 1
+
+
+As an effect to previous action, the following connections are removed:
+ 3 -> 2
+
+
+No players were found. Add players before assigning countries.
+
+No command was executed. Invalid number of arguments. Correct Syntax: 
+	editcontinent -add continentID controlvalue -remove continentID
+
+No command was executed. Invalid number of arguments. Correct Syntax: 
+	editcountry -add countryID continentID -remove countryID
+
+As an effect to previous action, the following connections are removed:
+ 1 -> 2
+ 3 -> 2
+
+
+As an effect to previous action, the following connections are removed:
+ 3 -> 1
+
+
+As an effect to previous action, the following countries are removed:
+Removed countries: 1, 
+
+
+No command was executed. Invalid number of arguments. Correct Syntax: 
+	editcontinent -add continentID controlvalue -remove continentID
+
+The given country is not owned by the player. Please try again.
+
+The countries are not adjacent. Please try again.
+
+Not enough reinforcements
+
+farid has 0 reinforcements left.
+
+Error with GamePlayer at index 0 : Player already exists.
+
+Error with GamePlayer at index 0 : Player not found.
+
+Player mahdieh removed.
+
+The country '1' has a self-loop.
+
+Player player1 added.
+
+Player player2 added.
+
+player1 has 3 reinforcements left.
+
+player2 has 3 reinforcements left.
+
+Player player1 airlifted 1 armies from 3 to 5.
+
+Player player1 added.
+
+Player player2 added.
+
+player1 has 3 reinforcements left.
+
+player2 has 3 reinforcements left.
+
+Player player1 blockaded country 3 and tripled the number of armies.
+
+Player: neutral (Reinforcements: 0) (Cards: )
+
+CountryID: 3 is connected to: 
+
+1->
+
+2->
+
+4->
+
+ (Reinforcements: 3])
+
+ (Continent ID: 2])
+
+=====================================
+
+Player: player1 (Reinforcements: 3) (Cards: )
+
+CountryID: 1 is connected to: 
+
+2->
+
+3->
+
+4->
+
+5->
+
+ (Reinforcements: 0])
+
+ (Continent ID: 1])
+
+CountryID: 5 is connected to: 
+
+1->
+
+ (Reinforcements: 0])
+
+ (Continent ID: 1])
+
+=====================================
+
+Player: player2 (Reinforcements: 3) (Cards: )
+
+CountryID: 2 is connected to: 
+
+1->
+
+3->
+
+4->
+
+ (Reinforcements: 2])
+
+ (Continent ID: 1])
+
+CountryID: 4 is connected to: 
+
+1->
+
+2->
+
+3->
+
+ (Reinforcements: 1])
+
+ (Continent ID: 2])
+
+=====================================
+
+Player player1 added.
+
+Player player2 added.
+
+player1 has 3 reinforcements left.
+
+player2 has 3 reinforcements left.
+
+Player player1 bombed country 2 owned by player2 and destroyed half of the armies.
+
