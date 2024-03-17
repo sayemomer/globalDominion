@@ -5,9 +5,6 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * responsible for saving running mode of the application
- */
 public class AppConfig {
     private static boolean debugMode = false;
     private static boolean verboseMode = false;

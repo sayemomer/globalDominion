@@ -1,0 +1,8 @@
+#!/bin/sh
+# Run Javadoc generation and check for warnings or errors.
+mvn javadoc:javadoc | grep -E "warning|error"
+# If the previous command found warnings or errors, exit with a non-zero status.
+if [ $? -eq 0 ]; then
+  echo "Javadoc issues detected. Please resolve all Javadoc warnings and errors before pushing."
+  exit 1
+fi
