@@ -1,5 +1,6 @@
 package phases;
 
+import config.Debug;
 import models.Country;
 import models.Player;
 import models.orders.Order;
@@ -8,16 +9,18 @@ public class ExecuteOrdersPhase extends Phase {
 
     public ExecuteOrdersPhase(GameEngine p_gameEngine) {
         super(p_gameEngine);
+        Debug.log("ExecuteOrdersPhase");
     }
 
     @Override
     public void printAvailableCommands() {
-
+        System.out.println("*-*-* EXECUTE ORDERS PHASE *-*-*");
+        System.out.println("Executing orders...");
     }
 
     @Override
     public void run() {
-        System.out.println("Executing orders...");
+        printAvailableCommands();
         boolean anOrderExecuted = true;
         // continues until no orders are left to execute
         while (anOrderExecuted) {
@@ -56,7 +59,7 @@ public class ExecuteOrdersPhase extends Phase {
         try {
             resumeOrThrow();
             d_gameEngine.getGameState().assignReinforcements();
-            d_gameEngine.setGamePhase(new IssueOrdersPhase(d_gameEngine));
+            d_gameEngine.setGamePhase(new IssueDeployOrder(d_gameEngine));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             goToFinishPhase();
