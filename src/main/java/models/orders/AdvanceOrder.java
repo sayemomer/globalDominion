@@ -86,8 +86,7 @@ public class AdvanceOrder extends Order {
         // reduce reinforcements to send to battle
         int restingInAttackingCountry = attackerCountry.getNumberOfReinforcements() - attackingNumber;
         int restingInDefendingCountry = defenderCountry.getNumberOfReinforcements() - defendingNumber;
-
-        attackerCountry.setNumberOfReinforcements(restingInAttackingCountry);
+        
         defenderCountry.setNumberOfReinforcements(restingInDefendingCountry);
 
         // battle
@@ -107,18 +106,19 @@ public class AdvanceOrder extends Order {
         }
 
         int remainingDefender = defendingNumber - l_defenderKilled;
+        int remainingAttacker = attackingNumber - l_attackerKilled;
 
         // update ownership and the number of reinforcements
-        if (defendingNumber - l_defenderKilled == 0 && attackingNumber - l_attackerKilled > 0) {
+        if (remainingDefender == 0 && remainingAttacker > 0) {
             // transfer ownership
             defender.removeCountry(defenderCountry);
             attacker.addCountry(defenderCountry);
             attacker.addCard();
             // send remaining reinforcement
-            defenderCountry.setNumberOfReinforcements(attackingNumber - l_attackerKilled);
+            defenderCountry.setNumberOfReinforcements(remainingAttacker);
         } else {
-            defenderCountry.setNumberOfReinforcements(defenderCountry.getNumberOfReinforcements() + defendingNumber - l_defenderKilled);
-            attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() + attackingNumber - l_attackerKilled);
+            defenderCountry.setNumberOfReinforcements(defenderCountry.getNumberOfReinforcements() + remainingDefender);
+            attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() + remainingAttacker);
         }
     }
 
