@@ -1,5 +1,6 @@
 package models.orders;
 
+import config.Debug;
 import models.Country;
 import models.GameState;
 import models.Player;
@@ -14,7 +15,7 @@ import java.util.Random;
  * It has a method validate which is used to validate the order.
  * It has a method toString which is used to print the order.
  */
-public class AdvanceOrder extends Order{
+public class AdvanceOrder extends Order {
     private final int d_countryAttackerId;
     private final int d_countryDefenderId;
     private final int d_numReinforcements;
@@ -27,8 +28,8 @@ public class AdvanceOrder extends Order{
      *
      * @param p_gameState         game state in which the order is being created
      * @param p_owner             player who is creating the order
-     * @param p_countryFromId    From which country the player wants to advance
-     * @param p_countryToId     To which country the player wants to advance
+     * @param p_countryFromId     From which country the player wants to advance
+     * @param p_countryToId       To which country the player wants to advance
      * @param p_numReinforcements Number of reinforcements the player wants to advance
      */
     public AdvanceOrder(GameState p_gameState, Player p_owner, int p_countryFromId, int p_countryToId, int p_numReinforcements) {
@@ -48,7 +49,7 @@ public class AdvanceOrder extends Order{
     /**
      * partially execute advance order
      */
-    public void executePartially(){
+    public void executePartially() {
         Country attackerCountry = d_gameState.getCountries().get(d_countryAttackerId);
         attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() - d_numReinforcements);
     }
@@ -61,54 +62,63 @@ public class AdvanceOrder extends Order{
     public void execute() {
         Country attackerCountry = d_gameState.getCountries().get(d_countryAttackerId);
         Country defenderCountry = d_gameState.getCountries().get(d_countryDefenderId);
+        Player defender = d_gameState.getCountryOwner(d_countryDefenderId);
+        Player attacker = d_owner;
 
-        if(d_owner.getCountries().get(d_countryDefenderId) != null) {
+        if (d_gameState.getCountryOwner(d_countryDefenderId).equals(d_owner)) {
             defenderCountry.setNumberOfReinforcements(defenderCountry.getNumberOfReinforcements() + d_numReinforcements);
+            return;
         }
-        else {
-            int l_numDefendingReinforcement = d_gameState.getCountries().get(d_countryDefenderId).getNumberOfReinforcements();
-            int l_numAttackingReinforcement = d_numReinforcements;
+        // if defending country doest have an owner or has 0 reinforcements
+        if (defender == null || defenderCountry.getNumberOfReinforcements() == 0) {
+            defenderCountry.setNumberOfReinforcements(d_numReinforcements);
+            if (defender != null)
+                defender.removeCountry(defenderCountry);
+            d_owner.addCountry(defenderCountry);
+            d_owner.addCard();
+            return;
+        }
 
-            if(l_numDefendingReinforcement == 0){
-                defenderCountry.setNumberOfReinforcements(d_numReinforcements);
+
+        int attackingNumber = d_numReinforcements;
+        int defendingNumber = Math.min(defenderCountry.getNumberOfReinforcements(), attackingNumber);
+
+        // reduce reinforcements to send to battle
+        int restingInAttackingCountry = attackerCountry.getNumberOfReinforcements() - attackingNumber;
+        int restingInDefendingCountry = defenderCountry.getNumberOfReinforcements() - defendingNumber;
+
+        attackerCountry.setNumberOfReinforcements(restingInAttackingCountry);
+        defenderCountry.setNumberOfReinforcements(restingInDefendingCountry);
+
+        // battle
+        Random random = new Random();
+        int l_defenderKilled = 0;
+        for (int i = 0; i < defendingNumber; i++) {
+            if (random.nextDouble() <= DEFENDER_BEING_KILLED) {
+                l_defenderKilled++;
             }
-            else {
+        }
 
-                if (l_numDefendingReinforcement > l_numAttackingReinforcement) {
-                    l_numDefendingReinforcement = l_numAttackingReinforcement;
-                }
-
-                int l_remainInAttackingCountry = attackerCountry.getNumberOfReinforcements();
-                int l_remainInDefendingCountry = defenderCountry.getNumberOfReinforcements() - l_numDefendingReinforcement;
-
-                Random random = new Random();
-                int l_defenderKilled = 0;
-                for (int i = 0; i < l_numDefendingReinforcement; i++) {
-                    if (random.nextDouble() <= DEFENDER_BEING_KILLED) {
-                        l_defenderKilled++;
-                    }
-                }
-
-                int l_attackerKilled = 0;
-                for (int i = 0; i < l_numAttackingReinforcement; i++) {
-                    if (random.nextDouble() <= ATTACKER_BEING_KILLED) {
-                        l_attackerKilled++;
-                    }
-                }
-
-                defenderCountry.setNumberOfReinforcements(l_numDefendingReinforcement + l_remainInDefendingCountry - l_defenderKilled);
-
-                if (defenderCountry.getNumberOfReinforcements() == 0 && l_numAttackingReinforcement != 0) {
-                    defenderCountry.setNumberOfReinforcements(l_numAttackingReinforcement - l_attackerKilled);
-                    Player l_defender = d_gameState.getCountryOwner(d_countryDefenderId);
-                    l_defender.removeCountry(defenderCountry);
-                    d_owner.addCountry(defenderCountry);
-                    //add card
-                    d_owner.addCard();
-                } else {
-                    attackerCountry.setNumberOfReinforcements(l_numAttackingReinforcement + l_remainInAttackingCountry);
-                }
+        int l_attackerKilled = 0;
+        for (int i = 0; i < attackingNumber; i++) {
+            if (random.nextDouble() <= ATTACKER_BEING_KILLED) {
+                l_attackerKilled++;
             }
+        }
+
+        int remainingDefender = defendingNumber - l_defenderKilled;
+
+        // update ownership and the number of reinforcements
+        if (defendingNumber - l_defenderKilled == 0 && attackingNumber - l_attackerKilled > 0) {
+            // transfer ownership
+            defender.removeCountry(defenderCountry);
+            attacker.addCountry(defenderCountry);
+            attacker.addCard();
+            // send remaining reinforcement
+            defenderCountry.setNumberOfReinforcements(attackingNumber - l_attackerKilled);
+        } else {
+            defenderCountry.setNumberOfReinforcements(defenderCountry.getNumberOfReinforcements() + defendingNumber - l_defenderKilled);
+            attackerCountry.setNumberOfReinforcements(attackerCountry.getNumberOfReinforcements() + attackingNumber - l_attackerKilled);
         }
     }
 
@@ -131,17 +141,17 @@ public class AdvanceOrder extends Order{
             throw new IllegalArgumentException("Second country does not exist");
 
         if (d_owner.getCountries().get(d_countryAttackerId).getNumberOfReinforcements() < d_numReinforcements)
-            throw new IllegalArgumentException("Not enough reinforcements in country "+ d_countryAttackerId);
+            throw new IllegalArgumentException("Not enough reinforcements in country " + d_countryAttackerId);
 
         //check if the player is negotiated with the player to attack
-        if(d_gameState.getPlayers().get(d_owner.getName()).getNegotiatedPlayers().contains(d_gameState.getCountryOwner(d_countryDefenderId).getName())){
+        if (d_gameState.getPlayers().get(d_owner.getName()).getNegotiatedPlayers().contains(d_gameState.getCountryOwner(d_countryDefenderId).getName())) {
             throw new IllegalArgumentException("Player " + d_owner.getName() + " cannot attack " + d_gameState.getCountryOwner(d_countryDefenderId).getName() + " because they are negotiated.");
         }
     }
 
     @Override
     public String toString() {
-        return "Advance Order{" + d_owner + " advanced + " + d_numReinforcements + " reinforcements to country " + d_countryDefenderId + " from country " + d_countryAttackerId +" }";
+        return "Advance Order{" + d_owner + " advanced + " + d_numReinforcements + " reinforcements to country " + d_countryDefenderId + " from country " + d_countryAttackerId + " }";
     }
 
 }

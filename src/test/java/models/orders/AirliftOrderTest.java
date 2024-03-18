@@ -8,6 +8,7 @@ import models.*;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import services.GameMapReader;
@@ -26,9 +27,9 @@ public class AirliftOrderTest {
 
     static OrderController orderController;
 
-    private static  Map<Integer, Continent> d_continents ;
+    private static Map<Integer, Continent> d_continents;
 
-    private static  Map<Integer, Country> d_countries ;
+    private static Map<Integer, Country> d_countries;
 
     @BeforeEach
     public void setUp() {
@@ -130,8 +131,8 @@ public class AirliftOrderTest {
 
         //4. assign reinforcement to players
 
-        Order order = orderController.handleDeployOrderCommand(new String[]{ String.valueOf(player1.getCountryIds().get(1)), "2"}, gameState.getPlayers().get("player1"));
-        Order order2 = orderController.handleDeployOrderCommand(new String[]{ String.valueOf(player2.getCountryIds().get(0)), "2"}, gameState.getPlayers().get("player2"));
+        Order order = orderController.handleDeployOrderCommand(new String[]{String.valueOf(player1.getCountryIds().get(1)), "2"}, gameState.getPlayers().get("player1"));
+        Order order2 = orderController.handleDeployOrderCommand(new String[]{String.valueOf(player2.getCountryIds().get(0)), "2"}, gameState.getPlayers().get("player2"));
         player1.setOrder(order);
         player2.setOrder(order2);
 
@@ -143,9 +144,9 @@ public class AirliftOrderTest {
         nextOrder2.execute();
 
         //6. issue an advance order
-
+        gameState.printMap();
         Order advanceOrder = orderController.handleAdvanceOrderCommand(
-                new String[]{ String.valueOf(player1.getCountryIds().get(1)),
+                new String[]{String.valueOf(player1.getCountryIds().get(1)),
                         String.valueOf(player2.getCountryIds().get(1)),
                         "1"}, gameState.getPlayers().get("player1"));
 
@@ -172,23 +173,25 @@ public class AirliftOrderTest {
 
         //10. issue a airlift order
         Order airliftOrder = orderController.handleAirliftOrderCommand(
-                new String[]{ String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(1)),
+                new String[]{String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(1)),
                         String.valueOf(gameState.getPlayers().get("player1").getCountryIds().get(2)),
                         "1"}, gameState.getPlayers().get("player1"));
 
         gameState.getPlayers().get("player1").setOrder(airliftOrder);
 
+        gameState.printMap();
         //11. execute the airlift order
         Order nextOrder4 = gameState.getPlayers().get("player1").nextOrder();
         nextOrder4.execute();
+        gameState.printMap();
 
         //12. check if the airlift order is executed
-        assertTrue (gameState.getCountries().get(gameState.getPlayers().get("player1").getCountryIds().get(2)).getArmies() == 1);
+        assertTrue(gameState.getCountries().get(gameState.getPlayers().get("player1").getCountryIds().get(2)).getArmies() == 2);
 
     }
 
     @AfterEach
-    public  void tearDown() {
+    public void tearDown() {
         gameState = null;
         mapController = null;
         gameMapReader = null;
