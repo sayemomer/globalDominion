@@ -3,6 +3,7 @@ package models.orders;
 import models.GameState;
 import models.Player;
 import models.Country;
+import services.CustomPrint;
 
 /**
  * DeployOrder class to deploy reinforcements to a country
@@ -31,7 +32,7 @@ public class DeployOrder extends Order {
 
         // the reinforcement poll is reduced only if the deploy order is valid.
         d_owner.reduceReinforcementPoll(d_numReinforcements);
-        System.out.println(d_owner.getName() + " has " + d_owner.getReinforcementPoll() + " reinforcements left.");
+        CustomPrint.println(d_owner.getName() + " has " + d_owner.getReinforcementPoll() + " reinforcements left.");
     }
 
     /**

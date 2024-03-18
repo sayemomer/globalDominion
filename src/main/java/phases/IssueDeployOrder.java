@@ -2,6 +2,7 @@ package phases;
 
 import controllers.Command;
 import models.Player;
+import services.CustomPrint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,12 +24,12 @@ public class IssueDeployOrder extends Phase {
      */
     @Override
     public void printAvailableCommands() {
-        System.out.println("*-*-* ISSUE DEPLOY ORDERS PHASE *-*-*");
-        System.out.println("Players must deploy all their reinforcements in this phase.");
-        System.out.println("Available commands: ");
-        System.out.println("  " + Command.DEPLOY_SYNTAX);
-        System.out.println("Type 'exit' to exit the game.");
-        System.out.println("Players have the following reinforcements: " + d_gameEngine.getGameState().getPlayers().values().stream().map(player -> player.getName() + ": " + player.getReinforcementPoll()).reduce((a, b) -> a + ", " + b).orElse(""));
+        CustomPrint.println("*-*-* ISSUE DEPLOY ORDERS PHASE *-*-*");
+        CustomPrint.println("Players must deploy all their reinforcements in this phase.");
+        CustomPrint.println("Available commands: ");
+        CustomPrint.println("  " + Command.DEPLOY_SYNTAX);
+        CustomPrint.println("Type 'exit' to exit the game.");
+        CustomPrint.println("Players have the following reinforcements: " + d_gameEngine.getGameState().getPlayers().values().stream().map(player -> player.getName() + ": " + player.getReinforcementPoll()).reduce((a, b) -> a + ", " + b).orElse(""));
     }
 
     /**

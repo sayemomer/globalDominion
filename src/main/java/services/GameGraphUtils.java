@@ -117,7 +117,7 @@ public class GameGraphUtils {
         for (Country country : p_countries.values()) {
             if (country.getAdjacentCountries().contains(country.getCountryId())) {
                 // A self-loop is detected if a country's adjacent countries contain its own ID
-                System.out.println("The country '" + country.getCountryId() + "' has a self-loop.");
+                CustomPrint.println("The country '" + country.getCountryId() + "' has a self-loop.");
                 return true;
             }
         }
