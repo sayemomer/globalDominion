@@ -8,6 +8,7 @@ import models.orders.DeployOrder;
 import models.orders.Order;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class RandomBehavior extends PlayerBehavior{
@@ -16,7 +17,7 @@ public class RandomBehavior extends PlayerBehavior{
     GameState d_gameState;
 
     public RandomBehavior(Player p_player, List<Country> p_countries) {
-        super(p_player, p_countries);
+        super(p_player, (Map<Integer, Country>) p_countries);
     }
 
     // Random country to move to
