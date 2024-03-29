@@ -56,6 +56,13 @@ public class Benevolent extends PlayerBehavior{
 
     @Override
     public Country toMoveFrom() {
+        for(Integer countryId: weakestCountry.getAdjacentCountries()){
+            if(d_player.getCountries().containsKey(countryId)) {
+                int otherCountryReinforcement = d_gameState.getCountries().get(countryId).getNumberOfReinforcements();
+                weakestCountry.setNumberOfReinforcements(otherCountryReinforcement - 1);
+                d_gameState.getCountries().get(countryId).setNumberOfReinforcements(1);
+            }
+        }
         return null;
     }
 

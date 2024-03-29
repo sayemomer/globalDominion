@@ -48,6 +48,13 @@ public class Aggressive extends PlayerBehavior{
 
     @Override
     public Country toMoveFrom() {
+        for(Integer countryId: countryWithMaxReinforcements.getAdjacentCountries()){
+            if(d_player.getCountries().containsKey(countryId)) {
+                int otherCountryReinforcement = d_gameState.getCountries().get(countryId).getNumberOfReinforcements();
+                countryWithMaxReinforcements.setNumberOfReinforcements(otherCountryReinforcement - 1);
+                d_gameState.getCountries().get(countryId).setNumberOfReinforcements(1);
+            }
+        }
         return null;
     }
 
