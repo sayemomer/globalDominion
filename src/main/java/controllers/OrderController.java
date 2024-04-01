@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class OrderController {
     private static GameState d_gameState;
     private static Scanner d_scanner;
-    private static GameEngine d_gameEngine;
+    public static GameEngine d_gameEngine;
 
     /**
      * Constructor for the OrderController class.
