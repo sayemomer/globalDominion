@@ -86,7 +86,7 @@ public class AdvanceOrder extends Order {
         // reduce reinforcements to send to battle
         int restingInAttackingCountry = attackerCountry.getNumberOfReinforcements() - attackingNumber;
         int restingInDefendingCountry = defenderCountry.getNumberOfReinforcements() - defendingNumber;
-        
+
         defenderCountry.setNumberOfReinforcements(restingInDefendingCountry);
 
         // battle
@@ -147,6 +147,18 @@ public class AdvanceOrder extends Order {
         if (d_gameState.getPlayers().get(d_owner.getName()).getNegotiatedPlayers().contains(d_gameState.getCountryOwner(d_countryDefenderId).getName())) {
             throw new IllegalArgumentException("Player " + d_owner.getName() + " cannot attack " + d_gameState.getCountryOwner(d_countryDefenderId).getName() + " because they are negotiated.");
         }
+    }
+
+    public int getCountryAttackerId() {
+        return d_countryAttackerId;
+    }
+
+    public int getCountryDefenderId() {
+        return d_countryDefenderId;
+    }
+
+    public int getNumReinforcements() {
+        return d_numReinforcements;
     }
 
     @Override

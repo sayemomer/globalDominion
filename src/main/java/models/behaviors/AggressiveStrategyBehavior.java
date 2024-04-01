@@ -27,6 +27,8 @@ public class AggressiveStrategyBehavior extends StrategyBehavior {
     @Override
     public Order issueOtherOrders() {
 
+        // TODO: USE CARDS IF AVAILABLE
+
         Country strongestCountry = findPlayersStrongestCountry();
         Map<Integer, Country> ownedCountries = d_player.getCountries();
 
