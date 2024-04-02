@@ -75,13 +75,8 @@ public class ExecuteOrdersPhase extends Phase {
         }
 
         d_numberOfExecution++;
-        System.out.println("limit: " + d_limitOfExecution);
-        System.out.println("number of executions" + d_numberOfExecution);
-        if (d_numberOfExecution < d_limitOfExecution) {
-            goToIssueOrdersPhase();
-            return true;
-        }
-        return false;
+        goToIssueOrdersPhase();
+        return true;
     }
 
     /**
@@ -90,6 +85,11 @@ public class ExecuteOrdersPhase extends Phase {
      */
 
     public void resumeOrThrow() throws Exception {
+
+        if (d_numberOfExecution >= d_limitOfExecution) {
+            throw new Exception("Draw Execution Limit Reached");
+        }
+
         for (Player player : d_gameEngine.getGameState().getPlayers().values()) {
             if (player.getCountryIds().size() == d_gameEngine.getGameState().getCountries().size())
                 throw new Exception("Player " + player + " has won.");

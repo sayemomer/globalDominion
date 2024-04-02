@@ -1,18 +1,17 @@
-package driver;
+package models;
 
 import config.AppConfig;
 import controllers.CountryController;
 import controllers.MapController;
 import controllers.OrderController;
 import controllers.PlayerController;
-import models.GameState;
-import models.Player;
 import models.behaviors.AggressiveStrategyBehavior;
 import models.behaviors.StrategyBehavior;
 import phases.ExecuteOrdersPhase;
 import phases.GameEngine;
 import phases.IssueDeployOrder;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameContext {
@@ -21,29 +20,29 @@ public class GameContext {
     MapController d_mapController;
     CountryController d_countryController;
     GameEngine d_gameEngine;
-    Player p1, p2;
 
-    GameContext(String p_mapPath, Class<? extends StrategyBehavior> p_player1Behavior, Class<? extends StrategyBehavior> p_player2Behavior, int p_cycles) {
+    public GameContext(String p_mapPath, ArrayList<Class<? extends StrategyBehavior>> p_playerBehaviors, int p_cycles) {
         d_gameState = new GameState();
         d_playerController = new PlayerController(d_gameState);
         d_mapController = new MapController(d_gameState);
         d_countryController = new CountryController(d_gameState);
-        d_gameEngine = new GameEngine(d_gameState, d_playerController, d_mapController, d_countryController, new OrderController(d_gameState, null));
-        setup(p_mapPath, p_player1Behavior, p_player2Behavior, p_cycles);
+        d_gameEngine = new GameEngine(d_gameState, d_playerController, d_mapController, d_countryController, new OrderController(d_gameState, new Scanner(System.in)));
+        setup(p_mapPath, p_playerBehaviors, p_cycles);
     }
 
-    private void setup(String p_mapPath, Class<? extends StrategyBehavior> p_player1Behavior, Class<? extends StrategyBehavior> p_player2Behavior, int p_limit) {
+    private void setup(String p_mapPath, ArrayList<Class<? extends StrategyBehavior>> p_playerBehaviors, int p_limit) {
         boolean mapIsLoaded = d_mapController.handleloadMapCommand(new String[]{p_mapPath});
         if (!mapIsLoaded) {
             System.out.println("Problem loading the map " + p_mapPath);
             return;
         }
 
-        p1 = new Player("p1" + p_player1Behavior.getName(), d_gameState, p_player1Behavior);
-        p2 = new Player("p2" + p_player2Behavior.getName(), d_gameState, p_player2Behavior);
-
-        d_gameState.addPlayer(p1);
-        d_gameState.addPlayer(p2);
+        int behaviorIndex = 1;
+        for (Class<? extends StrategyBehavior> behavior : p_playerBehaviors) {
+            Player player = new Player("p" + behaviorIndex + behavior.getName(), d_gameState, behavior);
+            d_gameState.addPlayer(player);
+            behaviorIndex++;
+        }
 
         d_countryController.handleAssignCountriesCommand(new String[]{});
         ExecuteOrdersPhase.setLimitOfExecution(p_limit);
@@ -62,7 +61,12 @@ public class GameContext {
 
     public static void main(String[] args) {
         AppConfig.setTournamentMode(true);
-        GameContext gc = new GameContext("canada.map", AggressiveStrategyBehavior.class, AggressiveStrategyBehavior.class, 5);
+        ArrayList<Class<? extends StrategyBehavior>> behaviors = new ArrayList<>();
+        behaviors.add(AggressiveStrategyBehavior.class);
+        behaviors.add(AggressiveStrategyBehavior.class);
+        behaviors.add(AggressiveStrategyBehavior.class);
+
+        GameContext gc = new GameContext("canada.map", behaviors, 50);
         gc.startGame();
     }
 
