@@ -24,12 +24,14 @@ public class BenevolentStrategyBehavior extends StrategyBehavior {
 
         for (int adjacentId: weakestCountry.getAdjacentCountries()) {
             Country adjacentCountry = d_gameState.getCountries().get(adjacentId);
-            if (adjacentCountry.getNumberOfReinforcements() > maxReinforcements) {
+            if (d_player.getCountries().containsKey(adjacentId) && adjacentCountry.getNumberOfReinforcements() > maxReinforcements) {
                 maxReinforcements = adjacentCountry.getNumberOfReinforcements();
                 maxReinforcementsCountry = adjacentCountry;
             }
         }
-        return new AdvanceOrder(d_gameState, d_player, maxReinforcementsCountry.getCountryId(), weakestCountry.getCountryId(), maxReinforcements-1);
+        if(maxReinforcementsCountry != null)
+            return new AdvanceOrder(d_gameState, d_player, maxReinforcementsCountry.getCountryId(), weakestCountry.getCountryId(), maxReinforcements-1);
+        return null;
     }
 
     /**

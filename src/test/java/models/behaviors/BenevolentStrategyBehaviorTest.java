@@ -6,6 +6,7 @@ import models.Continent;
 import models.Country;
 import models.GameState;
 import models.Player;
+import models.orders.AdvanceOrder;
 import models.orders.DeployOrder;
 import models.orders.Order;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import phases.GameEngine;
 import phases.IssueDeployOrder;
+import phases.IssueOrdersPhase;
 
 import java.util.Map;
 
@@ -68,9 +70,11 @@ public class BenevolentStrategyBehaviorTest {
         countries.get(2).addAdjacentCountry(3);
         countries.get(2).addAdjacentCountry(4);
         countries.get(2).addAdjacentCountry(6);
+        countries.get(2).addAdjacentCountry(5);
         countries.get(5).addAdjacentCountry(3);
         countries.get(5).addAdjacentCountry(4);
         countries.get(5).addAdjacentCountry(6);
+        countries.get(5).addAdjacentCountry(2);
         countries.get(4).addAdjacentCountry(3);
         countries.get(4).addAdjacentCountry(6);
 
@@ -95,5 +99,21 @@ public class BenevolentStrategyBehaviorTest {
         Order order = player.nextOrder();
         order.execute();
         assertEquals(2+player.getReinforcement(), countries.get(5).getNumberOfReinforcements());
+    }
+
+    @Test
+    @DisplayName("should move armies of strongest neighbor to weakest country")
+    public void shouldMoveFromStrongestNeighborToWeakest(){
+        gameEngine.setGamePhase(new IssueOrdersPhase(gameEngine));
+        Player player = players.get("mahdieh");
+        player.issueOrder();
+        Order order = player.nextOrder();
+        assertDoesNotThrow(() -> (AdvanceOrder) order);
+//        assertEquals(1, player.getOrders().size());
+        AdvanceOrder advanceOrder = (AdvanceOrder) order;
+        advanceOrder.execute();
+        assertEquals(5, countries.get(5).getNumberOfReinforcements());
+        assertEquals(1, countries.get(2).getNumberOfReinforcements());
+
     }
 }
