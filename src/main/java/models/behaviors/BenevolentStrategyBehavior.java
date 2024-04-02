@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class BenevolentStrategyBehavior extends StrategyBehavior {
 
-
     public BenevolentStrategyBehavior(Player p_player, GameState p_gameState) {
         super(p_player, p_gameState);
     }
