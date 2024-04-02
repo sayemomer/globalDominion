@@ -1,73 +1,61 @@
-//package models.behaviors;
-//
-//import models.Country;
-//import models.GameState;
-//import models.Player;
-//import models.orders.DeployOrder;
-//import models.orders.Order;
-//
-//import java.util.Map;
-//
-//public class BenevolentStrategyBehavior extends StrategyBehavior {
-//
-//    GameState d_gameState;
-//    Country weakestCountry;
-//
-//    public BenevolentStrategyBehavior(Player p_player, Map<Integer, Country> p_countries) {
-//        super(p_player, p_countries);
-//    }
-//
-//    public Country findWeakestCountry(){
-//        //find a country with minimum number of reinforcement
-//        int minReinforcements = Integer.MAX_VALUE;
-//        for (int i = 0; i < d_countries.size(); i++) {
-//            int reinforcements = d_countries.get(i).getNumberOfReinforcements();
-//            if (reinforcements < minReinforcements) {
-//                minReinforcements = reinforcements;
-//                weakestCountry = d_countries.get(i);
-//            }
-//        }
-//        return  weakestCountry;
-//    }
-//
-//    @Override
-//    public Order issueOtherOrders() {
-//        Order order = new DeployOrder(d_gameState, d_player, weakestCountry.getCountryId(), d_player.getReinforcement());
-//        return order;
-//    }
-//
-//    /**
-//     * Benevolent player never attacks any country so it returns null
-//     * @return null because it never attacks any country
-//     */
-//    @Override
-//    public Country getAttackTo() {
-//        return null;
-//    }
-//
-//    /**
-//     * Benevolent player never attack so it returns null
-//     * @return null because it never attacks
-//     */
-//    @Override
-//    public Country getAttackFrom() {
-//        return null;
-//    }
-//
-//    @Override
-//    public Country toMoveFrom() {
-//        for(Integer countryId: weakestCountry.getAdjacentCountries()){
-//            if(d_player.getCountries().containsKey(countryId)) {
-//                int otherCountryReinforcement = d_gameState.getCountries().get(countryId).getNumberOfReinforcements();
-//                weakestCountry.setNumberOfReinforcements(otherCountryReinforcement - 1);
-//                d_gameState.getCountries().get(countryId).setNumberOfReinforcements(1);
-//            }
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public Country getDeployIn() {
-//        return null;
-//    }
-//}
+package models.behaviors;
+
+import models.Country;
+import models.GameState;
+import models.Player;
+import models.orders.AdvanceOrder;
+import models.orders.DeployOrder;
+import models.orders.Order;
+
+import java.util.Map;
+
+public class BenevolentStrategyBehavior extends StrategyBehavior {
+
+
+    public BenevolentStrategyBehavior(Player p_player, GameState p_gameState) {
+        super(p_player, p_gameState);
+    }
+    @Override
+    public Order issueOtherOrders() {
+
+        Country weakestCountry = findWeakestCountry();
+
+        int maxReinforcements = Integer.MIN_VALUE;
+        Country maxReinforcementsCountry = null;
+
+        for (int adjacentId: weakestCountry.getAdjacentCountries()) {
+            Country adjacentCountry = d_gameState.getCountries().get(adjacentId);
+            if (adjacentCountry.getNumberOfReinforcements() > maxReinforcements) {
+                maxReinforcements = adjacentCountry.getNumberOfReinforcements();
+                maxReinforcementsCountry = adjacentCountry;
+            }
+        }
+        return new AdvanceOrder(d_gameState, d_player, maxReinforcementsCountry.getCountryId(), weakestCountry.getCountryId(), maxReinforcements-1);
+    }
+
+    /**
+     * The player deploy all it's reinforcement on it's weakest country
+     * @return the deploy order
+     */
+    @Override
+    protected Order issueDeployOrder() {
+        Country weakestCountry = findWeakestCountry();
+        return new DeployOrder(d_gameState, d_player, weakestCountry.getCountryId(), d_player.getReinforcement());
+    }
+
+    /**
+     * Find the weakest country of player
+     * @return the weakest country of the player
+     */
+    public Country findWeakestCountry(){
+        Country weakestCountry = null;
+        int minReinforcements = Integer.MAX_VALUE;
+        for (Country country : d_player.getCountries().values()) {
+            if (country.getNumberOfReinforcements() < minReinforcements) {
+                minReinforcements = country.getNumberOfReinforcements();
+                weakestCountry = country;
+            }
+        }
+        return  weakestCountry;
+    }
+}
