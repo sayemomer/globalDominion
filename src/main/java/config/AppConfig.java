@@ -1,10 +1,5 @@
 package config;
 
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * responsible for saving running mode of the application
  */
@@ -12,6 +7,7 @@ public class AppConfig {
     private static boolean debugMode = false;
     private static boolean verboseMode = false;
     private static boolean testMode = false;
+    private static boolean tournamentMode = false;
 
     // Private constructor to prevent instantiation
     private AppConfig() {
@@ -61,6 +57,14 @@ public class AppConfig {
 
     public static void setDebugMode(boolean p_debugMode) {
         AppConfig.debugMode = p_debugMode;
+    }
+
+    public static boolean isTournamentMode() {
+        return tournamentMode;
+    }
+
+    public static void setTournamentMode(boolean p_tournamentMode) {
+        AppConfig.tournamentMode = p_tournamentMode;
     }
 
 }

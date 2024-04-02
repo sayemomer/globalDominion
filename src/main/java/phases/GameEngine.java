@@ -40,6 +40,7 @@ public class GameEngine {
     OrderController orderController;
     GameState gameState;
     Phase d_gamePhase;
+    int d_numberOfCycles = -1;
 
     /**
      * This is the constructor for the GameEngine class.
@@ -80,9 +81,15 @@ public class GameEngine {
      * It calls the startUpPhase, issueOrdersPhase, and executeOrdersPhase methods.
      */
     public void mainGameLoop() {
-        while (true)
-            d_gamePhase.run();
+        boolean shouldContinue = true;
+        while (shouldContinue)
+            shouldContinue = d_gamePhase.run();
     }
+
+    public void setNumberOfCycles(int p_cycles) {
+        d_numberOfCycles = p_cycles;
+    }
+
 
     /**
      * This method sets the game phase to the startup phase.

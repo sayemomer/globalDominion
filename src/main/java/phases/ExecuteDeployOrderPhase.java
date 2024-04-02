@@ -1,5 +1,6 @@
 package phases;
 
+import config.AppConfig;
 import services.CustomPrint;
 
 /**
@@ -14,6 +15,11 @@ public class ExecuteDeployOrderPhase extends ExecuteOrdersPhase {
      */
     public ExecuteDeployOrderPhase(GameEngine p_gameEngine) {
         super(p_gameEngine);
+    }
+
+    @Override
+    public void printAvailableCommands() {
+        CustomPrint.println("*-*-* EXECUTE ORDERS PHASE *-*-*");
     }
 
     /**

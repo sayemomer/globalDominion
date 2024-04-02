@@ -28,6 +28,11 @@ public class GameState {
         d_players.put(p_name, new Player(p_name));
     }
 
+    public void addPlayer(Player player) {
+        d_players.put(player.getName(), player);
+        setActionDone(GameState.GameAction.PlAYERS_ADDED);
+    }
+
     /**
      * This enum represents the game actions. used as flags to keep track of the game state.
      * VALID_MAP_LOADED: the map is loaded

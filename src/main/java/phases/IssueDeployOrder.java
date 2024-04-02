@@ -1,5 +1,6 @@
 package phases;
 
+import config.AppConfig;
 import controllers.Command;
 import models.Player;
 import services.CustomPrint;
@@ -24,12 +25,16 @@ public class IssueDeployOrder extends Phase {
      */
     @Override
     public void printAvailableCommands() {
-        CustomPrint.println("*-*-* ISSUE DEPLOY ORDERS PHASE *-*-*");
-        CustomPrint.println("Players must deploy all their reinforcements in this phase.");
-        CustomPrint.println("Available commands: ");
-        CustomPrint.println("  " + Command.DEPLOY_SYNTAX);
-        CustomPrint.println("Type 'exit' to exit the game.");
-        CustomPrint.println("Players have the following reinforcements: " + d_gameEngine.getGameState().getPlayers().values().stream().map(player -> player.getName() + ": " + player.getReinforcementPoll()).reduce((a, b) -> a + ", " + b).orElse(""));
+        if (AppConfig.isTournamentMode()) {
+            CustomPrint.println("*-*-* ISSUE DEPLOY ORDERS PHASE *-*-*");
+        } else {
+            CustomPrint.println("*-*-* ISSUE DEPLOY ORDERS PHASE *-*-*");
+            CustomPrint.println("Players must deploy all their reinforcements in this phase.");
+            CustomPrint.println("Available commands: ");
+            CustomPrint.println("  " + Command.DEPLOY_SYNTAX);
+            CustomPrint.println("Type 'exit' to exit the game.");
+            CustomPrint.println("Players have the following reinforcements: " + d_gameEngine.getGameState().getPlayers().values().stream().map(player -> player.getName() + ": " + player.getReinforcementPoll()).reduce((a, b) -> a + ", " + b).orElse(""));
+        }
     }
 
     /**
@@ -39,7 +44,7 @@ public class IssueDeployOrder extends Phase {
      * the execute orders phase.
      */
     @Override
-    public void run() {
+    public boolean run() {
         printAvailableCommands();
         // playerFinishedOrders of a player is true if the player has finished issuing orders
         Map<String, Boolean> playerFinishedOrders = new HashMap<>();
@@ -63,6 +68,7 @@ public class IssueDeployOrder extends Phase {
             }
         }
         goToExecuteOrdersPhase();
+        return true;
     }
 
     /**

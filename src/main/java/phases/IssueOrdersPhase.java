@@ -1,9 +1,11 @@
 package phases;
 
+import config.AppConfig;
 import controllers.Command;
 import models.Player;
 import services.CustomPrint;
 
+import java.io.ObjectInputFilter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,10 +35,14 @@ public class IssueOrdersPhase extends Phase {
      */
     @Override
     public void printAvailableCommands() {
-        CustomPrint.println("*-*-* ISSUE ORDERS PHASE *-*-*");
-        CustomPrint.println("Available commands: ");
-        CustomPrint.println("  " + Command.DEPLOY_SYNTAX);
-        CustomPrint.println("Type 'exit' to exit the game.");
+        if (AppConfig.isTournamentMode())
+            CustomPrint.println("*-*-* ISSUE ORDERS PHASE *-*-*");
+        else {
+            CustomPrint.println("*-*-* ISSUE ORDERS PHASE *-*-*");
+            CustomPrint.println("Available commands: ");
+            CustomPrint.println();
+            CustomPrint.println("Type 'exit' to exit the game.");
+        }
     }
 
     /**
@@ -45,7 +51,8 @@ public class IssueOrdersPhase extends Phase {
      */
 
     @Override
-    public void run() {
+    public boolean run() {
+        printAvailableCommands();
         // playerFinishedOrders of a player is true if the player has finished issuing orders
         Map<String, Boolean> playerFinishedOrders = new HashMap<>();
         // initializing playerFinishedOrders to false for all players.
@@ -64,23 +71,24 @@ public class IssueOrdersPhase extends Phase {
                 player.issueOrder();
 
                 // check if player is done ordering
-                CustomPrint.println("Want to continue? Type 'y' or 'n'");
-                String l_inputString = d_gameEngine.getScanner().nextLine().trim().toLowerCase();
+//                CustomPrint.println("Want to continue? Type 'y' or 'n'");
+//                String l_inputString = d_gameEngine.getScanner().nextLine().trim().toLowerCase();
 
-                if (l_inputString.equals("y")) {
-                    playerFinishedOrders.replace(player.getName(), false);
-                } else if (l_inputString.equals("n")) {
+//                if (l_inputString.equals("y")) {
+//                    playerFinishedOrders.replace(player.getName(), false);
+//                } else if (l_inputString.equals("n")) {
                     if (player.getReinforcementPoll() != 0) {
                         CustomPrint.println("You still have " + player.getReinforcementPoll() + " reinforcements left. Please deploy them.");
                     } else {
                         playerFinishedOrders.replace(player.getName(), true);
                     }
-                } else {
-                    CustomPrint.println("Invalid input. Please type 'y' or 'n'");
-                }
+//                } else {
+//                    CustomPrint.println("Invalid input. Please type 'y' or 'n'");
+//                }
             }
         }
         goToExecuteOrdersPhase();
+        return true;
     }
 
     /**

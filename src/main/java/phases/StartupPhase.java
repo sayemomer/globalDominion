@@ -40,7 +40,7 @@ public class StartupPhase extends Phase {
      * gets user input and calls the appropriate method in the controllers.
      */
     @Override
-    public void run() {
+    public boolean run() {
         printAvailableCommands();
         label:
         while (true) {
@@ -85,6 +85,7 @@ public class StartupPhase extends Phase {
                     break;
             }
         }
+        return true;
     }
 
     private void playersAddedOrThrow() throws Exception {

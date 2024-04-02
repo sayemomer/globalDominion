@@ -36,8 +36,8 @@ public class FinishPhase extends Phase {
      */
 
     @Override
-    public void run() {
+    public boolean run() {
         CustomPrint.println("Game is finished.");
-        System.exit(0);
+        return false;
     }
 }

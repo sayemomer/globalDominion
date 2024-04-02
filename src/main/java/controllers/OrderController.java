@@ -22,6 +22,16 @@ public class OrderController {
     public static GameEngine d_gameEngine;
 
     /**
+     * Reset the states of the OrderController
+     * @param p_gameState
+     * @param p_gameEngine
+     */
+    public static void resetStates(GameState p_gameState, GameEngine p_gameEngine) {
+        OrderController.d_gameState = p_gameState;
+        OrderController.d_gameEngine = p_gameEngine;
+    }
+
+    /**
      * Constructor for the OrderController class.
      *
      * @param p_gameState The game state.

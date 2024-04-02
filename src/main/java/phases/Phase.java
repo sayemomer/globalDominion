@@ -25,7 +25,8 @@ public abstract class Phase {
 
     /**
      * Run the phase ex. get user input, execute commands, ...
+     * @return true if should continue
      */
-    public abstract void run();
+    public abstract boolean run();
 
 }
