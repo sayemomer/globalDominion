@@ -7,13 +7,23 @@ import models.orders.AdvanceOrder;
 import models.orders.DeployOrder;
 import models.orders.Order;
 
-import java.util.Map;
-
+/**
+ * Represents a behavior implementing the Benevolent strategy for issuing orders in the game.
+ * This strategy focuses on reinforcing the weakest countries and prioritizes strengthening vulnerable areas.
+ */
 public class BenevolentStrategyBehavior extends StrategyBehavior {
 
+    /**
+     * Constructs an instance of BenevolentStrategyBehavior.
+     *
+     * @param p_player    The player associated with this behavior.
+     * @param p_gameState The current state of the game.
+     */
     public BenevolentStrategyBehavior(Player p_player, GameState p_gameState) {
         super(p_player, p_gameState);
     }
+
+
     @Override
     public Order issueOtherOrders() {
 

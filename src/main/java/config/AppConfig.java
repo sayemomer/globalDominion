@@ -59,10 +59,26 @@ public class AppConfig {
         AppConfig.debugMode = p_debugMode;
     }
 
+    /**
+     * Checks if the application is in tournament mode.
+     *
+     * This method retrieves the current status of the tournament mode, indicating whether the application
+     * is operating in tournament mode or not.
+     *
+     * @return A boolean value indicating whether the application is in tournament mode (true) or not (false).
+     */
     public static boolean isTournamentMode() {
         return tournamentMode;
     }
 
+    /**
+     * Sets the tournament mode status.
+     *
+     * This method allows setting the tournament mode status, which determines whether the application
+     * operates in tournament mode or not.
+     *
+     * @param p_tournamentMode A boolean value indicating whether the tournament mode should be enabled or disabled.
+     */
     public static void setTournamentMode(boolean p_tournamentMode) {
         AppConfig.tournamentMode = p_tournamentMode;
     }
