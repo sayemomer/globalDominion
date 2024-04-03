@@ -1,7 +1,6 @@
 package models.behaviors;
 
 import controllers.OrderController;
-import models.Country;
 import models.GameState;
 import models.Player;
 import models.orders.Order;
@@ -11,6 +10,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 public abstract class StrategyBehavior implements Serializable {
+
     Player d_player;
     GameState d_gameState;
 

@@ -7,23 +7,36 @@ import models.orders.AdvanceOrder;
 import models.orders.DeployOrder;
 import models.orders.Order;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Represents an aggressive strategy behavior for a player.
+ * This strategy involves always attacking with the strongest country and then moving
+ * armies to maximize aggregation of forces in one country. If there is at least one
+ * enemy country adjacent to the strongest country, it will attack the weakest of them.
+ * Otherwise, it advances to the next strongest neighbor.
+ */
 public class AggressiveStrategyBehavior extends StrategyBehavior {
 
+    /**
+     * Constructs an instance of AggressiveStrategyBehavior.
+     *
+     * @param p_player    The player associated with this behavior.
+     * @param p_gameState The current state of the game.
+     */
     public AggressiveStrategyBehavior(Player p_player, GameState p_gameState) {
         super(p_player, p_gameState);
     }
 
+
     /**
-     * Always attacks with its strongest country,
-     * then moves its armies in order to maximize aggregation of forces in one country.
-     * If there is at least one enemy country adjacent to the strongest country,
-     * it will attack the weakest of them. Otherwise, advances to the next strongest neighbor.
+     * Issues orders based on an aggressive strategy.
+     * This method checks if the strongest country owned by the player has adjacent enemy countries.
+     * If so, it issues an advance order to attack the weakest adjacent enemy country.
+     * If there are no adjacent enemy countries, it issues an advance order to reinforce the strongest adjacent friendly country.
      *
-     * @return
+     * @return An AdvanceOrder object representing the issued order.
      */
     @Override
     public Order issueOtherOrders() {
