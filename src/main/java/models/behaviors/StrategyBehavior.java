@@ -35,8 +35,24 @@ public abstract class StrategyBehavior implements Serializable {
         }
     }
 
+    /**
+     * Issues orders as part of the strategy, excluding deploy orders.
+     *
+     * This method is responsible for determining and issuing orders other than deploy orders,
+     * based on the implemented strategy.
+     *
+     * @return An Order object representing the issued order.
+     */
     protected abstract Order issueOtherOrders();
 
+
+    /**
+     * Issues a deploy order as part of the strategy.
+     *
+     * This method is responsible for determining and issuing a deploy order based on the implemented strategy.
+     *
+     * @return An Order object representing the issued deploy order.
+     */
     protected abstract Order issueDeployOrder();
 
 }
