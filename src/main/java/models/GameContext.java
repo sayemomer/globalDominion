@@ -22,6 +22,14 @@ public class GameContext implements Serializable {
     CountryController d_countryController;
     GameEngine d_gameEngine;
 
+    public GameContext(GameState d_gameState, GameEngine d_gameEngine) {
+        this.d_gameState = d_gameState;
+        this.d_playerController = d_gameEngine.getPlayerController();
+        this.d_mapController = d_gameEngine.getMapController();
+        this.d_countryController = d_gameEngine.getCountryController();
+        this.d_gameEngine = d_gameEngine;
+    }
+
     /**
      * Constructor from file
      * @throws Exception if file not found
@@ -87,6 +95,7 @@ public class GameContext implements Serializable {
      */
     public void save(String p_filePath) throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(p_filePath));
+        d_gameEngine.setScanner(null);
         out.writeObject(this);
         out.close();
     }
@@ -115,7 +124,7 @@ public class GameContext implements Serializable {
 
         GameContext gc = new GameContext("canada.map", behaviors, 50);
         try {
-            gc.save("gamecontext.ser");
+            gc.save("gamecolknkhntext.ser");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

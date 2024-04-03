@@ -91,6 +91,9 @@ public class GameEngine implements Serializable {
         d_numberOfCycles = p_cycles;
     }
 
+    public void setScanner(Scanner p_scanner) {
+        scanner = p_scanner;
+    }
 
     /**
      * This method sets the game phase to the startup phase.

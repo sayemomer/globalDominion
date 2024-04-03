@@ -204,5 +204,14 @@ public class Command {
     public static final String TOURNAMENT_GAMES_OPTION = "-G";
 
     public static final String TOURNAMENT_TURNS_OPTION = "-D";
+
+    public static final String SAVE_GAME = "savegame";
+
+    public static final String LOAD_GAME = "loadgame";
+
+    public static final String SAVE_GAME_SYNTAX = "savegame filename";
+
+    public static final String LOAD_GAME_SYNTAX = "loadgame filename";
+    
 }
 
