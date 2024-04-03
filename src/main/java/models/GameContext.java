@@ -34,6 +34,7 @@ public class GameContext implements Serializable {
      * Constructor from file
      * @throws Exception if file not found
      */
+
     public GameContext(String p_filePath) throws Exception {
         loadFromFile(p_filePath);
     }
