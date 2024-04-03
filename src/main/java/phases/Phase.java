@@ -1,9 +1,11 @@
 package phases;
 
+import java.io.Serializable;
+
 /**
  * Phase class to store the phase details
  */
-public abstract class Phase {
+public abstract class Phase implements Serializable {
 
     /**
      * Game engine

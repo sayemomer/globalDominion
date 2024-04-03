@@ -44,7 +44,6 @@ public class GameMenu {
                 GameEngine l_gameEngine = new GameEngine(new GameState(), l_scanner);
                 l_gameEngine.setGamePhase(new TournamentStartupPhase(l_gameEngine));
                 l_gameEngine.mainGameLoop();
-//                tournament -M canada.map -P aggressive aggressive -G 2 -D 5
 
                 break;
             }

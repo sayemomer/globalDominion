@@ -7,6 +7,7 @@ import models.GameState;
 import models.Player;
 import models.orders.Order;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -31,7 +32,7 @@ import java.util.*;
  *
  */
 
-public class GameEngine {
+public class GameEngine implements Serializable {
 
     Scanner scanner;
     PlayerController playerController;

@@ -1,12 +1,13 @@
 package models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Country class to store the country details
  */
-public class Country {
+public class Country implements Serializable {
     private int d_countryId;
     private String d_countryName;
     private List<Integer> d_adjacentCountries;

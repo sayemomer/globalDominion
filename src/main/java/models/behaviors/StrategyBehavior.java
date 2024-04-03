@@ -7,9 +7,10 @@ import models.Player;
 import models.orders.Order;
 import phases.IssueDeployOrder;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public abstract class StrategyBehavior {
+public abstract class StrategyBehavior implements Serializable {
     Player d_player;
     GameState d_gameState;
 

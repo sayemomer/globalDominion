@@ -7,13 +7,14 @@ import models.orders.DeployOrder;
 import models.orders.Order;
 import services.CustomPrint;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
  * The Player class is responsible for keeping track of the player's state.
  */
-public class Player {
+public class Player implements Serializable {
     private String d_name;
     private int d_reinforcement;
     private int d_reinforcementPoll;

@@ -4,20 +4,10 @@ import models.GameState;
 import models.Tournament;
 import models.behaviors.StrategyBehavior;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * The TournamentController class handles tournament commands and generates a Tournament object accordingly.
- */
-public class TournamentController {
-
-
-    /**
-     * Handles the tournament command and generates a Tournament object.
-     *
-     * @param p_args The arguments provided for the tournament command.
-     * @return A Tournament object if successful; otherwise, null.
-     */
+public class TournamentController implements Serializable {
     public Tournament handleTournamentCommand(String[] p_args) {
 
         ArrayList<Class<? extends StrategyBehavior>> l_behaviors = new ArrayList<>();

@@ -6,12 +6,13 @@ import models.Player;
 import models.behaviors.HumanStrategyBehavior;
 import services.CustomPrint;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * The PlayerController class is responsible player related commands.
  */
-public class PlayerController {
+public class PlayerController implements Serializable {
     private final GameState gameState;
 
     /**

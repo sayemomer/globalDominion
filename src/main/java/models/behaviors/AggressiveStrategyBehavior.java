@@ -7,6 +7,7 @@ import models.orders.AdvanceOrder;
 import models.orders.DeployOrder;
 import models.orders.Order;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 

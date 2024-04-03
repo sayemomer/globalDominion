@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -13,7 +14,7 @@ import services.CustomPrint;
 /**
  * The CountryController class is responsible for handling country related commands.
  */
-public class CountryController {
+public class CountryController implements Serializable {
     GameState d_gameState;
 
     /**

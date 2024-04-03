@@ -1,9 +1,11 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  * Continent class to store the continent details
  */
-public class Continent {
+public class Continent implements Serializable {
 
     private int d_id;
     private int d_value;

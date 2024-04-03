@@ -7,6 +7,7 @@ import phases.GameEngine;
 import phases.IssueDeployOrder;
 import services.CustomPrint;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,7 +17,7 @@ import java.util.Scanner;
  * The OrderController class is responsible for handling the order commands.
  * MUST BE INITIALIZED BEFORE ANY USE
  */
-public class OrderController {
+public class OrderController implements Serializable {
     private static GameState d_gameState;
     private static Scanner d_scanner;
     public static GameEngine d_gameEngine;
