@@ -1,6 +1,5 @@
 package models.orders;
 
-import config.Debug;
 import models.Country;
 import models.GameState;
 import models.Player;
@@ -149,14 +148,29 @@ public class AdvanceOrder extends Order {
         }
     }
 
+    /**
+     * Retrieves the ID of the country initiating the attack.
+     *
+     * @return The ID of the country initiating the attack.
+     */
     public int getCountryAttackerId() {
         return d_countryAttackerId;
     }
-
+    /**
+     * Retrieves the ID of the country being attacked.
+     *
+     * @return The ID of the country being attacked.
+     */
     public int getCountryDefenderId() {
         return d_countryDefenderId;
     }
 
+
+    /**
+     * Retrieves the number of reinforcements available for a player.
+     *
+     * @return The number of reinforcements available.
+     */
     public int getNumReinforcements() {
         return d_numReinforcements;
     }
