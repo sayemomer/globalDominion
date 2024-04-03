@@ -191,4 +191,18 @@ public class Command {
      * The syntax for the negotiate command
      */
     public static final String NEGOTIATE = "negotiate";
+
+
+    public static final String TOURNAMENT_SYNTAX = "tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns";
+
+    public static final String TOURNAMENT = "tournament";
+
+    public static final String TOURNAMENT_MAPS_OPTION = "-M";
+
+    public static final String TOURNAMENT_PLAYERS_OPTION = "-P";
+
+    public static final String TOURNAMENT_GAMES_OPTION = "-G";
+
+    public static final String TOURNAMENT_TURNS_OPTION = "-D";
 }
+
