@@ -21,8 +21,8 @@ public class CheaterStrategyBehavior extends StrategyBehavior{
 
         //for all the countries of the cheater player, find the enemy neighbors
         //then conquer all the enemy countries
-        for(Country country: d_player.getCountries().values()){
-            for(int adjCountryId: country.getAdjacentCountries()){
+        for(int country: d_player.getCountryIds()){
+            for(int adjCountryId: d_gameState.getCountries().get(country).getAdjacentCountries()){
                 if(!d_player.getCountries().containsKey(adjCountryId)){
                     Player defender = d_gameState.getCountryOwner(adjCountryId);
                     if(defender != null)
@@ -62,7 +62,7 @@ public class CheaterStrategyBehavior extends StrategyBehavior{
 
     /**
      * Cheater player do not deploy??
-     * @return
+     * @return null
      */
     @Override
     protected Order issueDeployOrder() {
