@@ -17,9 +17,9 @@ public abstract class StrategyBehavior implements Serializable {
     public static Map<String, Class<? extends StrategyBehavior>> STR_TO_BEHAVIOR = Map.of(
             "human", HumanStrategyBehavior.class,
             "aggressive", AggressiveStrategyBehavior.class,
-            "benevolent", BenevolentStrategyBehavior.class
-//            "random", RandomStrategyBehavior.class,
-//            "cheater", CheaterStrategyBehavior.class
+            "benevolent", BenevolentStrategyBehavior.class,
+            "random", RandomStrategyBehavior.class,
+            "cheater", CheaterStrategyBehavior.class
     );
 
     public StrategyBehavior(Player p_player, GameState p_gameState) {
