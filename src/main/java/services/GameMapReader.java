@@ -128,6 +128,51 @@ public class GameMapReader {
 
     }
 
+    public boolean parseConquest(String p_filePath) throws IOException {
+        BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath));
+        String l_line;
+        boolean l_parsingContinents = false;
+        boolean l_parsingTerritories = false;
+        int l_continentCount = 0;
+
+        while ((l_line = l_reader.readLine()) != null) {
+            l_line = l_line.trim();
+            if (l_line.isEmpty() || l_line.startsWith(";")) continue;
+
+            if (l_line.startsWith("[Continents]")) {
+                l_parsingContinents = true;
+                l_parsingTerritories = false;
+                continue;
+            } else if (l_line.startsWith("[Territories]")) {
+                l_parsingTerritories = true;
+                l_parsingContinents = false;
+                continue;
+            }
+
+
+            if (l_parsingContinents) {
+                l_continentCount++;
+                newParseContinent(l_line, l_continentCount);
+            } else if (l_parsingTerritories) {
+                parseTerritory(l_line);
+            }
+        }
+
+        l_reader.close();
+
+        // validate the map after parsing
+        if (!validateMap()) {
+            d_gameState.removeAction(GameState.GameAction.VALID_MAP_LOADED);
+            return false;
+        } else {
+            d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
+            d_gameState.setContinents(d_continents);
+            d_gameState.setCountries(d_countries);
+            return true;
+        }
+
+    }
+
     /**
      * Parses a continent line and populates the continents map.
      *
@@ -157,6 +202,23 @@ public class GameMapReader {
         }
     }
 
+    private void newParseContinent(String p_line, int p_continentCount){
+        String[] l_parts = p_line.split("=");
+        if (l_parts.length != 2) return; // Not enough parts for a valid continent line
+
+        try {
+            String name = l_parts[0].trim();
+            int bonus = Integer.parseInt(l_parts[1].trim());
+            int id = p_continentCount; // Keep using the count as the ID for consistency
+
+            System.out.println("Continent ID: " + id + " Name: " + name + " Bonus: " + bonus);
+
+            d_continents.put(id, new Continent(id, name, bonus, "DefaultColor")); // Assuming color is not provided
+        } catch (NumberFormatException e) {
+            System.err.println("Skipping line, unable to parse continent bonus: " + p_line);
+        }
+    }
+
     /**
      * Parses a country line and populates the countries map.
      *
@@ -179,6 +241,94 @@ public class GameMapReader {
             System.err.println("Skipping line, unable to parse country: " + p_line);
         }
     }
+
+    private void parseTerritory(String p_line) {
+        String[] l_parts = p_line.split(",");
+        if (l_parts.length < 5) return; // Check for minimum valid territory line
+
+        try {
+            String territoryName = l_parts[0];
+            String continentName = l_parts[3];
+            // Find the continent ID based on the name from the game state
+            int continentId = findContinentIdByName(continentName);
+
+            int territoryIdByName = findTerritoryIdByName(territoryName);
+
+            if (checkTerritoryExists(territoryName)) {
+                // update the continent ID for the territory
+                d_countries.get(territoryIdByName).setContinentId(continentId);
+                parseNewConnection(l_parts, continentId, d_countries.get(territoryIdByName) );
+            } else {
+
+                        // Create a new country for the territory
+                        int territoryId = d_countries.size() + 1;
+                        Country territory = new Country(territoryId, territoryName, continentId);
+                        d_countries.put(territoryId, territory);
+                        parseNewConnection(l_parts, continentId, territory);
+
+                    }
+        }
+        catch(NumberFormatException e){
+                System.err.println("Skipping line, unable to parse territory details: " + p_line);
+            }
+        }
+
+    private int findTerritoryIdByName(String territoryName) {
+        for (Country country : d_countries.values())
+        {
+            if (country.getName().equalsIgnoreCase(territoryName))
+            {
+                return country.getCountryId();
+            }
+        }
+        return -1;
+    }
+
+    private boolean checkTerritoryExists(String territoryName){
+        for (Country country : d_countries.values())
+        {
+            if (country.getName().equalsIgnoreCase(territoryName))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void parseNewConnection(String[] p_parts , int continentId, Country territory){
+        // Parse connections
+        for (int i = 4; i < p_parts.length; i++) {
+            String adjacentTerritoryName = p_parts[i];
+
+            if (checkTerritoryExists(adjacentTerritoryName)) {
+                int adjacentTerritoryId = findTerritoryIdByName(adjacentTerritoryName);
+                System.out.println("Adding adjacent country " + adjacentTerritoryId + " to " + territory.getCountryId() + " " + territory.getName());
+                territory.addAdjacentCountry(adjacentTerritoryId);
+            } else {
+                int adjacentTerritoryId = d_countries.size() + 1;
+                Country adjacentTerritory = new Country(adjacentTerritoryId, adjacentTerritoryName, d_continents.get(continentId).getContinentId());
+                System.out.println("Creating a new country from parseNewConnection: " + adjacentTerritoryId + " " + adjacentTerritory.getName() + " " + continentId);
+                d_countries.put(adjacentTerritoryId, adjacentTerritory);
+                System.out.println("Adding adjacent country " + adjacentTerritoryId + " to " + territory.getCountryId() + " " + territory.getName());
+                territory.addAdjacentCountry((adjacentTerritoryId));
+            }
+        }
+
+    }
+
+    // Helper method to find continent ID by name
+    private int findContinentIdByName(String name) {
+        for (Continent continent : d_continents.values())
+        {
+            if (continent.getContinentName().equals(name))
+            {
+                return continent.getContinentId();
+            }
+        }
+        System.err.println("Continent not found: " + name);
+        return -1;
+    }
+
 
     /**
      * Parses a connection line and populates the adjacent countries for each country.
