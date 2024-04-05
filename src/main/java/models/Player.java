@@ -23,12 +23,6 @@ public class Player implements Serializable {
     private StrategyBehavior d_strategy;
     private GameState d_gameState;
 
-//    private static final Map<String, Class<?>> PLAYER_STRATEGIES = new HashMap<>();
-//    static {
-//        PLAYER_STRATEGIES.put("human", HumanStrategyBehavior.class);
-//        PLAYER_STRATEGIES.put("aggressive", HumanStrategyBehavior.class);
-//    }
-
     //negotiated players
     private List<String> d_negotiatedPlayers = new ArrayList<>();
 
