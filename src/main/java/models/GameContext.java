@@ -15,13 +15,25 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * GameContext class to save and load the game
+ * resposible for setting up and starting the game
+ */
 public class GameContext implements Serializable {
+    /**
+     * Instance variables
+     */
     GameState d_gameState;
     PlayerController d_playerController;
     MapController d_mapController;
     CountryController d_countryController;
     GameEngine d_gameEngine;
 
+    /**
+     * Constructor for GameContext
+     * @param d_gameState
+     * @param d_gameEngine
+     */
     public GameContext(GameState d_gameState, GameEngine d_gameEngine) {
         this.d_gameState = d_gameState;
         this.d_playerController = d_gameEngine.getPlayerController();
@@ -34,7 +46,6 @@ public class GameContext implements Serializable {
      * Constructor from file
      * @throws Exception if file not found
      */
-
     public GameContext(String p_filePath) throws Exception {
         loadFromFile(p_filePath);
     }
@@ -65,6 +76,12 @@ public class GameContext implements Serializable {
         setup(p_mapPath, p_playerBehaviors, p_cycles);
     }
 
+    /**
+     * Sets up the game using selected behavior classes used mainly in tournament mode
+     * @param p_mapPath
+     * @param p_playerBehaviors
+     * @param p_limit
+     */
     private void setup(String p_mapPath, ArrayList<Class<? extends StrategyBehavior>> p_playerBehaviors, int p_limit) {
         boolean mapIsLoaded = d_mapController.handleloadMapCommand(new String[]{p_mapPath});
         if (!mapIsLoaded) {
@@ -83,6 +100,10 @@ public class GameContext implements Serializable {
         ExecuteOrdersPhase.setLimitOfExecution(p_limit);
     }
 
+    /**
+     * Starts the game
+     * resets the number of executions and sets the game phase to IssueDeployOrder
+     */
     public void startGame() {
         ExecuteOrdersPhase.resetNumberOfExecutions();
         OrderController.resetStates(d_gameState, d_gameEngine);
@@ -138,6 +159,10 @@ public class GameContext implements Serializable {
         }
     }
 
+    /**
+     * toString method
+     * @return
+     */
     @Override
     public String toString() {
         return super.toString();

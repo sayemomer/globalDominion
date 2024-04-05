@@ -10,10 +10,19 @@ import java.io.Serializable;
 import java.util.Map;
 
 public abstract class StrategyBehavior implements Serializable {
-
+    /**
+     * player that is using the behavior
+     */
     Player d_player;
+    /**
+     * game state
+     */
     GameState d_gameState;
 
+    /**
+     * converts string to behavior
+     * used to parse user input
+     */
     public static Map<String, Class<? extends StrategyBehavior>> STR_TO_BEHAVIOR = Map.of(
             "human", HumanStrategyBehavior.class,
             "aggressive", AggressiveStrategyBehavior.class,
@@ -22,11 +31,21 @@ public abstract class StrategyBehavior implements Serializable {
             "cheater", CheaterStrategyBehavior.class
     );
 
+    /**
+     * Constructor for StrategyBehavior
+     * @param p_player
+     * @param p_gameState
+     */
     public StrategyBehavior(Player p_player, GameState p_gameState) {
         d_player = p_player;
         d_gameState = p_gameState;
     }
 
+    /**
+     * This method is not to be overridden.
+     * It is responsible for issuing orders based on the implemented strategy.
+     * @return An Order object representing the issued order.
+     */
     public Order issueOrder() {
         if (OrderController.d_gameEngine.getGamePhase() instanceof IssueDeployOrder) {
             return issueDeployOrder();
