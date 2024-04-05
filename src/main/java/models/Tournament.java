@@ -33,7 +33,8 @@ public class Tournament {
         ArrayList<Class<? extends StrategyBehavior>> behaviors = new ArrayList<>();
         behaviors.add(models.behaviors.AggressiveStrategyBehavior.class);
         behaviors.add(models.behaviors.AggressiveStrategyBehavior.class);
-        
+        behaviors.add(models.behaviors.BenevolentStrategyBehavior.class);
+
         ArrayList<String> mapPaths = new ArrayList<>();
         mapPaths.add("canada.map");
         Tournament tournament = new Tournament(behaviors, mapPaths, 20, 40);

@@ -39,9 +39,10 @@ public class BenevolentStrategyBehavior extends StrategyBehavior {
                 maxReinforcementsCountry = adjacentCountry;
             }
         }
-        if(maxReinforcementsCountry != null)
-            return new AdvanceOrder(d_gameState, d_player, maxReinforcementsCountry.getCountryId(), weakestCountry.getCountryId(), maxReinforcements-1);
-        return null;
+        if(maxReinforcementsCountry != null) {
+            return new AdvanceOrder(d_gameState, d_player, maxReinforcementsCountry.getCountryId(), weakestCountry.getCountryId(), maxReinforcements);
+        }
+            return null;
     }
 
     /**
