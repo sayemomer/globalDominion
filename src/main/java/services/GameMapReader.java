@@ -82,7 +82,16 @@ public class GameMapReader {
 
         while ((l_line = l_reader.readLine()) != null) {
             l_line = l_line.trim();
-            if (l_line.isEmpty() || l_line.startsWith(";")) continue;
+            if (l_line.isEmpty() || l_line.startsWith(";")){
+                continue;
+            }
+
+            // check if the map is conquest map
+
+            if(l_line.startsWith("[Map]")) {
+                System.out.println("Conquest map detected");
+                return parseConquest(p_filePath);
+            }
 
             if (l_line.startsWith("[continents]")) {
                 l_parsingContinents = true;
@@ -125,6 +134,33 @@ public class GameMapReader {
             return true;
         }
 
+
+    }
+
+    /**
+     * Parses the conquest game map file and populates the continents, countries, and their connections.
+     *
+     * @param p_filePath The file path of the game map file.
+     * @throws IOException If an I/O error occurs.
+     * @return True if the map is valid, false otherwise.
+     */
+
+    public boolean parseConquest(String p_filePath) throws IOException {
+
+        GameMapReaderAdapter l_gameMapReaderAdapter = new GameMapReaderAdapter(d_gameState, "Conquest");
+        if (!l_gameMapReaderAdapter.parse(p_filePath)) {
+            throw new IOException("Error parsing conquest map");
+        }
+        // validate the map after parsing
+        if (!validateMap()) {
+            d_gameState.removeAction(GameState.GameAction.VALID_MAP_LOADED);
+            return false;
+        } else {
+            d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
+            d_gameState.setContinents(d_continents);
+            d_gameState.setCountries(d_countries);
+            return true;
+        }
 
     }
 

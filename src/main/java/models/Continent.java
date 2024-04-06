@@ -80,6 +80,7 @@ public class Continent {
     public void setColor(String p_color) {
         this.d_color = p_color;
     }
+
     
     @Override
     public String toString() {

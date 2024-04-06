@@ -290,15 +290,5 @@ public class MapController {
         return true;
     }
 
-    /**
-     * Prints the countries and their details.
-     */
-    public void printCountries() {
-        d_gameMapReader.getCountries().forEach((id, country) -> {
-            CustomPrint.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
-            country.getAdjacentCountries().forEach(connectedId -> CustomPrint.print(d_gameMapReader.getCountries().get(connectedId).getName() + "->"));
-            CustomPrint.println(" (Continent ID: " + country.getContinentId() + "])");
-        });
-    }
 
 }
