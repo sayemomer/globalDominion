@@ -47,6 +47,8 @@ public abstract class StrategyBehavior implements Serializable {
      * @return An Order object representing the issued order.
      */
     public Order issueOrder() {
+        if (d_player.getCountryIds().isEmpty())
+            return null;
         if (OrderController.d_gameEngine.getGamePhase() instanceof IssueDeployOrder) {
             return issueDeployOrder();
         } else {

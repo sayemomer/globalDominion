@@ -3,7 +3,10 @@ package models.behaviors;
 import models.Country;
 import models.GameState;
 import models.Player;
+import models.orders.DeployOrder;
 import models.orders.Order;
+
+import java.util.Collections;
 
 public class CheaterStrategyBehavior extends StrategyBehavior{
 
@@ -66,6 +69,9 @@ public class CheaterStrategyBehavior extends StrategyBehavior{
      */
     @Override
     protected Order issueDeployOrder() {
-        return null;
+        // get player random country
+        int randomCountryId = d_player.getCountryIds().get(0);
+        return new DeployOrder(d_gameState, d_player, randomCountryId, d_player.getReinforcementPoll());
+
     }
 }

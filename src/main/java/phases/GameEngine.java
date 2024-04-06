@@ -83,8 +83,9 @@ public class GameEngine implements Serializable {
      */
     public void mainGameLoop() {
         boolean shouldContinue = true;
-        while (shouldContinue)
+        while (shouldContinue) {
             shouldContinue = d_gamePhase.run();
+        }
     }
 
     public void setNumberOfCycles(int p_cycles) {

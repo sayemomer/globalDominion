@@ -77,7 +77,7 @@ public class IssueOrdersPhase extends Phase {
 //                if (l_inputString.equals("y")) {
 //                    playerFinishedOrders.replace(player.getName(), false);
 //                } else if (l_inputString.equals("n")) {
-                    if (player.getReinforcementPoll() != 0) {
+                    if (player.getReinforcementPoll() != 0 && !player.getCountryIds().isEmpty()){
                         CustomPrint.println("You still have " + player.getReinforcementPoll() + " reinforcements left. Please deploy them.");
                     } else {
                         playerFinishedOrders.replace(player.getName(), true);

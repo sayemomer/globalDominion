@@ -50,7 +50,7 @@ public class IssueDeployOrder extends Phase {
         Map<String, Boolean> playerFinishedOrders = new HashMap<>();
         // initializing playerFinishedOrders to false for all players.
         for (Player player : d_gameEngine.getGameState().getPlayers().values()) {
-            playerFinishedOrders.put(player.getName(), false);
+            playerFinishedOrders.put(player.getName(), player.getReinforcementPoll() == 0 || player.getCountryIds().isEmpty());
         }
 
 
@@ -64,7 +64,7 @@ public class IssueDeployOrder extends Phase {
                 }
                 aPlayerOrdered = true;
                 player.issueOrder();
-                playerFinishedOrders.replace(player.getName(), player.getReinforcementPoll() == 0);
+                playerFinishedOrders.replace(player.getName(), player.getReinforcementPoll() == 0 || player.getCountryIds().isEmpty());
             }
         }
         goToExecuteOrdersPhase();

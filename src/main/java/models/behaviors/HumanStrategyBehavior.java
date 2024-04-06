@@ -29,6 +29,8 @@ public class HumanStrategyBehavior extends StrategyBehavior {
     @Override
     public Order issueOrder() {
         while (true) {
+            if (d_player.getCountries().isEmpty())
+                return null;
             Order l_order = OrderController.takeOrderCommands(d_player);
             if (l_order != null) return l_order;
         }
