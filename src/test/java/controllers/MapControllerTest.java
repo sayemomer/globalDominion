@@ -24,7 +24,7 @@ public class MapControllerTest {
     public void testMapLoaded() {
         // Test if the map is loaded correctly
 
-        assertTrue(mapController.handleloadConquestMapCommand(new String[]{"abc.map"}));
+        assertTrue(mapController.handleloadMapCommand(new String[]{"abc.map"}));
 
     }
 }

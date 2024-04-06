@@ -290,46 +290,5 @@ public class MapController {
         return true;
     }
 
-    public boolean handleloadConquestMapCommand(String[] p_args) {
-        try {
-            if (p_args.length != 1)
-                throw new Exception("Invalid number of arguments." + "Correct Syntax: \n\t" + Command.LOAD_MAP_SYNTAX);
-
-            String l_fileLocation = "src/main/resources/" + p_args[0];
-            File l_file = new File(l_fileLocation);
-            if (!l_file.exists()) {
-                throw new Exception("File does not exist.");
-            }
-
-            if (d_gameMapReader.parseConquest(l_fileLocation)) {
-                CustomPrint.println("Map is valid and loaded.");
-                d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
-                d_gameState.setCurrentFileName(p_args[0]);
-            } else {
-                throw new Exception("Map is invalid.");
-            }
-
-        } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
-            return false;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-
-
-    /**
-     * Prints the countries and their details.
-     */
-    public void printCountries() {
-        d_gameMapReader.getCountries().forEach((id, country) -> {
-            CustomPrint.print("CountryID:" + id + " (" + country.getName() + ") is connected to: ");
-            country.getAdjacentCountries().forEach(connectedId -> CustomPrint.print(d_gameMapReader.getCountries().get(connectedId).getName() + "->"));
-            CustomPrint.println(" (Continent ID: " + country.getContinentId() + "])");
-        });
-    }
 
 }
