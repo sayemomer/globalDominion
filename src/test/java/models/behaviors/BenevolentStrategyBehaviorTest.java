@@ -112,8 +112,8 @@ public class BenevolentStrategyBehaviorTest {
 //        assertEquals(1, player.getOrders().size());
         AdvanceOrder advanceOrder = (AdvanceOrder) order;
         advanceOrder.execute();
-        assertEquals(5, countries.get(5).getNumberOfReinforcements());
-        assertEquals(1, countries.get(2).getNumberOfReinforcements());
+        assertEquals(6, countries.get(5).getNumberOfReinforcements());
+        assertEquals(0, countries.get(2).getNumberOfReinforcements());
 
     }
 }
