@@ -13,7 +13,7 @@ public interface AdvanceGameMapReader {
      * This method is used to parse the file
      * @param p_filePath path of the file
      * @return boolean value
-     * @throws Exception
+     * @throws Exception if there is an error in reading the file
      */
     public boolean parse(String p_filePath) throws Exception;
 

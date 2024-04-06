@@ -168,7 +168,7 @@ public class Country {
 
     /**
      * Set the continent id
-     * @param p_continentId
+     * @param p_continentId continent id
      */
 
     public void setContinentId(int p_continentId) {
