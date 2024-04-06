@@ -11,5 +11,12 @@ import java.io.IOException;
 
 public interface MapReader {
 
+    /**
+     * This method is used to parse the file
+     * @param p_filePath path of the file
+     * @return boolean value
+     * @throws IOException
+     */
+
     public boolean parse(String p_filePath) throws IOException;
 }

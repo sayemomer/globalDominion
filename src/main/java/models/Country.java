@@ -166,7 +166,12 @@ public class Country {
         return d_numberOfReinforcements;
     }
 
-    public void setContinentId(int continentId) {
-        this.d_continentId = continentId;
+    /**
+     * Set the continent id
+     * @param p_continentId
+     */
+
+    public void setContinentId(int p_continentId) {
+        this.d_continentId = p_continentId;
     }
 }
