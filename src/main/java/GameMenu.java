@@ -1,5 +1,6 @@
 import models.GameState;
 import phases.GameEngine;
+import phases.TournamentStartupPhase;
 import services.CustomPrint;
 
 import java.util.Scanner;
@@ -28,17 +29,25 @@ public class GameMenu {
 
     public void start() {
         CustomPrint.println("This is Global Dominion!");
-        CustomPrint.println("To start the game type 'start'. To exit type 'exit'. ");
+        CustomPrint.println("select: \n1. Single Game Mode\n2. Tournament Mode\n3. Exit");
         while (true) {
             String l_inputString = l_scanner.nextLine().trim().toLowerCase();
-            if (l_inputString.equals("start")) {
+            if (l_inputString.equals("1")) {
                 CustomPrint.println("The game is starting...");
 
                 GameEngine l_gameEngine = new GameEngine(new GameState(), l_scanner);
                 l_gameEngine.mainGameLoop();
 
                 break;
-            } else if (l_inputString.equals("exit")) {
+            } else if (l_inputString.equals("2")) {
+                CustomPrint.println("The tournament is starting...");
+                GameEngine l_gameEngine = new GameEngine(new GameState(), l_scanner);
+                l_gameEngine.setGamePhase(new TournamentStartupPhase(l_gameEngine));
+                l_gameEngine.mainGameLoop();
+
+                break;
+            }
+            else if (l_inputString.equals("3")) {
                 CustomPrint.println("Exiting the game...");
                 break;
             } else {

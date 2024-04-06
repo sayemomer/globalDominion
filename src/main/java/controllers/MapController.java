@@ -6,10 +6,7 @@ import models.GameState;
 import services.CustomPrint;
 import services.GameMapReader;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -18,7 +15,7 @@ import java.util.Map;
  * It utilizes the GameMapReader service to read and validate the map file.
  */
 
-public class MapController {
+public class MapController implements Serializable {
 
     private final GameMapReader d_gameMapReader;
     GameState d_gameState;

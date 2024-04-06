@@ -38,7 +38,7 @@ public class EditMapPhase extends Phase {
      * gets user input and calls the appropriate method in the controllers.
      */
     @Override
-    public void run() {
+    public boolean run() {
         printAvailableCommands();
         label:
         while (true) {
@@ -55,7 +55,7 @@ public class EditMapPhase extends Phase {
                 case "exit":
                     CustomPrint.println("Exiting the game...");
                     System.exit(0);
-                    return;
+                    return false;
                 case Command.EDIT_CONTINENT:
                     d_gameEngine.getCountryController().handleEditContinentCommand(l_args);
                     break;
@@ -71,7 +71,7 @@ public class EditMapPhase extends Phase {
                 case Command.SAVE_MAP:
                     if (d_gameEngine.getMapController().handleSaveMapCommand(l_args)) {
                         goToStartUpPhase();
-                        return;
+                        return true;
                     }
                     break;
                 case Command.SHOW_MAP:
@@ -82,7 +82,7 @@ public class EditMapPhase extends Phase {
                     break;
             }
         }
-
+        return true;
     }
 
     /**

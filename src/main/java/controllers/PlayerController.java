@@ -3,14 +3,16 @@ package controllers;
 import config.Debug;
 import models.GameState;
 import models.Player;
+import models.behaviors.HumanStrategyBehavior;
 import services.CustomPrint;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * The PlayerController class is responsible player related commands.
  */
-public class PlayerController {
+public class PlayerController implements Serializable {
     private final GameState gameState;
 
     /**
@@ -43,7 +45,7 @@ public class PlayerController {
                         if (l_players.containsKey(l_name))
                             throw new Exception("Player already exists.");
 
-                        Player l_newPlayer = new Player(l_name);
+                        Player l_newPlayer = new Player(l_name, gameState, HumanStrategyBehavior.class);
                         l_players.put(l_newPlayer.getName(), l_newPlayer);
                         CustomPrint.println("Player " + l_name + " added.");
                         gameState.setActionDone(GameState.GameAction.PlAYERS_ADDED);

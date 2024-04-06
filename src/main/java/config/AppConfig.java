@@ -1,10 +1,5 @@
 package config;
 
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * responsible for saving running mode of the application
  */
@@ -12,6 +7,7 @@ public class AppConfig {
     private static boolean debugMode = false;
     private static boolean verboseMode = false;
     private static boolean testMode = false;
+    private static boolean tournamentMode = false;
 
     // Private constructor to prevent instantiation
     private AppConfig() {
@@ -61,6 +57,30 @@ public class AppConfig {
 
     public static void setDebugMode(boolean p_debugMode) {
         AppConfig.debugMode = p_debugMode;
+    }
+
+    /**
+     * Checks if the application is in tournament mode.
+     *
+     * This method retrieves the current status of the tournament mode, indicating whether the application
+     * is operating in tournament mode or not.
+     *
+     * @return A boolean value indicating whether the application is in tournament mode (true) or not (false).
+     */
+    public static boolean isTournamentMode() {
+        return tournamentMode;
+    }
+
+    /**
+     * Sets the tournament mode status.
+     *
+     * This method allows setting the tournament mode status, which determines whether the application
+     * operates in tournament mode or not.
+     *
+     * @param p_tournamentMode A boolean value indicating whether the tournament mode should be enabled or disabled.
+     */
+    public static void setTournamentMode(boolean p_tournamentMode) {
+        AppConfig.tournamentMode = p_tournamentMode;
     }
 
 }
