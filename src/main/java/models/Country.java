@@ -127,7 +127,7 @@ public class Country implements Serializable {
      * @param p_adjacentCountryId id of the adjacent country
      */
     public void addAdjacentCountry(int p_adjacentCountryId) {
-        System.out.println("Adding adjacent country " + p_adjacentCountryId + " to " + this.d_countryId + this.d_countryName);
+        System.out.println("Adding adjacent country " + p_adjacentCountryId + " to " + this.d_countryId + " " + this.d_countryName);
         this.d_adjacentCountries.add(p_adjacentCountryId);
     }
 

@@ -69,6 +69,19 @@ public class EditMapPhase extends Phase {
                     d_gameEngine.getMapController().handleValidateMapCommand(l_args);
                     break;
                 case Command.SAVE_MAP:
+                    // Ask the user about the map format and save the map
+                    System.out.println("Enter the map format (domination 1 /conquest 2): ");
+                    switch (d_gameEngine.getScanner().nextLine()) {
+                        case "1":
+                            d_gameEngine.getGameState().setMapFormat("domination");
+                            break;
+                        case "2":
+                            d_gameEngine.getGameState().setMapFormat("conquest");
+                            break;
+                        default:
+                            CustomPrint.println("Invalid map format. Please try again.");
+                            break;
+                    }
                     if (d_gameEngine.getMapController().handleSaveMapCommand(l_args)) {
                         goToStartUpPhase();
                         return true;

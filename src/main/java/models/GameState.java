@@ -19,6 +19,8 @@ public class GameState implements Serializable {
     private Map<Integer, Country> d_countries;
     private String d_currentFileName;
 
+    private String d_mapFormat;
+
     /**
      * adds a player to the game.
      *
@@ -32,6 +34,24 @@ public class GameState implements Serializable {
     public void addPlayer(Player player) {
         d_players.put(player.getName(), player);
         setActionDone(GameState.GameAction.PlAYERS_ADDED);
+    }
+
+    /**
+     * Sets the map format.
+     *
+     * @param p_mapFormat the map format
+     */
+    public void setMapFormat(String p_mapFormat) {
+        d_mapFormat = p_mapFormat;
+    }
+
+    /**
+     * Gets the map format.
+     *
+     * @return the map format
+     */
+    public String getMapFormat() {
+        return d_mapFormat;
     }
 
     /**
