@@ -19,6 +19,7 @@ public class MapControllerTest {
 
          gameState = new GameState();
          mapController = new MapController(gameState);
+
     }
 
     @Test
@@ -27,7 +28,7 @@ public class MapControllerTest {
     public void testMapLoaded() {
         // Test if the map is loaded correctly
 
-        assertTrue(mapController.handleloadMapCommand(new String[]{"testing5.map"}));
+        assertTrue(mapController.handleloadMapCommand(new String[]{"abc.map"}));
 
     }
 
