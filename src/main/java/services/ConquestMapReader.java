@@ -171,14 +171,12 @@ public class ConquestMapReader implements AdvanceGameMapReader{
                         .map(Country::getCountryId)
                         .findFirst()
                         .orElse(-1);
-                System.out.println("Adding adjacent country " + adjacentTerritoryId + " to " + territory.getCountryId() + " " + territory.getName());
                 territory.addAdjacentCountry(adjacentTerritoryId);
             } else {
                 int adjacentTerritoryId = d_countries.size() + 1;
                 Country adjacentTerritory = new Country(adjacentTerritoryId, adjacentTerritoryName, d_continents.get(continentId).getContinentId());
                 System.out.println("Creating a new country from parseNewConnection: " + adjacentTerritoryId + " " + adjacentTerritory.getName() + " " + continentId);
                 d_countries.put(adjacentTerritoryId, adjacentTerritory);
-                System.out.println("Adding adjacent country " + adjacentTerritoryId + " to " + territory.getCountryId() + " " + territory.getName());
                 territory.addAdjacentCountry((adjacentTerritoryId));
             }
         }

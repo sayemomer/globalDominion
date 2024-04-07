@@ -110,7 +110,7 @@ public class MapController {
             } else {
                 CustomPrint.println("File does not exist. Creating a new map...");
                 createNewMap(l_fileLocation);
-                d_gameState.setCurrentFileName(l_fileLocation);
+                d_gameState.setCurrentFileName(p_args[0]);
                 d_gameState.setMapLoaded(true);
             }
             
@@ -161,8 +161,95 @@ public class MapController {
 
     /**
      * Saves the map to a file.
+     * checks the map format from gameState and saves the map accordingly
      */
     public void saveMap() {
+
+        // check for the map format from gameState
+
+        try {
+            String mapFormat = d_gameState.getMapFormat();
+
+            if(mapFormat.equals("domination")) {
+                saveDominationMap();
+            } else if(mapFormat.equals("conquest")) {
+                saveConquestMap();
+            } else {
+                System.err.println("Invalid map format.");
+            }
+
+        }catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Saves the map to a file in conquest format.
+     */
+
+    private void saveConquestMap() {
+
+        try {
+
+            System.out.println("Saving the map to conquest format...");
+
+            File l_file = new File("src/main/resources/" + d_gameState.getCurrentFileName());
+            FileWriter l_fileWriter = new FileWriter(l_file);
+            BufferedWriter l_bufferedWriter = new BufferedWriter(l_fileWriter);
+
+
+            //Write the map format
+            l_bufferedWriter.write("[Map]\n");
+            l_bufferedWriter.write("author=globalDominion\n");
+            l_bufferedWriter.newLine();
+
+
+            // Write the continents
+            l_bufferedWriter.write("[Continents]\n");
+            for (Map.Entry<Integer, Continent> l_continent : d_gameState.getContinents().entrySet()) {
+                l_bufferedWriter.write(l_continent.getValue().getContinentName() + "=" + l_continent.getValue().getContinentValue());
+                l_bufferedWriter.newLine();
+            }
+
+            // Write the countries
+            l_bufferedWriter.write("\n[Territories]\n");
+            for (Map.Entry<Integer, Country> l_country : d_gameState.getCountries().entrySet()) {
+                // write as a country name,continent name, neighbor1, neighbor2, ... format
+
+                //get the adjacent countries  names as a string
+                StringBuilder l_adjacentCountries = new StringBuilder();
+
+                for (Integer l_adjacentCountryId : l_country.getValue().getAdjacentCountries()) {
+                    l_adjacentCountries.append(
+                            d_gameState.getCountries().get(l_adjacentCountryId).getName()).append(",");
+                };
+
+                // remove the last comma
+                if (l_adjacentCountries.length() > 0) {
+                    l_adjacentCountries.deleteCharAt(l_adjacentCountries.length() - 1);
+                }
+
+                l_bufferedWriter.write(l_country.getValue().getName() + "," + "0" + "," +"0"+"," + l_country.getValue().getContinentId() + "," + l_adjacentCountries);
+                l_bufferedWriter.newLine();
+            }
+
+            l_bufferedWriter.close();
+            l_fileWriter.close();
+            CustomPrint.println("Map saved successfully.");
+
+        } catch (IOException e) {
+            System.err.println("An error occurred.");
+            e.printStackTrace();
+
+        }
+    }
+
+    /**
+     * Saves the map to a file in domination format.
+     */
+
+    private void saveDominationMap(){
+
         BufferedWriter l_writer = null;
         try {
             if (d_gameState.getCurrentFileName().equals("")) {

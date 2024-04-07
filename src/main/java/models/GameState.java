@@ -18,6 +18,8 @@ public class GameState {
     private Map<Integer, Country> d_countries;
     private String d_currentFileName;
 
+    private String d_mapFormat;
+
     /**
      * adds a player to the game.
      *
@@ -26,6 +28,24 @@ public class GameState {
 
     public void addPlayer(String p_name) {
         d_players.put(p_name, new Player(p_name));
+    }
+
+    /**
+     * Sets the map format.
+     *
+     * @param p_mapFormat the map format
+     */
+    public void setMapFormat(String p_mapFormat) {
+        d_mapFormat = p_mapFormat;
+    }
+
+    /**
+     * Gets the map format.
+     *
+     * @return the map format
+     */
+    public String getMapFormat() {
+        return d_mapFormat;
     }
 
     /**
