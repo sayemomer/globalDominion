@@ -23,7 +23,7 @@ public class GameMapReaderAdapter implements MapReader {
         if (p_mapType.equalsIgnoreCase("Conquest")) {
             d_advanceGameMapReader = new ConquestMapReader(d_gameState);
         } else if (p_mapType.equalsIgnoreCase("Domination")) {
-            d_advanceGameMapReader = new DominationMapReader();
+            d_advanceGameMapReader = new DominationMapReader(d_gameState);
         }
     }
 
