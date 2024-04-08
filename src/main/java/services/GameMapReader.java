@@ -73,56 +73,32 @@ public class GameMapReader implements Serializable {
      * @return True if the map is valid, false otherwise.
      */
     public boolean parse(String p_filePath) throws IOException {
+
         BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath));
         String l_line;
-        boolean l_parsingContinents = false;
-        boolean l_parsingCountries = false;
-        boolean l_parsingConnections = false;
-        int l_continentCount = 0;
-        int l_countryCount = 0;
-
-        while ((l_line = l_reader.readLine()) != null) {
+        GameMapReaderAdapter l_gameMapReaderAdapter;
+        while ((l_line = l_reader.readLine())!=null) {
             l_line = l_line.trim();
-            if (l_line.isEmpty() || l_line.startsWith(";")){
+            if (l_line.isEmpty() || l_line.startsWith(";")) {
                 continue;
-            }
-
-            // check if the map is conquest map
-
-            if(l_line.startsWith("[Map]")) {
-                System.out.println("Conquest map detected");
-                return parseConquest(p_filePath);
             }
 
             if (l_line.startsWith("[continents]")) {
-                l_parsingContinents = true;
-                l_parsingCountries = false;
-                continue;
-            } else if (l_line.startsWith("[countries]")) {
-                l_parsingCountries = true;
-                l_parsingContinents = false;
-                continue;
-            } else if (l_line.startsWith("[borders]")) {
-                l_parsingContinents = false;
-                l_parsingCountries = false;
-                l_parsingConnections = true;
-                continue;
+                System.out.println("Domination map detected");
+                l_gameMapReaderAdapter = new GameMapReaderAdapter(d_gameState, "Domination");
+                if (!l_gameMapReaderAdapter.parse(p_filePath)) {
+                    throw new IOException("Error parsing the map file");
+                }
             }
 
-
-            if (l_parsingContinents) {
-                l_continentCount++;
-                parseContinent(l_line, l_continentCount);
-            } else if (l_parsingCountries) {
-                l_countryCount++;
-                parseCountry(l_line, l_countryCount);
-            }
-            if (l_parsingConnections) {
-                parseConnection(l_line);
+            if (l_line.startsWith("[Map]")) {
+                System.out.println("Conquest map detected");
+                l_gameMapReaderAdapter = new GameMapReaderAdapter(d_gameState, "Conquest");
+                if (!l_gameMapReaderAdapter.parse(p_filePath)) {
+                    throw new IOException("Error parsing the map file");
+                }
             }
         }
-
-        l_reader.close();
 
         // validate the map after parsing
         if (!validateMap()) {
@@ -136,111 +112,6 @@ public class GameMapReader implements Serializable {
         }
 
 
-    }
-
-    /**
-     * Parses the conquest game map file and populates the continents, countries, and their connections.
-     *
-     * @param p_filePath The file path of the game map file.
-     * @throws IOException If an I/O error occurs.
-     * @return True if the map is valid, false otherwise.
-     */
-
-    public boolean parseConquest(String p_filePath) throws IOException {
-
-        GameMapReaderAdapter l_gameMapReaderAdapter = new GameMapReaderAdapter(d_gameState, "Conquest");
-        if (!l_gameMapReaderAdapter.parse(p_filePath)) {
-            throw new IOException("Error parsing conquest map");
-        }
-        // validate the map after parsing
-        if (!validateMap()) {
-            d_gameState.removeAction(GameState.GameAction.VALID_MAP_LOADED);
-            return false;
-        } else {
-            d_gameState.setActionDone(GameState.GameAction.VALID_MAP_LOADED);
-            d_gameState.setContinents(d_continents);
-            d_gameState.setCountries(d_countries);
-            return true;
-        }
-
-    }
-
-    /**
-     * Parses a continent line and populates the continents map.
-     *
-     * @param p_line           The line containing the continent details.
-     * @param p_continentCount The count of continents parsed so far.
-     */
-
-    private void parseContinent(String p_line, int p_continentCount) {
-        String[] l_parts = p_line.split("\\s+");
-        if (l_parts.length < 2) return; // Not enough parts for a valid continent line
-
-        try {
-            int id = p_continentCount;
-            int bonus = Integer.parseInt(l_parts[1]);
-
-            //if name and color are provided
-            if (l_parts.length > 2) {
-                String name = l_parts[0].replace('_', ' ');
-                String color = l_parts[2];
-                d_continents.put(id, new Continent(id, name, bonus, color));
-            } else {
-                d_continents.put(id, new Continent(id, bonus));
-            }
-
-        } catch (NumberFormatException e) {
-            System.err.println("Skipping line, unable to parse continent: " + p_line);
-        }
-    }
-
-    /**
-     * Parses a country line and populates the countries map.
-     *
-     * @param p_line         The line containing the country details.
-     * @param p_countryCount The count of countries parsed so far.
-     */
-
-    private void parseCountry(String p_line, int p_countryCount) {
-        String[] l_parts = p_line.split("\\s+");
-
-        if (l_parts.length < 3) return; // Not enough parts for a valid country line
-
-        try {
-            int l_id = Integer.parseInt(l_parts[0]);
-            String l_name = l_parts[1];
-            int l_continentId = Integer.parseInt(l_parts[2]);
-            d_countries.put(l_id, new Country(l_id, l_name, l_continentId));
-        } catch (NumberFormatException e) {
-
-            System.err.println("Skipping line, unable to parse country: " + p_line);
-        }
-    }
-
-    /**
-     * Parses a connection line and populates the adjacent countries for each country.
-     *
-     * @param p_line The line containing the country connections.
-     */
-
-    private void parseConnection(String p_line) {
-        String[] l_parts = p_line.split("\\s+");
-        if (l_parts.length < 2) return; // Need at least two parts for a valid connection
-
-        try {
-            int countryId = Integer.parseInt(l_parts[0]);
-            Country l_country = d_countries.get(countryId);
-            if (l_country == null) {
-                System.err.println("Skipping line, country ID not found: " + p_line);
-                return;
-            }
-            for (int i = 1; i < l_parts.length; i++) {
-                int l_connectedCountryId = Integer.parseInt(l_parts[i]);
-                l_country.addAdjacentCountry(l_connectedCountryId);
-            }
-        } catch (NumberFormatException e) {
-            System.err.println("Skipping line, unable to parse connection: " + p_line);
-        }
     }
 
     /**

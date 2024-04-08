@@ -37,3 +37,8 @@ globalDominion.iml
 ### logs ###
 log.txt
 log_file.txt
+
+# ignore the resource folder from src/main
+!**/src/main/resources/
+!**/src/test/resources/
+
