@@ -92,7 +92,11 @@ public class CustomPrint {
 //        logBuffer.attach(observer);
         logBuffer.log(String.valueOf(outputString));
     }
-
+    /**
+     * Prints the contents of the given collection of countries to the console and logs it to the log buffer.
+     *
+     * @param values The collection of countries to print and log.
+     */
     public static void println(Collection<Country> values) {
         System.out.print(values);
 
