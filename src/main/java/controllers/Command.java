@@ -192,17 +192,34 @@ public class Command {
      */
     public static final String NEGOTIATE = "negotiate";
 
-
+    /**
+     * The syntax for the savegame command
+     */
     public static final String TOURNAMENT_SYNTAX = "tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns";
 
+    /**
+     * The tournament command
+     */
     public static final String TOURNAMENT = "tournament";
 
+    /**
+     * The option for the tournament command to specify the maps to be used.
+     */
     public static final String TOURNAMENT_MAPS_OPTION = "-M";
 
+    /**
+     * The option for the tournament command to specify the player strategies to be used.
+     */
     public static final String TOURNAMENT_PLAYERS_OPTION = "-P";
 
+    /**
+     * The option for the tournament command to specify the number of games to be played.
+     */
     public static final String TOURNAMENT_GAMES_OPTION = "-G";
 
+    /**
+     * The option for the tournament command to specify the maximum number of turns per game.
+     */
     public static final String TOURNAMENT_TURNS_OPTION = "-D";
 
 

@@ -24,6 +24,7 @@ public class ExecuteOrdersPhase extends Phase {
 
     /**
      * Constructor for the ExecuteOrdersPhase class
+     *
      * @param p_gameEngine game engine
      */
 
@@ -81,6 +82,7 @@ public class ExecuteOrdersPhase extends Phase {
 
     /**
      * This method is responsible for changing the game phase to the issue orders phase.
+     *
      * @throws Exception if the player has won
      */
 
@@ -107,7 +109,6 @@ public class ExecuteOrdersPhase extends Phase {
     /**
      * This method is responsible for changing the game phase to the issue orders phase.
      */
-
     public void goToIssueOrdersPhase() {
         try {
             resumeOrThrow();
@@ -119,10 +120,18 @@ public class ExecuteOrdersPhase extends Phase {
         }
     }
 
+    /**
+     * sets the number of executions back to 0.
+     */
     public static void resetNumberOfExecutions() {
         d_numberOfExecution = 0;
     }
 
+    /**
+     * sets the limit of executions
+     *
+     * @param p_limit the limit of executions
+     */
     public static void setLimitOfExecution(int p_limit) {
         d_limitOfExecution = p_limit;
     }
