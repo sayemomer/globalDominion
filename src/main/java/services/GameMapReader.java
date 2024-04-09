@@ -14,14 +14,17 @@ import java.util.Map;
 /**
  * The GameMapReader class is responsible for reading and parsing a game map file.
  * It reads the continents, countries, and their connections from the map file.
+ * This is the client class in the adapter pattern.
  */
 
+
 public class GameMapReader implements Serializable {
+  
     private final GameState d_gameState;
     private final Map<Integer, Continent> d_continents;
     private final Map<Integer, Country> d_countries;
-//    private final Map<Integer, Continent> d_continents = new HashMap<>();
-//    private final Map<Integer, Country> d_countries = new HashMap<>();
+    private static final String DOMINATION_MAP_TYPE = "Domination";
+    private static final String CONQUEST_MAP_TYPE = "Conquest";
 
 
     /**
@@ -74,33 +77,53 @@ public class GameMapReader implements Serializable {
      */
     public boolean parse(String p_filePath) throws IOException {
 
-        BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath));
-        String l_line;
-        GameMapReaderAdapter l_gameMapReaderAdapter;
-        while ((l_line = l_reader.readLine())!=null) {
-            l_line = l_line.trim();
-            if (l_line.isEmpty() || l_line.startsWith(";")) {
-                continue;
-            }
+        try (BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath))) {
+            String l_line;
+            while ((l_line = l_reader.readLine())!=null) {
+                l_line = l_line.trim();
+                if (l_line.isEmpty() || l_line.startsWith(";")) {
+                    continue;
+                }
 
-            if (l_line.startsWith("[continents]")) {
-                System.out.println("Domination map detected");
-                l_gameMapReaderAdapter = new GameMapReaderAdapter(d_gameState, "Domination");
-                if (!l_gameMapReaderAdapter.parse(p_filePath)) {
-                    throw new IOException("Error parsing the map file");
+                if (l_line.startsWith("[continents]")) {
+                    parseMap(p_filePath, DOMINATION_MAP_TYPE);
+                }
+
+                if (l_line.startsWith("[Map]")) {
+                    parseMap(p_filePath, CONQUEST_MAP_TYPE);
                 }
             }
 
-            if (l_line.startsWith("[Map]")) {
-                System.out.println("Conquest map detected");
-                l_gameMapReaderAdapter = new GameMapReaderAdapter(d_gameState, "Conquest");
-                if (!l_gameMapReaderAdapter.parse(p_filePath)) {
-                    throw new IOException("Error parsing the map file");
-                }
-            }
+            return postParseValidation();
+        } catch (IOException e) {
+            System.err.println("Error reading the map file: " + e.getMessage());
+            return false;
         }
+    }
 
-        // validate the map after parsing
+    /**
+     * Parses the map based on the map type.
+     *
+     * @param p_filePath The file path of the game map file.
+     * @param mapType The type of the map.
+     * @throws IOException If an I/O error occurs.
+     */
+
+    private void parseMap(String p_filePath, String mapType) throws IOException {
+        System.out.println(mapType + " map detected");
+        GameMapReaderAdapter l_gameMapReaderAdapter = new GameMapReaderAdapter(d_gameState, mapType);
+        if (!l_gameMapReaderAdapter.parse(p_filePath)) {
+            throw new IOException("Error parsing the map file");
+        }
+    }
+
+    /**
+     * Validates the map after parsing.
+     *
+     * @return True if the map is valid, false otherwise.
+     */
+
+    private boolean postParseValidation() {
         if (!validateMap()) {
             d_gameState.removeAction(GameState.GameAction.VALID_MAP_LOADED);
             return false;
@@ -110,8 +133,6 @@ public class GameMapReader implements Serializable {
             d_gameState.setCountries(d_countries);
             return true;
         }
-
-
     }
 
     /**
@@ -128,29 +149,43 @@ public class GameMapReader implements Serializable {
     }
 
     /**
-     * Validates the map by checking if it is a connected graph and if each continent is a connected subgraph.
+     * Validates if the continents exist in the map.
      *
-     * @return True if the map is valid, false otherwise.
+     * @return True if the continents exist, false otherwise.
      */
 
-    public boolean validateMap() {
-
-        //FIXME: move this to GameGrapgUtils
-        // check if the map has atleast one continent
+    private boolean validateContinentsExist() {
         if (d_continents.isEmpty()) {
             System.err.println("The map does not contain any continents.");
             printMapRules();
             return false;
         }
-        //FIXME: move this to GameGrapgUtils
-        // check if the continents have atleast one country
+        return true;
+    }
+
+    /**
+     * Validates if the countries exist in the map.
+     *
+     * @return True if the countries exist, false otherwise.
+     */
+
+    public boolean validateCountriesExist() {
         if (d_countries.isEmpty()) {
             System.err.println("The map does not contain any countries.");
             printMapRules();
             return false;
         }
-        //FIXME: move this to GameGrapgUtils
-        //check if the coutry has atleast one connection
+        return true;
+    }
+
+
+    /**
+     * Validates if the countries have connections.
+     *
+     * @return True if the countries have connections, false otherwise.
+     */
+
+    public boolean validateCountryConnections() {
         for (Country country : d_countries.values()) {
             if (country.getAdjacentCountries().isEmpty()) {
                 System.err.println("The country '" + country.getCountryId() + "' does not have any connections.");
@@ -158,33 +193,68 @@ public class GameMapReader implements Serializable {
                 return false;
             }
         }
-        // Check if map is a connected graph
-        GameGraphUtils l_graphUtils = new GameGraphUtils();
+        return true;
+    }
+
+    /**
+     * Validates the graph connectivity.
+     *
+     * @return True if the graph is connected, false otherwise.
+     */
+
+    private boolean validateGraphConnectivity() {
         if (!GameGraphUtils.isGraphConnected(d_countries)) {
             System.err.println("The map is a disconnected graph.");
             printMapRules();
             return false;
         }
+        return true;
+    }
 
-        //check if the contries have self loop using l_graphUtils.isSelfLoop
-        if (l_graphUtils.hasSelfLoop(d_countries)) {
+    /**
+     * Validates the graph for self loops.
+     *
+     * @return True if the graph does not have self loops, false otherwise.
+     */
+
+    private boolean validateGraphSelfLoops() {
+        if (GameGraphUtils.hasSelfLoop(d_countries)) {
+            System.err.println("The map contains self-loops.");
             printMapRules();
             return false;
         }
+        return true;
 
-        // Check if each continent is a connected subgraph
+    }
+
+    /**
+     * Validates the continent connectivity.
+     *
+     * @return True if the continent is connected, false otherwise.
+     */
+
+    private boolean validateContinentConnectivity() {
         for (Continent continent : d_continents.values()) {
             if (!GameGraphUtils.isContinentConnected(d_countries, continent.getContinentId())) {
-                CustomPrint.println(String.valueOf(continent.getContinentId()));
                 System.err.println("The continent '" + continent.getContinentName() + "' is a disconnected subgraph.");
                 printMapRules();
                 return false;
             }
         }
-
-
-        // If all validations pass
         return true;
+    }
+
+
+    /**
+     * Validates the map by checking if it is a connected graph and if each continent is a connected subgraph.
+     *
+     * @return True if the map is valid, false otherwise.
+     */
+
+    public boolean validateMap() {
+
+        return validateContinentsExist() && validateCountriesExist() && validateCountryConnections() &&
+                validateGraphConnectivity() && validateGraphSelfLoops() && validateContinentConnectivity();
     }
 
 }

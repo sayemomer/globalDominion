@@ -7,11 +7,13 @@ import models.GameState;
  * It has two methods parse and parseContinent
  * parse method is used to parse the file
  * parseContinent method is used to parse the continent
+ * This is the adapter class in the adapter pattern
  */
 
 public class GameMapReaderAdapter implements MapReader {
 
     AdvanceGameMapReader d_advanceGameMapReader;
+    private boolean isValidMapType = true;
 
     /**
      * Constructor for GameMapReaderAdapter
@@ -24,6 +26,10 @@ public class GameMapReaderAdapter implements MapReader {
             d_advanceGameMapReader = new ConquestMapReader(d_gameState);
         } else if (p_mapType.equalsIgnoreCase("Domination")) {
             d_advanceGameMapReader = new DominationMapReader(d_gameState);
+        } else {
+            System.err.println("Unsupported map type: " + p_mapType);
+            CustomPrint.println("Unsupported map type: " + p_mapType);
+            isValidMapType = false;
         }
     }
 
@@ -34,10 +40,15 @@ public class GameMapReaderAdapter implements MapReader {
      */
     @Override
     public boolean parse(String p_filePath) {
+
+        if (!isValidMapType) {
+            return false;
+        }
         try {
             return d_advanceGameMapReader.parse(p_filePath);
         } catch (Exception e) {
-            e.printStackTrace();
+            CustomPrint.println("Error in parsing the file: " + e.getMessage());
+            System.err.println("Error in parsing the file: " + e.getMessage());
             return false;
         }
     }

@@ -42,7 +42,6 @@ public class DominationMapReader implements AdvanceGameMapReader{
     @Override
     public boolean parse(String p_filePath) throws IOException {
 
-        BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath));
         String l_line;
         boolean l_parsingContinents = false;
         boolean l_parsingCountries = false;
@@ -50,41 +49,43 @@ public class DominationMapReader implements AdvanceGameMapReader{
         int l_continentCount = 0;
         int l_countryCount = 0;
 
-        while ((l_line = l_reader.readLine()) != null) {
-            l_line = l_line.trim();
-            if (l_line.isEmpty() || l_line.startsWith(";")){
-                continue;
-            }
+        try (BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath))) {
 
-            if (l_line.startsWith("[continents]")) {
-                l_parsingContinents = true;
-                l_parsingCountries = false;
-                continue;
-            } else if (l_line.startsWith("[countries]")) {
-                l_parsingCountries = true;
-                l_parsingContinents = false;
-                continue;
-            } else if (l_line.startsWith("[borders]")) {
-                l_parsingContinents = false;
-                l_parsingCountries = false;
-                l_parsingConnections = true;
-                continue;
-            }
+            while ((l_line = l_reader.readLine()) != null) {
+                l_line = l_line.trim();
+                if (l_line.isEmpty() || l_line.startsWith(";")){
+                    continue;
+                }
 
-            if (l_parsingContinents) {
-                l_continentCount++;
-                parseContinent(l_line, l_continentCount);
-            } else if (l_parsingCountries) {
-                l_countryCount++;
-                parseCountry(l_line, l_countryCount);
-            }
-            if (l_parsingConnections) {
-                parseConnection(l_line);
+                if (l_line.startsWith("[continents]")) {
+                    l_parsingContinents = true;
+                    l_parsingCountries = false;
+                    continue;
+                } else if (l_line.startsWith("[countries]")) {
+                    l_parsingCountries = true;
+                    l_parsingContinents = false;
+                    continue;
+                } else if (l_line.startsWith("[borders]")) {
+                    l_parsingContinents = false;
+                    l_parsingCountries = false;
+                    l_parsingConnections = true;
+                    continue;
+                }
+
+                if (l_parsingContinents) {
+                    l_continentCount++;
+                    parseContinent(l_line, l_continentCount);
+                } else if (l_parsingCountries) {
+                    l_countryCount++;
+                    parseCountry(l_line, l_countryCount);
+                }
+                if (l_parsingConnections) {
+                    parseConnection(l_line);
+                }
+
             }
 
         }
-
-        l_reader.close();
 
         return true;
     }

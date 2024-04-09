@@ -42,36 +42,36 @@ public class ConquestMapReader implements AdvanceGameMapReader{
 
     @Override
     public boolean parse(String p_filePath) throws IOException {
-        BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath));
+
         String l_line;
         boolean l_parsingContinents = false;
         boolean l_parsingTerritories = false;
         int l_continentCount = 0;
 
-        while ((l_line = l_reader.readLine()) != null) {
-            l_line = l_line.trim();
-            if (l_line.isEmpty() || l_line.startsWith(";")) continue;
+        try(BufferedReader l_reader = new BufferedReader(new FileReader(p_filePath))) {
+            while ((l_line = l_reader.readLine()) != null) {
+                l_line = l_line.trim();
+                if (l_line.isEmpty() || l_line.startsWith(";")) continue;
 
-            if (l_line.startsWith("[Continents]")) {
-                l_parsingContinents = true;
-                l_parsingTerritories = false;
-                continue;
-            } else if (l_line.startsWith("[Territories]")) {
-                l_parsingTerritories = true;
-                l_parsingContinents = false;
-                continue;
-            }
+                if (l_line.startsWith("[Continents]")) {
+                    l_parsingContinents = true;
+                    l_parsingTerritories = false;
+                    continue;
+                } else if (l_line.startsWith("[Territories]")) {
+                    l_parsingTerritories = true;
+                    l_parsingContinents = false;
+                    continue;
+                }
 
 
-            if (l_parsingContinents) {
-                l_continentCount++;
-                parseContinent(l_line, l_continentCount);
-            } else if (l_parsingTerritories) {
-                parseTerritory(l_line);
+                if (l_parsingContinents) {
+                    l_continentCount++;
+                    parseContinent(l_line, l_continentCount);
+                } else if (l_parsingTerritories) {
+                    parseTerritory(l_line);
+                }
             }
         }
-
-        l_reader.close();
 
         return true;
     }

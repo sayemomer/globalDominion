@@ -7,6 +7,8 @@ import java.io.IOException;
  * This is the target interface for the adapter pattern
  * It has one method parse
  * method is used to parse the file
+ * @throws IOException if there is an error in reading the file
+ * @return boolean value
  */
 
 public interface MapReader {
