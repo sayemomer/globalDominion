@@ -14,11 +14,26 @@ import java.util.Map;
 public class GameState implements Serializable {
     private int d_currentTurn;
     private boolean d_mapLoaded = false;
+    /**
+     * The players in the game.
+     */
     private Map<String, Player> d_players;
+    /**
+     * The continents in the game.
+     */
     private Map<Integer, Continent> d_continents;
+    /**
+     * The countries in the game.
+     */
     private Map<Integer, Country> d_countries;
+    /**
+     * The current file name.
+     */
     private String d_currentFileName;
 
+    /**
+     * The map format.
+     */
     private String d_mapFormat;
 
     /**
@@ -31,6 +46,10 @@ public class GameState implements Serializable {
         d_players.put(p_name, new Player(p_name));
     }
 
+    /**
+     * gets the current turn.
+     * @param player the player object
+     */
     public void addPlayer(Player player) {
         d_players.put(player.getName(), player);
         setActionDone(GameState.GameAction.PlAYERS_ADDED);

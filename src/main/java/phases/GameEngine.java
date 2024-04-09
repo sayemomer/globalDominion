@@ -33,14 +33,37 @@ import java.util.*;
  */
 
 public class GameEngine implements Serializable {
-
+    /**
+     * The scanner object.
+     */
     Scanner scanner;
+    /**
+     * The player controller object.
+     */
     PlayerController playerController;
+    /**
+     * The map controller object.
+     */
     MapController mapController;
+    /**
+     * The country controller object.
+     */
     CountryController countryController;
+    /**
+     * The order controller object.
+     */
     OrderController orderController;
+    /**
+     * The game state object.
+     */
     GameState gameState;
+    /**
+     * The phase object.
+     */
     Phase d_gamePhase;
+    /**
+     * The number of cycles.
+     */
     int d_numberOfCycles = -1;
 
     /**
