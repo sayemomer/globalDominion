@@ -70,21 +70,12 @@ public class IssueOrdersPhase extends Phase {
                 aPlayerOrdered = true;
                 player.issueOrder();
 
-                // check if player is done ordering
-//                CustomPrint.println("Want to continue? Type 'y' or 'n'");
-//                String l_inputString = d_gameEngine.getScanner().nextLine().trim().toLowerCase();
-
-//                if (l_inputString.equals("y")) {
-//                    playerFinishedOrders.replace(player.getName(), false);
-//                } else if (l_inputString.equals("n")) {
                     if (player.getReinforcementPoll() != 0 && !player.getCountryIds().isEmpty()){
                         CustomPrint.println("You still have " + player.getReinforcementPoll() + " reinforcements left. Please deploy them.");
                     } else {
                         playerFinishedOrders.replace(player.getName(), true);
                     }
-//                } else {
-//                    CustomPrint.println("Invalid input. Please type 'y' or 'n'");
-//                }
+
             }
         }
         goToExecuteOrdersPhase();
