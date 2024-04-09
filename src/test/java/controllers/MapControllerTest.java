@@ -118,7 +118,7 @@ public class MapControllerTest {
     public void tearDown() {
         gameState = null;
         mapController = null;
-        CustomPrint.println("Deleting the file");
+        System.out.println("Deleting the file");
         File file = new File("src/main/resources/testing.map");
         file.delete();
     }
