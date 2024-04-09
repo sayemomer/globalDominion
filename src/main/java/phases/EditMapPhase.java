@@ -70,7 +70,7 @@ public class EditMapPhase extends Phase {
                     break;
                 case Command.SAVE_MAP:
                     // Ask the user about the map format and save the map
-                    System.out.println("Enter the map format (domination 1 /conquest 2): ");
+                    CustomPrint.println("Enter the map format (domination 1 /conquest 2): ");
                     switch (d_gameEngine.getScanner().nextLine()) {
                         case "1":
                             d_gameEngine.getGameState().setMapFormat("domination");

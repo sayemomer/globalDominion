@@ -1,7 +1,10 @@
 package services;
 
+import models.Country;
 import models.LogEntryBuffer;
 import views.FileLogObserver;
+
+import java.util.Collection;
 
 /**
  * CustomPrint class to print the output to the console and log the output to a file
@@ -89,5 +92,14 @@ public class CustomPrint {
 //        logBuffer.attach(observer);
         logBuffer.log(String.valueOf(outputString));
     }
+    /**
+     * Prints the contents of the given collection of countries to the console and logs it to the log buffer.
+     *
+     * @param values The collection of countries to print and log.
+     */
+    public static void println(Collection<Country> values) {
+        System.out.print(values);
 
+        logBuffer.log(String.valueOf(values));
+    }
 }

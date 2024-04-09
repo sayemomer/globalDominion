@@ -3,6 +3,7 @@ package phases;
 import controllers.Command;
 import controllers.TournamentController;
 import models.Tournament;
+import services.CustomPrint;
 
 import java.util.Arrays;
 
@@ -22,9 +23,9 @@ public class TournamentStartupPhase extends Phase {
 
     @Override
     public void printAvailableCommands() {
-        System.out.println("*-*-* STARTUP PHASE *-*-*");
-        System.out.println("Available commands: ");
-        System.out.println("  " + Command.TOURNAMENT_SYNTAX);
+        CustomPrint.println("*-*-* STARTUP PHASE *-*-*");
+        CustomPrint.println("Available commands: ");
+        CustomPrint.println("  " + Command.TOURNAMENT_SYNTAX);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class TournamentStartupPhase extends Phase {
                     break;
                 }
             } else {
-                System.out.println("Invalid command. Please try again.");
+                CustomPrint.println("Invalid command. Please try again.");
             }
         }
         return false;

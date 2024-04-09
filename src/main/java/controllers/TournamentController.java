@@ -3,6 +3,7 @@ package controllers;
 import models.GameState;
 import models.Tournament;
 import models.behaviors.StrategyBehavior;
+import services.CustomPrint;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class TournamentController implements Serializable {
         int l_numberOfCycles = 0;
 
         if (p_args.length < 8) {
-            System.out.println("Invalid number arguments. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
+            CustomPrint.println("Invalid number arguments. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
             return null;
         }
         try {
@@ -45,7 +46,7 @@ public class TournamentController implements Serializable {
                         GameState l_gameState = new GameState();
                         MapController l_mapController = new MapController(l_gameState);
                         if (!l_mapController.handleloadMapCommand(new String[]{l_mapPath})) {
-                            System.out.println("Problem loading the map " + l_mapPath);
+                            CustomPrint.println("Problem loading the map " + l_mapPath);
                             return null;
                         }
                         l_mapPaths.add(l_mapPath);
@@ -53,17 +54,17 @@ public class TournamentController implements Serializable {
                         argCounter++;
                     }
                     if (argCounter > 5 || argCounter < 1) {
-                        System.out.println("Invalid number of maps. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
+                        CustomPrint.println("Invalid number of maps. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
                         return null;
                     }
-                    System.out.println("passed maps");
+                    CustomPrint.println("passed maps");
                 } else if (p_args[i].equals(Command.TOURNAMENT_PLAYERS_OPTION)) {
                     i++;
                     int argCounter = 0;
                     while (!p_args[i].equals(Command.TOURNAMENT_GAMES_OPTION)) {
                         Class<? extends StrategyBehavior> behavior = StrategyBehavior.STR_TO_BEHAVIOR.get(p_args[i]);
                         if (behavior == null) {
-                            System.out.println("Invalid player behavior. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
+                            CustomPrint.println("Invalid player behavior. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
                             return null;
                         }
                         l_behaviors.add(behavior);
@@ -71,21 +72,21 @@ public class TournamentController implements Serializable {
                         argCounter++;
                     }
                     if (argCounter > 4 || argCounter < 2) {
-                        System.out.println("Invalid number of players. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
+                        CustomPrint.println("Invalid number of players. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
                         return null;
                     }
-                    System.out.println("passed players");
+                    CustomPrint.println("passed players");
                 } else if (p_args[i].equals(Command.TOURNAMENT_GAMES_OPTION)) {
                     i++;
                     l_numberOfGames = Integer.parseInt(p_args[i++]);
-                    System.out.println("passed games");
+                    CustomPrint.println("passed games");
 
                 } else if (p_args[i].equals(Command.TOURNAMENT_TURNS_OPTION)) {
                     i++;
                     l_numberOfCycles = Integer.parseInt(p_args[i++]);
-                    System.out.println("passed turns");
+                    CustomPrint.println("passed turns");
                 } else {
-                    System.out.println("nothing found" + i);
+                    CustomPrint.println("nothing found" + i);
                     throw new Exception();
                 }
             }
@@ -93,7 +94,7 @@ public class TournamentController implements Serializable {
             return new Tournament(l_behaviors, l_mapPaths, l_numberOfGames, l_numberOfCycles);
 
         } catch (Exception e) {
-            System.out.println("Invalid arguments. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
+            CustomPrint.println("Invalid arguments. Correct Syntax: \n\t" + Command.TOURNAMENT_SYNTAX);
         }
         return null;
     }

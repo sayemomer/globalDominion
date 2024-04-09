@@ -6,6 +6,7 @@ import models.Player;
 import models.orders.AdvanceOrder;
 import models.orders.DeployOrder;
 import models.orders.Order;
+import services.CustomPrint;
 
 import java.util.Map;
 
@@ -100,7 +101,7 @@ public class AggressiveStrategyBehavior extends StrategyBehavior {
     private Country findPlayersStrongestCountry() {
         int maxReinforcements = Integer.MIN_VALUE;
         Country countryWithMaxReinforcements = null;
-        System.out.println(d_player.getCountries().values());
+        CustomPrint.println(d_player.getCountries().values());
         for (Country country : d_player.getCountries().values()) {
             if (country.getNumberOfReinforcements() > maxReinforcements) {
                 maxReinforcements = country.getNumberOfReinforcements();
