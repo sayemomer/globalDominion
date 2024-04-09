@@ -10,6 +10,7 @@ import models.behaviors.StrategyBehavior;
 import phases.ExecuteOrdersPhase;
 import phases.GameEngine;
 import phases.IssueDeployOrder;
+import services.CustomPrint;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class GameContext implements Serializable {
     private void setup(String p_mapPath, ArrayList<Class<? extends StrategyBehavior>> p_playerBehaviors, int p_limit) {
         boolean mapIsLoaded = d_mapController.handleloadMapCommand(new String[]{p_mapPath});
         if (!mapIsLoaded) {
-            System.out.println("Problem loading the map " + p_mapPath);
+            CustomPrint.println("Problem loading the map " + p_mapPath);
             return;
         }
 

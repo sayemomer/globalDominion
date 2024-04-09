@@ -124,7 +124,7 @@ public class GameMapReader implements Serializable {
      */
 
     private void parseMap(String p_filePath, String mapType) throws IOException {
-        System.out.println(mapType + " map detected");
+        CustomPrint.println(mapType + " map detected");
         GameMapReaderAdapter l_gameMapReaderAdapter = new GameMapReaderAdapter(d_gameState, mapType);
         if (!l_gameMapReaderAdapter.parse(p_filePath)) {
             throw new IOException("Error parsing the map file");

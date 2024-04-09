@@ -141,7 +141,7 @@ public class ConquestMapReader implements AdvanceGameMapReader{
             int bonus = Integer.parseInt(l_parts[1].trim());
             int id = p_continentCount; // Keep using the count as the ID for consistency
 
-            System.out.println("Continent ID: " + id + " Name: " + name + " Bonus: " + bonus);
+            CustomPrint.println("Continent ID: " + id + " Name: " + name + " Bonus: " + bonus);
 
             d_continents.put(id, new Continent(id, name, bonus, "DefaultColor")); // Assuming color is not provided
         } catch (NumberFormatException e) {
@@ -175,7 +175,7 @@ public class ConquestMapReader implements AdvanceGameMapReader{
             } else {
                 int adjacentTerritoryId = d_countries.size() + 1;
                 Country adjacentTerritory = new Country(adjacentTerritoryId, adjacentTerritoryName, d_continents.get(continentId).getContinentId());
-                System.out.println("Creating a new country from parseNewConnection: " + adjacentTerritoryId + " " + adjacentTerritory.getName() + " " + continentId);
+                CustomPrint.println("Creating a new country from parseNewConnection: " + adjacentTerritoryId + " " + adjacentTerritory.getName() + " " + continentId);
                 d_countries.put(adjacentTerritoryId, adjacentTerritory);
                 territory.addAdjacentCountry((adjacentTerritoryId));
             }

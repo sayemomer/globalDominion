@@ -196,7 +196,7 @@ public class MapController implements Serializable {
 
         try {
 
-            System.out.println("Saving the map to conquest format...");
+            CustomPrint.println("Saving the map to conquest format...");
 
             File l_file = new File("src/main/resources/" + d_gameState.getCurrentFileName());
             FileWriter l_fileWriter = new FileWriter(l_file);

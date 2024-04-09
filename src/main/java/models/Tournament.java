@@ -1,6 +1,7 @@
 package models;
 
 import models.behaviors.StrategyBehavior;
+import services.CustomPrint;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class Tournament {
     public void startTournament() {
         for (String mapPath : d_mapPaths) {
                 for (int i = 0; i < d_numberOfGames; i++) {
-                    System.out.println("NEW GAME: mapPath: " + mapPath + ", "+  "game number: " + i);
+                    CustomPrint.println("NEW GAME: mapPath: " + mapPath + ", "+  "game number: " + i);
                     GameContext gameContext = new GameContext(mapPath, d_behaviors, d_numberOfTurns);
                     gameContext.startGame();
                 }
