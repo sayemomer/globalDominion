@@ -8,25 +8,24 @@ import java.io.Serializable;
 public class Continent implements Serializable {
 
     /**
-     * Private field representing the ID of an object.
-     * This ID is used to uniquely identify an instance of the object.
-     * Access to this field is restricted to within the class it is declared in.
+     id
      */
     private int d_id;
 
     /**
-     * Private field representing the value of an object.
-     * This value holds a specific numerical or symbolic value relevant to the object's state or behavior.
-     * Access to this field is restricted to within the class it is declared in.
+    value
      */
     private int d_value;
 
     /**
-     * Private field representing the name of an object.
-     * This name provides a human-readable identifier for the object.
-     * Access to this field is restricted to within the class it is declared in.
+     name
      */
     private String d_name;
+
+
+    /**
+     color
+     */
     private String d_color;
 
     /**
