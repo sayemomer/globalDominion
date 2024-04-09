@@ -17,7 +17,7 @@ public class CheaterStrategyBehavior extends StrategyBehavior{
     /**
      * conquers all the immediate neighboring enemy countries
      * doubles the number of armies on its countries that have enemy neighbors.
-     * @return
+     * @return  null, as this method does not return an Order object
      */
     @Override
     protected Order issueOtherOrders() {
