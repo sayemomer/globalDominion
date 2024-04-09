@@ -8,10 +8,28 @@ import java.util.List;
  * Country class to store the country details
  */
 public class Country implements Serializable {
+    /**
+     * The unique identifier of the country.
+     */
     private int d_countryId;
+    /**
+     * The name of the country.
+     */
     private String d_countryName;
+
+    /**
+     * The list of adjacent country IDs.
+     */
     private List<Integer> d_adjacentCountries;
+
+    /**
+     * The ID of the continent.
+     */
     private int d_continentId;
+
+    /**
+     * The number of reinforcements currently in the country.
+     */
     private int d_numberOfReinforcements;
 
     /**
