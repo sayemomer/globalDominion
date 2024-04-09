@@ -23,6 +23,7 @@ public class TournamentTest {
 
         ArrayList<String> mapPaths = new ArrayList<>();
         mapPaths.add("canada.map");
+        mapPaths.add("canada.map");
         Tournament tournament = new Tournament(behaviors, mapPaths, 20, 40);
         assertDoesNotThrow(tournament::startTournament);
     }

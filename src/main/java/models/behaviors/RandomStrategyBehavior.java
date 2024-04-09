@@ -22,7 +22,7 @@ public class RandomStrategyBehavior extends StrategyBehavior {
     Random rand = new Random();
 
     /**
-     *
+     * Constructor for RandomStrategyBehavior
      * @param p_player player
      * @param p_gameState gameState
      *
