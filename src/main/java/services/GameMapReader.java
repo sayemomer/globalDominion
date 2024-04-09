@@ -19,11 +19,25 @@ import java.util.Map;
 
 
 public class GameMapReader implements Serializable {
-  
+    /**
+     * The game state.
+     */
     private final GameState d_gameState;
+    /**
+     * The continents map.
+     */
     private final Map<Integer, Continent> d_continents;
+    /**
+     * The countries map.
+     */
     private final Map<Integer, Country> d_countries;
+    /**
+     * The domination map type.
+     */
     private static final String DOMINATION_MAP_TYPE = "Domination";
+    /**
+     * The conquest map type.
+     */
     private static final String CONQUEST_MAP_TYPE = "Conquest";
 
 
