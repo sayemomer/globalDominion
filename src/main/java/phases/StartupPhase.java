@@ -1,6 +1,8 @@
 package phases;
 
 import controllers.Command;
+import controllers.ContextController;
+import models.GameContext;
 import models.GameState;
 import services.CustomPrint;
 
@@ -31,6 +33,7 @@ public class StartupPhase extends Phase {
         CustomPrint.println("  " + Command.LOAD_MAP_SYNTAX);
         CustomPrint.println("  " + Command.EDIT_MAP_SYNTAX);
         CustomPrint.println("  " + Command.ASSIGN_COUNTRIES_SYNTAX);
+        CustomPrint.println("  " + Command.LOAD_GAME_SYNTAX);
         CustomPrint.println("Type 'proceed' to proceed to the next phase.");
         CustomPrint.println("Type 'exit' to exit the game.");
     }
@@ -40,7 +43,7 @@ public class StartupPhase extends Phase {
      * gets user input and calls the appropriate method in the controllers.
      */
     @Override
-    public void run() {
+    public boolean run() {
         printAvailableCommands();
         label:
         while (true) {
@@ -80,11 +83,17 @@ public class StartupPhase extends Phase {
                 case Command.ASSIGN_COUNTRIES:
                     d_gameEngine.getCountryController().handleAssignCountriesCommand(l_args);
                     break;
+
+                case Command.LOAD_GAME:
+                    if (ContextController.handleLoadGame(l_args))
+                        return false;
+                    break;
                 default:
                     System.err.println("Invalid input. Please try again.");
                     break;
             }
         }
+        return true;
     }
 
     private void playersAddedOrThrow() throws Exception {

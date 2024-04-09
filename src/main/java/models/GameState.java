@@ -2,6 +2,7 @@ package models;
 
 import services.CustomPrint;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.Map;
 /**
  * The GameState class is responsible for keeping track of the game state.
  */
-public class GameState {
+public class GameState implements Serializable {
     private int d_currentTurn;
     private boolean d_mapLoaded = false;
     private Map<String, Player> d_players;
@@ -28,6 +29,11 @@ public class GameState {
 
     public void addPlayer(String p_name) {
         d_players.put(p_name, new Player(p_name));
+    }
+
+    public void addPlayer(Player player) {
+        d_players.put(player.getName(), player);
+        setActionDone(GameState.GameAction.PlAYERS_ADDED);
     }
 
     /**

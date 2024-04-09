@@ -7,6 +7,7 @@ import models.GameState;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,9 @@ import java.util.Map;
  * This is the client class in the adapter pattern.
  */
 
-public class GameMapReader implements MapReader {
+
+public class GameMapReader implements Serializable {
+  
     private final GameState d_gameState;
     private final Map<Integer, Continent> d_continents;
     private final Map<Integer, Country> d_countries;

@@ -7,6 +7,7 @@ import models.GameState;
 import models.Player;
 import models.orders.Order;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -31,7 +32,7 @@ import java.util.*;
  *
  */
 
-public class GameEngine {
+public class GameEngine implements Serializable {
 
     Scanner scanner;
     PlayerController playerController;
@@ -40,6 +41,7 @@ public class GameEngine {
     OrderController orderController;
     GameState gameState;
     Phase d_gamePhase;
+    int d_numberOfCycles = -1;
 
     /**
      * This is the constructor for the GameEngine class.
@@ -55,13 +57,6 @@ public class GameEngine {
         mapController = new MapController(gameState);
         countryController = new CountryController(gameState);
         orderController = new OrderController(this);
-
-        // print number of reinforcements for each player
-        for (Player player : gameState.getPlayers().values()) {
-            Debug.log(player.getName() + " has " + player.getReinforcementPoll() + " reinforcements.");
-
-        }
-
     }
 
     /**
@@ -87,8 +82,18 @@ public class GameEngine {
      * It calls the startUpPhase, issueOrdersPhase, and executeOrdersPhase methods.
      */
     public void mainGameLoop() {
-        while (true)
-            d_gamePhase.run();
+        boolean shouldContinue = true;
+        while (shouldContinue) {
+            shouldContinue = d_gamePhase.run();
+        }
+    }
+
+    public void setNumberOfCycles(int p_cycles) {
+        d_numberOfCycles = p_cycles;
+    }
+
+    public void setScanner(Scanner p_scanner) {
+        scanner = p_scanner;
     }
 
     /**

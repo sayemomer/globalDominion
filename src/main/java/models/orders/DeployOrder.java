@@ -59,6 +59,15 @@ public class DeployOrder extends Order {
             throw new IllegalArgumentException("Not enough reinforcements");
     }
 
+    public int getCountryId() {
+        return d_countryId;
+    }
+
+    public int getNumReinforcements() {
+        return d_numReinforcements;
+    }
+
+
     @Override
     public String toString() {
         return "DeployOrder{" + d_owner + " deployed " + d_numReinforcements + " reinforcements to country " + d_countryId + "}";

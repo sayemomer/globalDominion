@@ -1,5 +1,6 @@
 package phases;
 
+import config.AppConfig;
 import config.Debug;
 import models.Country;
 import models.Player;
@@ -18,6 +19,9 @@ import services.CustomPrint;
  */
 public class ExecuteOrdersPhase extends Phase {
 
+    private static int d_limitOfExecution = Integer.MAX_VALUE;
+    private static int d_numberOfExecution = 0;
+
     /**
      * Constructor for the ExecuteOrdersPhase class
      * @param p_gameEngine game engine
@@ -34,8 +38,12 @@ public class ExecuteOrdersPhase extends Phase {
 
     @Override
     public void printAvailableCommands() {
-        CustomPrint.println("*-*-* EXECUTE ORDERS PHASE *-*-*");
-        CustomPrint.println("Executing orders...");
+        if (AppConfig.isTournamentMode())
+            CustomPrint.println("*-*-* EXECUTE ORDERS PHASE *-*-*");
+        else {
+            CustomPrint.println("*-*-* EXECUTE ORDERS PHASE *-*-*");
+            CustomPrint.println("Executing orders...");
+        }
     }
 
     /**
@@ -44,7 +52,7 @@ public class ExecuteOrdersPhase extends Phase {
      */
 
     @Override
-    public void run() {
+    public boolean run() {
         printAvailableCommands();
         boolean anOrderExecuted = true;
         // continues until no orders are left to execute
@@ -66,7 +74,9 @@ public class ExecuteOrdersPhase extends Phase {
             }
         }
 
+        d_numberOfExecution++;
         goToIssueOrdersPhase();
+        return true;
     }
 
     /**
@@ -75,6 +85,11 @@ public class ExecuteOrdersPhase extends Phase {
      */
 
     public void resumeOrThrow() throws Exception {
+
+        if (d_numberOfExecution >= d_limitOfExecution) {
+            throw new Exception("Draw Execution Limit Reached");
+        }
+
         for (Player player : d_gameEngine.getGameState().getPlayers().values()) {
             if (player.getCountryIds().size() == d_gameEngine.getGameState().getCountries().size())
                 throw new Exception("Player " + player + " has won.");
@@ -102,5 +117,13 @@ public class ExecuteOrdersPhase extends Phase {
             CustomPrint.println(e.getMessage());
             goToFinishPhase();
         }
+    }
+
+    public static void resetNumberOfExecutions() {
+        d_numberOfExecution = 0;
+    }
+
+    public static void setLimitOfExecution(int p_limit) {
+        d_limitOfExecution = p_limit;
     }
 }

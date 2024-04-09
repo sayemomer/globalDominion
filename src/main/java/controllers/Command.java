@@ -191,4 +191,47 @@ public class Command {
      * The syntax for the negotiate command
      */
     public static final String NEGOTIATE = "negotiate";
+
+
+    public static final String TOURNAMENT_SYNTAX = "tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns";
+
+    public static final String TOURNAMENT = "tournament";
+
+    public static final String TOURNAMENT_MAPS_OPTION = "-M";
+
+    public static final String TOURNAMENT_PLAYERS_OPTION = "-P";
+
+    public static final String TOURNAMENT_GAMES_OPTION = "-G";
+
+    public static final String TOURNAMENT_TURNS_OPTION = "-D";
+
+
+    /**
+     * Constant representing the command to save a game.
+     * This command is used to save the current game state for later retrieval.
+     */
+    public static final String SAVE_GAME = "savegame";
+
+
+    /**
+     * Constant representing the command to load a game.
+     * This command is used to load a previously saved game state.
+     */
+    public static final String LOAD_GAME = "loadgame";
+
+
+
+    /**
+     * Constant representing the syntax for the save game command.
+     * This syntax indicates the format for issuing the save game command, including the filename parameter.
+     */
+    public static final String SAVE_GAME_SYNTAX = "savegame filename";
+
+    /**
+     * Constant representing the syntax for the load game command.
+     * This syntax indicates the format for issuing the load game command, including the filename parameter.
+     */
+    public static final String LOAD_GAME_SYNTAX = "loadgame filename";
+    
 }
+

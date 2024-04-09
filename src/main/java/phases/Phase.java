@@ -1,9 +1,11 @@
 package phases;
 
+import java.io.Serializable;
+
 /**
  * Phase class to store the phase details
  */
-public abstract class Phase {
+public abstract class Phase implements Serializable {
 
     /**
      * Game engine
@@ -25,7 +27,8 @@ public abstract class Phase {
 
     /**
      * Run the phase ex. get user input, execute commands, ...
+     * @return true if should continue
      */
-    public abstract void run();
+    public abstract boolean run();
 
 }

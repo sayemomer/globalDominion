@@ -1,5 +1,6 @@
 package controllers;
 
+import models.GameContext;
 import models.GameState;
 import models.orders.*;
 import models.Player;
@@ -7,6 +8,7 @@ import phases.GameEngine;
 import phases.IssueDeployOrder;
 import services.CustomPrint;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,10 +18,20 @@ import java.util.Scanner;
  * The OrderController class is responsible for handling the order commands.
  * MUST BE INITIALIZED BEFORE ANY USE
  */
-public class OrderController {
+public class OrderController implements Serializable {
     private static GameState d_gameState;
     private static Scanner d_scanner;
-    private static GameEngine d_gameEngine;
+    public static GameEngine d_gameEngine;
+
+    /**
+     * Reset the states of the OrderController
+     * @param p_gameState
+     * @param p_gameEngine
+     */
+    public static void resetStates(GameState p_gameState, GameEngine p_gameEngine) {
+        OrderController.d_gameState = p_gameState;
+        OrderController.d_gameEngine = p_gameEngine;
+    }
 
     /**
      * Constructor for the OrderController class.
@@ -68,7 +80,12 @@ public class OrderController {
                     break;
                 } else if (command.equals(Command.SHOW_MAP)) {
                     d_gameState.printMap();
-                } else {
+                } else if (command.equals(Command.SAVE_GAME)) {
+                    ContextController.handleSaveGame(args, d_gameState, d_gameEngine);
+                } else if (command.equals(Command.LOAD_GAME)) {
+                    ContextController.handleLoadGame(args);
+                }
+                else {
                     CustomPrint.println("Invalid command. Please try again. \nplayers can only deploy in this phase.");
                 }
             }
@@ -85,10 +102,7 @@ public class OrderController {
             if (command.equals("exit")) {
                 CustomPrint.println("Exiting the game...");
                 System.exit(0);
-            } else if (command.equals(Command.DEPLOY)) {
-                l_order = handleDeployOrderCommand(args, p_ownerPlayer);
-                break;
-            } else if (command.equals(Command.ADVANCE)) {
+            }  else if (command.equals(Command.ADVANCE)) {
                 l_order = handleAdvanceOrderCommand(args, p_ownerPlayer);
                 break;
             } else if (command.equals(Command.BOMB)) {
@@ -105,6 +119,10 @@ public class OrderController {
                 break;
             } else if (command.equals(Command.SHOW_MAP)) {
                 d_gameState.printMap();
+            } else if (command.equals(Command.SAVE_GAME)) {
+                ContextController.handleSaveGame(args, d_gameState, d_gameEngine);
+            } else if (command.equals(Command.LOAD_GAME)) {
+                ContextController.handleLoadGame(args);
             } else {
                 CustomPrint.println("Invalid command. Please try again.");
             }
