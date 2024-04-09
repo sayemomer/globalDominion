@@ -12,7 +12,9 @@ import java.util.Map;
  * The GameState class is responsible for keeping track of the game state.
  */
 public class GameState implements Serializable {
-    private int d_currentTurn;
+    /**
+     * The map loaded.
+     */
     private boolean d_mapLoaded = false;
     /**
      * The players in the game.

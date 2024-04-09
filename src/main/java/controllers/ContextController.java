@@ -8,6 +8,13 @@ import phases.GameEngine;
  * The controller class for managing game context, including loading and saving games.
  */
 public class ContextController {
+
+    /**
+     * Constructor for ContextController
+     */
+    public ContextController() {
+    }
+
     /**
      * handles the loadgame command
      * @param p_args p_args an array containing the file path of the saved game

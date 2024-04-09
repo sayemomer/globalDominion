@@ -16,9 +16,17 @@ import java.util.Map;
  */
 
 public class MapController implements Serializable {
-
+    /**
+     * The GameMapReader object.
+     */
     private final GameMapReader d_gameMapReader;
+    /**
+     * The game state.
+     */
     GameState d_gameState;
+    /**
+     * The file path of the map file.
+     */
     private String d_filePath;
 
     /**

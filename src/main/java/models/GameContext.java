@@ -56,6 +56,7 @@ public class GameContext implements Serializable {
 
     /**
      * Constructor from file
+     * @param p_filePath file path
      * @throws Exception if file not found
      */
     public GameContext(String p_filePath) throws Exception {
@@ -125,6 +126,7 @@ public class GameContext implements Serializable {
 
     /**
      * Save the game context to a file
+     * @param p_filePath file path
      * @throws IOException if IO related exception occurs
      */
     public void save(String p_filePath) throws IOException {

@@ -111,10 +111,18 @@ public class GameEngine implements Serializable {
         }
     }
 
+    /**
+     * This method sets the number of cycles.
+     * @param p_cycles The number of cycles.
+     */
     public void setNumberOfCycles(int p_cycles) {
         d_numberOfCycles = p_cycles;
     }
 
+    /**
+     * This method sets the game state.
+     * @param p_scanner The scanner.
+     */
     public void setScanner(Scanner p_scanner) {
         scanner = p_scanner;
     }
