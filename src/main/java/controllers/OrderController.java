@@ -21,12 +21,15 @@ import java.util.Scanner;
 public class OrderController implements Serializable {
     private static GameState d_gameState;
     private static Scanner d_scanner;
+    /**
+     * The game engine instance used to manage the game state and control the game flow.
+     */
     public static GameEngine d_gameEngine;
 
     /**
      * Reset the states of the OrderController
-     * @param p_gameState
-     * @param p_gameEngine
+     * @param p_gameState  The new game state to set in the OrderController.
+     * @param p_gameEngine The new game engine to set in the OrderController
      */
     public static void resetStates(GameState p_gameState, GameEngine p_gameEngine) {
         OrderController.d_gameState = p_gameState;

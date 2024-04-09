@@ -7,7 +7,22 @@ import models.behaviors.StrategyBehavior;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * The TournamentController class is responsible for handling the tournament command.
+ */
 public class TournamentController implements Serializable {
+
+    /**
+     * Constructor for TournamentController
+     */
+    public TournamentController() {
+    }
+
+    /**
+     * Handles the tournament command.
+     * @param p_args the arguments of the command.
+     * @return the tournament object.
+     */
     public Tournament handleTournamentCommand(String[] p_args) {
 
         ArrayList<Class<? extends StrategyBehavior>> l_behaviors = new ArrayList<>();
@@ -73,7 +88,6 @@ public class TournamentController implements Serializable {
                     System.out.println("nothing found" + i);
                     throw new Exception();
                 }
-//                i++;
             }
 
             return new Tournament(l_behaviors, l_mapPaths, l_numberOfGames, l_numberOfCycles);

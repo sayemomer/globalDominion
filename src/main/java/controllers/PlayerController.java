@@ -13,6 +13,9 @@ import java.util.Map;
  * The PlayerController class is responsible player related commands.
  */
 public class PlayerController implements Serializable {
+    /**
+     * game state
+     */
     private final GameState gameState;
 
     /**

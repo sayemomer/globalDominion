@@ -6,6 +6,10 @@ import models.Tournament;
 
 import java.util.Arrays;
 
+/**
+ * Tournament startup phase
+
+ */
 public class TournamentStartupPhase extends Phase {
     /**
      * Constructor for the Phase class

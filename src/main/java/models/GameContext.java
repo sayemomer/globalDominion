@@ -21,18 +21,30 @@ import java.util.Scanner;
  */
 public class GameContext implements Serializable {
     /**
-     * Instance variables
+     * game state
      */
     GameState d_gameState;
+    /**
+     * player controller
+     */
     PlayerController d_playerController;
+    /**
+     * map controller
+     */
     MapController d_mapController;
+    /**
+     * country controller
+     */
     CountryController d_countryController;
+    /**
+     * game engine
+     */
     GameEngine d_gameEngine;
 
     /**
      * Constructor for GameContext
-     * @param d_gameState
-     * @param d_gameEngine
+     * @param d_gameState game state
+     * @param d_gameEngine game engine
      */
     public GameContext(GameState d_gameState, GameEngine d_gameEngine) {
         this.d_gameState = d_gameState;
@@ -44,6 +56,7 @@ public class GameContext implements Serializable {
 
     /**
      * Constructor from file
+     * @param p_filePath file path
      * @throws Exception if file not found
      */
     public GameContext(String p_filePath) throws Exception {
@@ -63,9 +76,9 @@ public class GameContext implements Serializable {
 
     /**
      * Constructor used for Tournament Mode
-     * @param p_mapPath
-     * @param p_playerBehaviors
-     * @param p_cycles
+     * @param p_mapPath map path
+     * @param p_playerBehaviors player behavior classes. all should be subclasses of StrategyBehavior.
+     * @param p_cycles limit for the number of turns.
      */
     public GameContext(String p_mapPath, ArrayList<Class<? extends StrategyBehavior>> p_playerBehaviors, int p_cycles) {
         d_gameState = new GameState();
@@ -78,9 +91,9 @@ public class GameContext implements Serializable {
 
     /**
      * Sets up the game using selected behavior classes used mainly in tournament mode
-     * @param p_mapPath
-     * @param p_playerBehaviors
-     * @param p_limit
+     * @param p_mapPath map path
+     * @param p_playerBehaviors player behavior classes. all should be subclasses of StrategyBehavior.
+     * @param p_limit limit for the number of turns.
      */
     private void setup(String p_mapPath, ArrayList<Class<? extends StrategyBehavior>> p_playerBehaviors, int p_limit) {
         boolean mapIsLoaded = d_mapController.handleloadMapCommand(new String[]{p_mapPath});
@@ -113,7 +126,8 @@ public class GameContext implements Serializable {
 
     /**
      * Save the game context to a file
-     * @throws IOException
+     * @param p_filePath file path
+     * @throws IOException if IO related exception occurs
      */
     public void save(String p_filePath) throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(p_filePath));
@@ -124,8 +138,8 @@ public class GameContext implements Serializable {
 
     /**
      * loads this object from a file
-     * @param p_filePath
-     * @throws Exception
+     * @param p_filePath file path
+     * @throws Exception if IO related exception occurs
      */
     public void loadFromFile(String p_filePath) throws Exception {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(p_filePath));
@@ -137,31 +151,9 @@ public class GameContext implements Serializable {
         this.d_gameEngine = gc.d_gameEngine;
     }
 
-    public static void main(String[] args) {
-        AppConfig.setTournamentMode(false);
-        ArrayList<Class<? extends StrategyBehavior>> behaviors = new ArrayList<>();
-        behaviors.add(AggressiveStrategyBehavior.class);
-        behaviors.add(AggressiveStrategyBehavior.class);
-        behaviors.add(AggressiveStrategyBehavior.class);
-
-        GameContext gc = new GameContext("canada.map", behaviors, 50);
-        try {
-            gc.save("gamecolknkhntext.ser");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            GameContext gc2 = new GameContext("gamecontext.ser");
-            gc2.startGame();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
      * toString method
-     * @return
+     * @return string representation of the object
      */
     @Override
     public String toString() {

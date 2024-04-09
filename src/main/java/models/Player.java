@@ -15,21 +15,48 @@ import java.util.*;
  * The Player class is responsible for keeping track of the player's state.
  */
 public class Player implements Serializable {
+    /**
+     * The name of the player.
+     */
     private String d_name;
+    /**
+     * The reinforcement of the player.
+     */
     private int d_reinforcement;
+    /**
+     * The reinforcement poll of the player.
+     */
     private int d_reinforcementPoll;
+    /**
+     * The list of orders of the player.
+     */
     private Queue<Order> d_orders;
+    /**
+     * The list of countries of the player.
+     */
     private Map<Integer, Country> d_countries;
+    /**
+     * The strategy of the player.
+     */
     private StrategyBehavior d_strategy;
+    /**
+     * The game state.
+     */
     private GameState d_gameState;
 
-    //negotiated players
+    /**
+    * negotiated players
+    */
     private List<String> d_negotiatedPlayers = new ArrayList<>();
 
-    //save the cards
+    /**
+     * save the cards
+     */
     private ArrayList<Card> d_cards = new ArrayList<>();
 
-    //only one card per turn
+    /**
+     * only one card per turn
+     */
     private boolean d_cardFlag = false;
 
     /**

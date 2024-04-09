@@ -33,14 +33,37 @@ import java.util.*;
  */
 
 public class GameEngine implements Serializable {
-
+    /**
+     * The scanner object.
+     */
     Scanner scanner;
+    /**
+     * The player controller object.
+     */
     PlayerController playerController;
+    /**
+     * The map controller object.
+     */
     MapController mapController;
+    /**
+     * The country controller object.
+     */
     CountryController countryController;
+    /**
+     * The order controller object.
+     */
     OrderController orderController;
+    /**
+     * The game state object.
+     */
     GameState gameState;
+    /**
+     * The phase object.
+     */
     Phase d_gamePhase;
+    /**
+     * The number of cycles.
+     */
     int d_numberOfCycles = -1;
 
     /**
@@ -88,10 +111,18 @@ public class GameEngine implements Serializable {
         }
     }
 
+    /**
+     * This method sets the number of cycles.
+     * @param p_cycles The number of cycles.
+     */
     public void setNumberOfCycles(int p_cycles) {
         d_numberOfCycles = p_cycles;
     }
 
+    /**
+     * This method sets the game state.
+     * @param p_scanner The scanner.
+     */
     public void setScanner(Scanner p_scanner) {
         scanner = p_scanner;
     }

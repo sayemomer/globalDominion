@@ -8,8 +8,19 @@ import models.orders.Order;
 
 import java.util.Collections;
 
+/**
+ * Represents the behavior of a cheater player in the game.
+ */
 public class CheaterStrategyBehavior extends StrategyBehavior{
 
+    /**
+     * Constructor for CheaterStrategyBehavior.
+     *
+     * Initializes the behavior with the specified player and game state.
+     *
+     * @param p_player    The player using this behavior.
+     * @param p_gameState The current game state.
+     */
     public CheaterStrategyBehavior(Player p_player, GameState p_gameState) {
         super(p_player, p_gameState);
     }
@@ -17,7 +28,7 @@ public class CheaterStrategyBehavior extends StrategyBehavior{
     /**
      * conquers all the immediate neighboring enemy countries
      * doubles the number of armies on its countries that have enemy neighbors.
-     * @return
+     * @return  null, as this method does not return an Order object
      */
     @Override
     protected Order issueOtherOrders() {
