@@ -151,28 +151,6 @@ public class GameContext implements Serializable {
         this.d_gameEngine = gc.d_gameEngine;
     }
 
-    public static void main(String[] args) {
-        AppConfig.setTournamentMode(false);
-        ArrayList<Class<? extends StrategyBehavior>> behaviors = new ArrayList<>();
-        behaviors.add(AggressiveStrategyBehavior.class);
-        behaviors.add(AggressiveStrategyBehavior.class);
-        behaviors.add(AggressiveStrategyBehavior.class);
-
-        GameContext gc = new GameContext("canada.map", behaviors, 50);
-        try {
-            gc.save("gamecolknkhntext.ser");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            GameContext gc2 = new GameContext("gamecontext.ser");
-            gc2.startGame();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
      * toString method
      * @return string representation of the object

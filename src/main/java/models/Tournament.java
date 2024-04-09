@@ -42,15 +42,4 @@ public class Tournament {
         }
     }
 
-    public static void main(String[] args) {
-        ArrayList<Class<? extends StrategyBehavior>> behaviors = new ArrayList<>();
-        behaviors.add(models.behaviors.CheaterStrategyBehavior.class);
-        behaviors.add(models.behaviors.HumanStrategyBehavior.class);
-
-        ArrayList<String> mapPaths = new ArrayList<>();
-        mapPaths.add("canada.map");
-        Tournament tournament = new Tournament(behaviors, mapPaths, 20, 40);
-        tournament.startTournament();
-    }
-
 }

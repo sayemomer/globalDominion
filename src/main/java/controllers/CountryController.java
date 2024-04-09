@@ -15,6 +15,9 @@ import services.CustomPrint;
  * The CountryController class is responsible for handling country related commands.
  */
 public class CountryController implements Serializable {
+    /**
+     * The game state.
+     */
     GameState d_gameState;
 
     /**
