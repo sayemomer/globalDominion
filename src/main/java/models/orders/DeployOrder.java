@@ -63,6 +63,12 @@ public class DeployOrder extends Order {
         return d_countryId;
     }
 
+
+    /**
+     * Retrieves the number of reinforcements available.
+     *
+     * @return The number of reinforcements.
+     */
     public int getNumReinforcements() {
         return d_numReinforcements;
     }
