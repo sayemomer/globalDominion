@@ -7,9 +7,25 @@ import java.io.Serializable;
  */
 public class Continent implements Serializable {
 
+    /**
+     id
+     */
     private int d_id;
+
+    /**
+    value
+     */
     private int d_value;
+
+    /**
+     name
+     */
     private String d_name;
+
+
+    /**
+     color
+     */
     private String d_color;
 
     /**
