@@ -15,6 +15,10 @@ import java.util.*;
  */
 public class RandomStrategyBehavior extends StrategyBehavior {
     // ConcreteStrategy of the Strategy pattern
+
+    /**
+     * generating random number
+     */
     Random rand = new Random();
 
     /**

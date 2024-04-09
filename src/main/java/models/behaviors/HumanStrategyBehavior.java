@@ -12,6 +12,15 @@ import java.util.Map;
  * Human strategy behavior class
  */
 public class HumanStrategyBehavior extends StrategyBehavior {
+
+    /**
+     * Constructor for HumanStrategyBehavior.
+     *
+     * Initializes the behavior with the specified player and game state.
+     *
+     * @param p_player    The player using this behavior.
+     * @param p_gameState The current game state.
+     */
     public HumanStrategyBehavior(Player p_player, GameState p_gameState) {
         super(p_player, p_gameState);
     }

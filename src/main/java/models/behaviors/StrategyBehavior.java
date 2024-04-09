@@ -8,7 +8,9 @@ import phases.IssueDeployOrder;
 
 import java.io.Serializable;
 import java.util.Map;
-
+/**
+ * An abstract class representing the behavior of a player's strategy in the game.
+ */
 public abstract class StrategyBehavior implements Serializable {
     /**
      * player that is using the behavior
