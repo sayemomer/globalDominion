@@ -88,6 +88,13 @@ The project supports the following commands:
   - `blockade <country-name>`: Blockades a country, tripling its armies and making it neutral.
   - `airlift <from-country-name> <to-country-name> <number-of-armies>`: Airlifts armies from one country to another.
   - `negotiate <player-name>`: Negotiates a ceasefire with another player.
+ 
+- **Tournament Commands:
+  - `tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns`: Initiates a tournament with specified maps, player strategies, number of games, and maximum number of turns.
+
+- **Save and Load Game Commands:
+  - `savegame filename` : Saves the current game state to a file.
+  - `loadgame filename` : Loads a previously saved game state from a file.
 
 ## Testing
 
