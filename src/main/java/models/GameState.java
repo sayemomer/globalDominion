@@ -57,6 +57,10 @@ public class GameState implements Serializable {
         setActionDone(GameState.GameAction.PlAYERS_ADDED);
     }
 
+    /**
+     * gets the current turn.
+     * @return the current turn
+     */
     public String getMapName() {
         return d_currentFileName;
     }
@@ -418,7 +422,10 @@ public class GameState implements Serializable {
         d_countries.put(p_country.getCountryId(), p_country);
     }
 
-
+    /**
+     * gets the winner of the game.
+     * @return the winner, or null if there is no winner
+     */
     public Player getWinner() {
         for (Player player : d_players.values()) {
             if (player.getCountryIds().size() == d_countries.size()) {
