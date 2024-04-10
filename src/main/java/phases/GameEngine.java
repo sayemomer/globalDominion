@@ -1,11 +1,9 @@
 package phases;
 
-import config.AppConfig;
-import config.Debug;
 import controllers.*;
 import models.GameState;
 import models.Player;
-import models.orders.Order;
+import services.CustomPrint;
 
 import java.io.Serializable;
 import java.util.*;
@@ -109,6 +107,30 @@ public class GameEngine implements Serializable {
         while (shouldContinue) {
             shouldContinue = d_gamePhase.run();
         }
+    }
+
+    /**
+     * This method prints the game result.
+     */
+    public void printGameResult() {
+        CustomPrint.println("\n\n##############################################");
+        CustomPrint.println("Game Result:");
+        // print map name
+        CustomPrint.println("Played on map: " + gameState.getMapName());
+        CustomPrint.println("Players:");
+        for (Player player : gameState.getPlayers().values()) {
+            CustomPrint.println(player.getName());
+        }
+
+        CustomPrint.print("Result: ");
+        // print winner
+        Player winner = gameState.getWinner();
+        if (winner == null) {
+            CustomPrint.println("Draw! No winner.");
+        } else {
+            CustomPrint.println("Winner is " + winner.getName());
+        }
+        CustomPrint.println("##############################################\n\n");
     }
 
     /**
