@@ -2,7 +2,6 @@ package phases;
 
 import config.AppConfig;
 import config.Debug;
-import models.Country;
 import models.Player;
 import models.orders.Order;
 import services.CustomPrint;
@@ -113,7 +112,7 @@ public class ExecuteOrdersPhase extends Phase {
         try {
             resumeOrThrow();
             d_gameEngine.getGameState().assignReinforcements();
-            d_gameEngine.setGamePhase(new IssueDeployOrder(d_gameEngine));
+            d_gameEngine.setGamePhase(new IssueDeployOrderPhase(d_gameEngine));
         } catch (Exception e) {
             CustomPrint.println(e.getMessage());
             goToFinishPhase();

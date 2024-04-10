@@ -4,7 +4,7 @@ import controllers.OrderController;
 import models.GameState;
 import models.Player;
 import models.orders.Order;
-import phases.IssueDeployOrder;
+import phases.IssueDeployOrderPhase;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -51,7 +51,7 @@ public abstract class StrategyBehavior implements Serializable {
     public Order issueOrder() {
         if (d_player.getCountryIds().isEmpty())
             return null;
-        if (OrderController.d_gameEngine.getGamePhase() instanceof IssueDeployOrder) {
+        if (OrderController.d_gameEngine.getGamePhase() instanceof IssueDeployOrderPhase) {
             return issueDeployOrder();
         } else {
             return issueOtherOrders();

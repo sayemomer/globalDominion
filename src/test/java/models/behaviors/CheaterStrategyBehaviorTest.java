@@ -6,14 +6,10 @@ import models.Continent;
 import models.Country;
 import models.GameState;
 import models.Player;
-import models.orders.AdvanceOrder;
-import models.orders.DeployOrder;
-import models.orders.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import phases.GameEngine;
-import phases.IssueDeployOrder;
 import phases.IssueOrdersPhase;
 
 import java.util.Map;

@@ -2,7 +2,6 @@ package phases;
 
 import controllers.Command;
 import controllers.ContextController;
-import models.GameContext;
 import models.GameState;
 import services.CustomPrint;
 
@@ -133,7 +132,7 @@ public class StartupPhase extends Phase {
             playersAddedOrThrow();
             countriesAssignedOrThrow();
             d_gameEngine.getGameState().assignReinforcements();
-            d_gameEngine.setGamePhase(new IssueDeployOrder(d_gameEngine));
+            d_gameEngine.setGamePhase(new IssueDeployOrderPhase(d_gameEngine));
             return true;
         } catch (Exception e) {
             System.err.println("Phase change error: " + e.getMessage());

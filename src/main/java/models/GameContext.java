@@ -1,15 +1,13 @@
 package models;
 
-import config.AppConfig;
 import controllers.CountryController;
 import controllers.MapController;
 import controllers.OrderController;
 import controllers.PlayerController;
-import models.behaviors.AggressiveStrategyBehavior;
 import models.behaviors.StrategyBehavior;
 import phases.ExecuteOrdersPhase;
 import phases.GameEngine;
-import phases.IssueDeployOrder;
+import phases.IssueDeployOrderPhase;
 import services.CustomPrint;
 
 import java.io.*;
@@ -121,7 +119,7 @@ public class GameContext implements Serializable {
     public void startGame() {
         ExecuteOrdersPhase.resetNumberOfExecutions();
         OrderController.resetStates(d_gameState, d_gameEngine);
-        d_gameEngine.setGamePhase(new IssueDeployOrder(d_gameEngine));
+        d_gameEngine.setGamePhase(new IssueDeployOrderPhase(d_gameEngine));
         d_gameEngine.mainGameLoop();
     }
 

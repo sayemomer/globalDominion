@@ -1,17 +1,14 @@
 package controllers;
 
-import models.GameContext;
 import models.GameState;
 import models.orders.*;
 import models.Player;
 import phases.GameEngine;
-import phases.IssueDeployOrder;
+import phases.IssueDeployOrderPhase;
 import services.CustomPrint;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -68,7 +65,7 @@ public class OrderController implements Serializable {
      * @return the order
      */
     public static Order takeOrderCommands(Player p_ownerPlayer) {
-        if (d_gameEngine != null && d_gameEngine.getGamePhase() instanceof IssueDeployOrder) {
+        if (d_gameEngine != null && d_gameEngine.getGamePhase() instanceof IssueDeployOrderPhase) {
             Order l_order = null;
             while (l_order == null) {
                 CustomPrint.print("issue-order-" + p_ownerPlayer.getName() + ">");

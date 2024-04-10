@@ -7,13 +7,12 @@ import models.Country;
 import models.GameState;
 import models.Player;
 import models.orders.AdvanceOrder;
-import models.orders.DeployOrder;
 import models.orders.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import phases.GameEngine;
-import phases.IssueDeployOrder;
+import phases.IssueDeployOrderPhase;
 import phases.IssueOrdersPhase;
 
 import java.util.Map;
@@ -92,7 +91,7 @@ public class BenevolentStrategyBehaviorTest {
     @Test
     @DisplayName("Benevolent player's reinforcement should be deployed in weakest country")
     public void shouldDeployInWeakestCountry() {
-        gameEngine.setGamePhase(new IssueDeployOrder(gameEngine));
+        gameEngine.setGamePhase(new IssueDeployOrderPhase(gameEngine));
         Player player = players.get("mahdieh");
         player.issueOrder();
         assertEquals(1, player.getOrders().size());
