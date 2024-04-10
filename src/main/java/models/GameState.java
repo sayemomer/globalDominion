@@ -57,6 +57,10 @@ public class GameState implements Serializable {
         setActionDone(GameState.GameAction.PlAYERS_ADDED);
     }
 
+    public String getMapName() {
+        return d_currentFileName;
+    }
+
     /**
      * Sets the map format.
      *
@@ -217,11 +221,6 @@ public class GameState implements Serializable {
      * Prints the continents and their details.
      */
     public void printMap() {
-        //check if the map is loaded based on the gameState action
-//        if (!isActionDone(GameAction.VALID_MAP_LOADED)) {
-//            CustomPrint.println("No map is loaded.");
-//            return;
-//        }
         if (d_continents.isEmpty()) {
             CustomPrint.println("No continents are loaded.");
             return;
@@ -247,7 +246,6 @@ public class GameState implements Serializable {
 
                 CustomPrint.println("=====================================");
             }
-            return;
         } else {
             CustomPrint.println("Continents: ");
             d_continents.forEach((id, continent) -> CustomPrint.println(id + ": " + continent.getContinentName() + " (Bonus: " + continent.getContinentValue() + ", Color: " + continent.getColor() + ")"));
@@ -420,6 +418,15 @@ public class GameState implements Serializable {
         d_countries.put(p_country.getCountryId(), p_country);
     }
 
+
+    public Player getWinner() {
+        for (Player player : d_players.values()) {
+            if (player.getCountryIds().size() == d_countries.size()) {
+                return player;
+            }
+        }
+        return null;
+    }
 
 }
 

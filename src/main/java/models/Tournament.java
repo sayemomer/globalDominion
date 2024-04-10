@@ -3,6 +3,7 @@ package models;
 import models.behaviors.StrategyBehavior;
 import services.CustomPrint;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -33,14 +34,21 @@ public class Tournament {
      * Starts the tournament.
      */
     public void startTournament() {
+        ArrayList<GameContext> l_gameContexts = new ArrayList<>();
         for (String mapPath : d_mapPaths) {
                 for (int i = 0; i < d_numberOfGames; i++) {
                     CustomPrint.println("NEW GAME: mapPath: " + mapPath + ", "+  "game number: " + i);
                     GameContext gameContext = new GameContext(mapPath, d_behaviors, d_numberOfTurns);
                     gameContext.startGame();
+                    l_gameContexts.add(gameContext);
                 }
-
         }
+        // show results
+        CustomPrint.println("\n\n\n\n\n-----------------| TOURNAMENT RESULTS |-----------------");
+        for (GameContext gameContext : l_gameContexts) {
+            gameContext.d_gameEngine.printGameResult();
+        }
+        CustomPrint.println("--------------------------------------------------------\n\n\n\n\n");
     }
 
 }

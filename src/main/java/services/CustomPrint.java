@@ -27,10 +27,6 @@ public class CustomPrint {
 
     static FileLogObserver observer;
 
-     /**
-      * Static block to initialize the log buffer and observer
-      */
-
      static {
          logBuffer = new LogEntryBuffer();
          observer = new FileLogObserver("log_file.txt");
@@ -63,8 +59,6 @@ public class CustomPrint {
 
     public static void print(String pString) {
         System.out.print(pString);
-
-//        logBuffer.attach(observer);
         logBuffer.log(pString);
     }
 
@@ -76,8 +70,6 @@ public class CustomPrint {
 
     public static void println(StringBuilder outputString) {
         System.out.println(outputString);
-
-//        logBuffer.attach(observer);
         logBuffer.log(String.valueOf(outputString));
     }
 
@@ -87,9 +79,6 @@ public class CustomPrint {
      */
     public static void print(StringBuilder outputString) {
         System.out.print(outputString);
-
-
-//        logBuffer.attach(observer);
         logBuffer.log(String.valueOf(outputString));
     }
     /**
